@@ -8,7 +8,7 @@ const semver = require('semver');
 var options = {
     hostname: 'registry.npmjs.org',
     port: 80,
-    path: '/rn-ui-components',
+    path: '/rn-components-ui',
     method: 'GET',
     headers: {
         'Accept': 'application/json'
@@ -57,7 +57,7 @@ var req = http.request(options, function (res) {
             version = semver.inc(release, 'preminor', 'pre');
         }
 
-        console.log('Incrementing rn-ui-components version to: "' + version + '"');
+        console.log('Incrementing rn-components-ui version to: "' + version + '"');
 
         var packageJson = require('./package.json');
 

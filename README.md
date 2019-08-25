@@ -4,18 +4,18 @@
 
 <div align="center">
   <h5><code>
-  rn-ui-components
+  rn-components-ui
   </code></h5>
 </div>
 
 <br>
 
 <p align="center">
-  <a href="https://badge.fury.io/js/rn-ui-components">
-    <img src="https://badge.fury.io/js/rn-ui-components.svg" alt="npm version">
+  <a href="https://badge.fury.io/js/rn-components-ui">
+    <img src="https://badge.fury.io/js/rn-components-ui.svg" alt="npm version">
   </a>
-  <a href="https://travis-ci.org/nidorx/rn-ui-components">
-    <img src="https://travis-ci.org/nidorx/rn-ui-components.svg?branch=master" alt="Build Status">
+  <a href="https://travis-ci.org/nidorx/rn-components-ui">
+    <img src="https://travis-ci.org/nidorx/rn-components-ui.svg?branch=master" alt="Build Status">
   </a>
 </p>
 
