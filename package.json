@@ -1,6 +1,6 @@
 {
     "name": "rn-ui-components",
-    "version": "0.1.0",
+    "version": "0.1.0-pre.0",
     "description": "React Native UI Components.",
     "main": "dist/index.js",
     "repository": {
@@ -15,8 +15,8 @@
     "scripts": {
         "build-ts": "tsc",
         "build": "npm run build-ts",
-        "publish": "node v-release.js &&  node publish.js",
-        "publish-snapshot": "node v-snapshot.js &&  node publish.js",
+        "publish-lib": "node v-release.js &&  node publish.js",
+        "publish-lib-snapshot": "node v-snapshot.js &&  node publish.js",
         "lint": "eslint ."
     },
     "author": "Alex Rodin <contato@alexrodin.info>",
