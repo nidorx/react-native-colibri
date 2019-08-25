@@ -4,8 +4,8 @@ import memoize from 'memoize-one';
 import {
     tableViewGetItemIconBigSize,
     tableViewGetItemIconSize,
-    TableViewRowSectionCallbackFn,
     TableViewRow,
+    TableViewRowSectionCallbackFn,
     TableViewSection,
     TableViewSectionAction,
     TableViewSectionHeaderMixed,
@@ -349,22 +349,25 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         const selected = leadingItem.selected || trailingItem.selected;
         const hasIcon = !!leadingItem.icon;
         return (
-            <View
-                style={{
-                    marginLeft: (info.highlighted || selected)
-                        ? 0
-                        : hasIcon
-                            ? (
-                                (theme.padding * 2) + (leadingItem.iconBig
-                                        ? tableViewGetItemIconBigSize()
-                                        : tableViewGetItemIconSize()
+            <View style={{backgroundColor: theme.colorContent}}>
+                <View
+                    style={{
+                        marginLeft: (info.highlighted || selected)
+                            ? 0
+                            : hasIcon
+                                ? (
+                                    (theme.padding * 2) + (
+                                        leadingItem.iconBig
+                                            ? tableViewGetItemIconBigSize()
+                                            : tableViewGetItemIconSize()
+                                    )
                                 )
-                            )
-                            : theme.padding,
-                    borderBottomColor: selected ? theme.colorLineSelected : theme.colorLine,
-                    borderBottomWidth: theme.lineWidth
-                }}
-            />
+                                : 0,
+                        borderBottomColor: selected ? theme.colorLineSelected : theme.colorLine,
+                        borderBottomWidth: theme.lineWidth
+                    }}
+                />
+            </View>
         )
     };
 

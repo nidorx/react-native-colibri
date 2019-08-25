@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, View,} from 'react-native';
+import {ImageBackground, StyleSheet, View,} from 'react-native';
 import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
+import {DiscloruseIcon, EmptyState, SimpleText, TableView, TableViewRow} from "rn-components-ui";
 
 var styles = StyleSheet.create({
     container: {
@@ -18,6 +19,25 @@ export interface Props {
         showModalProfile: () => void;
     }>
 }
+
+const COMPONENTS = [
+    ['Button', 'Componente de botão simples'],
+    ['Card', ''],
+    ['Carousel', ''],
+    ['CarouselImage', ''],
+    ['DateFormatted', ''],
+    ['DatePicker', ''],
+    ['EmptyState', ''],
+    ['Loading', ''],
+    ['OkCancelView', ''],
+    ['Segment', ''],
+    ['Separator', ''],
+    ['SimpleText', ''],
+    ['Title', ''],
+    ['AnimatedModal', ''],
+    ['TableView', ''],
+    ['Utils', ''],
+];
 
 export default class IndexPage extends React.PureComponent<Props> {
 
@@ -36,10 +56,53 @@ export default class IndexPage extends React.PureComponent<Props> {
 
     render() {
         return (
-            <View style={styles.container}>
-
-
-            </View>
+            <ImageBackground
+                style={[StyleSheet.absoluteFill, {alignSelf: 'flex-start'}]}
+                source={require('./../assets/gradiente.png')}
+            >
+                <View>
+                    <DiscloruseIcon/>
+                </View>
+                <TableView
+                    header={(
+                        <EmptyState
+                            title={'RN Components UI'}
+                            titleProps={{color: '#FFF'}}
+                            description={(
+                                <SimpleText
+                                    color={'#FFF'}
+                                    text={'Description'}
+                                    subline={true}
+                                />
+                            )}
+                        />
+                    )}
+                    transparent={true}
+                    sections={[
+                        {
+                            key: 'xpto',
+                            header: 'Components',
+                            data: COMPONENTS.map(component => {
+                                let componentName = component[0];
+                                return {
+                                    key: componentName,
+                                    title: componentName,
+                                    subtitle: component[1],
+                                    disclosure: true,
+                                    right: '33',
+                                    icon: {
+                                        source: require('./../assets/arrow-back.png')
+                                    },
+                                    iconBig: true,
+                                    onPress: row => {
+                                        this.props.navigation.navigate(componentName);
+                                    }
+                                } as TableViewRow
+                            })
+                        }
+                    ]}
+                />
+            </ImageBackground>
         );
     }
 }
