@@ -9,7 +9,8 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
+    ViewStyle
 } from 'react-native';
 import {HeaderProps, NavigationScreenProp, NavigationStackScreenOptions} from 'react-navigation';
 import {getTheme} from "rn-components-ui";
@@ -30,13 +31,20 @@ export const IS_IPHONE_X =
     (WINDOW_HEIGHT === IPHONE_XS_HEIGHT || WINDOW_WIDTH === IPHONE_XS_HEIGHT || WINDOW_HEIGHT === IPHONE_XR_HEIGHT || WINDOW_WIDTH === IPHONE_XR_HEIGHT);
 
 
-const defaultHeaderHeight = Platform.select({ios: 44, android: 56, web: 50});
+const defaultHeaderHeight = Platform.select({
+    ios: 44,
+    android: 56,
+    web: 50
+});
+
 let _safeBounceHeight: number;
+
 const getSafeBounceHeight = () => _safeBounceHeight != null ? _safeBounceHeight : Platform.select({
     ios: 300,
     android: 100,
     web: 200
 });
+
 export const setSafeBounceHeight = (height: number) => {
     _safeBounceHeight = height
 };
@@ -53,23 +61,8 @@ const getNavigationHeight = () => {
     return defaultHeaderHeight + getStatusBarHeight();
 };
 
-
 // const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56;
 export const HEADER_HEIGHT = getNavigationHeight();
-
-const getTranslateY = (animatedScrollValue: Animated.AnimatedValue, offset = 0) => {
-    if (animatedScrollValue) {
-        return Animated.multiply(Animated.diffClamp(animatedScrollValue, 0, HEADER_HEIGHT), -1);
-        // return animatedScrollValue.interpolate({
-        //    inputRange: [0, HEADER_HEIGHT],
-        //    outputRange: [offset, offset - HEADER_HEIGHT],
-        //    extrapolate: 'clamp'
-        // });
-    }
-
-    return 0;
-};
-
 
 const styles = StyleSheet.create({
     title: {
@@ -91,7 +84,7 @@ const styles = StyleSheet.create({
         width: ICON_HEIGHT,
         height: ICON_HEIGHT,
         resizeMode: 'contain',
-        // tintColor: '#FFFFFF'
+        tintColor: '#FFFFFF'
     },
     actionsContainer: {
         flexDirection: 'row',
@@ -117,36 +110,6 @@ export interface NavigationHeaderOptions extends NavigationStackScreenOptions {
     subHeader?: ImageProps | JSX.Element;
 }
 
-const ContentAnimatedHeader = (props: any) => {
-    const animatedScrollValue: Animated.Value = props.animatedScrollValue;
-
-    let translateY: Animated.AnimatedInterpolation | number;
-    if (animatedScrollValue) {
-        // translateY = animatedScrollValue.interpolate({
-        //    inputRange: [0, HEADER_SCROLL_DISTANCE],
-        //    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-        //    extrapolate: 'clamp'
-        // });
-        translateY = getTranslateY(animatedScrollValue);
-        // animatedScrollValue.addListener
-    } else {
-        translateY = 0;
-    }
-
-    return (
-        <Animated.View
-            style={{
-                pa: HEADER_HEIGHT,
-                width: '100%',
-                position: 'absolute',
-                transform: [{translateY: translateY}]
-            }}
-        >
-            {props.children}
-        </Animated.View>
-    );
-};
-
 /**
  * Sobrescreve o Header do react navigation
  */
@@ -159,22 +122,24 @@ const NavigationHeader = (props: HeaderProps) => {
     // Navigation da tela atual
     const navigation: NavigationScreenProp<any, any> = (props.scene as any).descriptor.navigation;
 
-    // Personalizado, NÃO EXISTE NO react navigation
-    // https://reactnavigation.org/docs/en/header-buttons.html
     const actions = options.actions;
 
-    const headerStyle = Object.assign({
-        backgroundColor: 'blue',
-        overflow: 'hidden',
-        height: HEADER_HEIGHT,
-        position: 'relative'
-    }, options.headerStyle);
-    let content = (
-        <View
-            style={headerStyle}
-        >
+    const HEADER_PADDING = HEADER_HEIGHT / 2 - theme.fontSize;
 
-            {/* Imagem de fundo */}
+    const headerStyle = Object.assign({
+        overflow: 'hidden',
+        paddingTop: HEADER_PADDING,
+        height: HEADER_HEIGHT,
+        position: 'relative',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignContent: 'center',
+        alignItems: 'center'
+    } as ViewStyle, options.headerStyle);
+
+    let content = (
+        <View style={headerStyle}>
+
             <View style={StyleSheet.absoluteFill}>
                 <Image
                     style={[StyleSheet.absoluteFill, {resizeMode: 'stretch'}]}
@@ -198,7 +163,7 @@ const NavigationHeader = (props: HeaderProps) => {
                     ) : null
                 }
 
-                {/* Título */}
+                {/* title */}
                 <View style={{flex: 1}}>
                     <Text
                         style={[
@@ -244,26 +209,10 @@ const NavigationHeader = (props: HeaderProps) => {
         </View>
     );
 
-    let translateY: Animated.AnimatedInterpolation | number;
-    const animatedScrollValue: Animated.Value = navigation.getParam('animatedScrollValue');
-
-    if (animatedScrollValue) {
-        // translateY = animatedScrollValue.interpolate({
-        //    inputRange: [0, HEADER_SCROLL_DISTANCE],
-        //    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-        //    extrapolate: 'clamp'
-        // });
-        translateY = getTranslateY(animatedScrollValue);
-        // animatedScrollValue.addListener
-    } else {
-        translateY = 0;
-    }
-
     return (
         <Animated.View
             style={{
                 width: '100%',
-                transform: [{translateY: translateY}]
             }}
         >
             {content}

@@ -12,11 +12,11 @@ import {
     DiscloruseIcon,
     tableViewGetItemIconBigSize,
     tableViewGetItemIconSize,
-    TableViewRowSectionCallbackFn,
-    TableViewSectionListRenderItemInfo,
-    TableViewSwipeActions,
     TableViewRow,
-    TableViewSection
+    TableViewRowSectionCallbackFn,
+    TableViewSection,
+    TableViewSectionListRenderItemInfo,
+    TableViewSwipeActions
 } from './TableViewConstants';
 import Title from '../Title';
 import SimpleText from './../SimpleText';
@@ -296,7 +296,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
                         {
                             // Disclosure
-                            row.disclosure ? DiscloruseIcon : null
+                            row.disclosure ? <DiscloruseIcon/> : null
                         }
                     </View>
                 </View>

@@ -32,7 +32,7 @@ function cp(source, dest) {
 function exec(command, cwd) {
 
     return new Promise(function (accept, reject) {
-        console.log('[' + command + ']', cwd);
+        console.log('[' + command + ']');
         const com = cpExec(command, {cwd: cwd});
 
         com.stdout.on('data', function (data) {

@@ -15,6 +15,7 @@ export type EmptyStateProps = {
     title?: string | boolean;
     titleProps?: SimpleTextProps;
     description?: string | string[] | JSX.Element;
+    descriptionProps?: SimpleTextProps;
     image?: ImageProps;
     tint?: boolean;
     action?: ButtonProps | ButtonProps[]
@@ -181,13 +182,15 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
         return (
             <SimpleText
                 key={key}
+                {...(this.props.descriptionProps || {})}
                 style={[
                     styles.description,
                     {
                         marginBottom: theme.padding,
                         color: theme.colorTextSecondary,
                         fontSize: theme.fontSizeSubline * EMPTY_STATE_FONT_SIZE_FACTOR
-                    }
+                    },
+                    (this.props.descriptionProps || {}).style
                 ]}
             >
                 {description}
