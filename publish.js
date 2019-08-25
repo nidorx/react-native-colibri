@@ -70,28 +70,3 @@ rimraf('./dist', {}, function (err) {
         })
 });
 
-function publish(suffix) {
-
-    package.main = 'dist/' + suffix + '.js';
-    package.name = 'entangled-states' + (suffix === 'node' ? '' : ('-' + suffix));
-
-    let peerDependencies;
-
-    if (suffix === 'node') {
-        peerDependencies = {
-            "ws": "^6.1.3"
-        };
-    } else if (suffix === 'react') {
-        peerDependencies = {
-            "react-native": "*"
-        };
-    }
-
-    package.peerDependencies = peerDependencies;
-
-    fs.writeFileSync(__dirname + '/package.json', JSON.stringify(package, null, 3));
-
-    console.log('Publicando artefato: ' + package.name + '@' + package.version);
-
-    return exec('npm publish');
-}
