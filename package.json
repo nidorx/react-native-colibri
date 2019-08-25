@@ -1,0 +1,48 @@
+{
+  "name": "rn-ui-components",
+  "version": "1.0.0",
+  "description": "React Native UI Components.",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nidorx/rn-ui-components.git"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build-ts": "tsc",
+    "build": "npm run build-ts",
+    "start": "npm run-script reverse && react-native start",
+    "lint": "eslint .",
+    "reverse": "adb reverse tcp:8080 tcp:8080 && adb reverse tcp:8081 tcp:8081",
+    "reload": "adb shell input text \"RR\""
+  },
+  "author": "Alex Rodin <contato@alexrodin.info>",
+  "license": "MIT",
+  "dependencies": {
+    "memoize-one": "5.0.4",
+    "moment": "^2.22.1",
+    "react-native-date-picker": "2.6.1",
+    "react-native-status-bar-height": "2.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.5",
+    "@babel/runtime": "7.5.5",
+    "@react-native-community/eslint-config": "0.0.5",
+    "@types/react": "16.8.23",
+    "@types/react-native": "0.60.2",
+    "eslint": "6.1.0",
+    "@types/memoize-one": "4.1.1",
+    "@types/react-test-renderer": "16.8.2",
+    "metro-react-native-babel-preset": "0.54.1",
+    "react-test-renderer": "16.8.6",
+    "typescript": "3.5.3"
+  },
+  "peerDependencies": {
+    "react": "16.8.6",
+    "react-native": "0.60.4"
+  }
+}

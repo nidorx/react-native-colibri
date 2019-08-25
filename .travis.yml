@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "node"
+  - "8"
+
+before_script:
+  - rm -rf ./node_modules package-lock.json
+  - npm install
+
+script: npm run-script build
