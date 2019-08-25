@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "es6",
+    "module": "es6",
     "outDir": "./dist",
     "sourceMap": true,
     "experimentalDecorators": true,
     "jsx": "react-native",
     "lib": [
-      "dom",
-      "es2015",
-      "es2016"
+      "es6"
     ],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
@@ -17,7 +15,7 @@
     "importHelpers": true,
     "strict": true,
     "noImplicitReturns": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "allowJs": false,
     "isolatedModules": false,
     "declaration": true,
@@ -32,10 +30,7 @@
     }
   },
   "exclude": [
-    "publish.js",
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
+    "*.js",
     "node_modules",
     "tests",
     "dist",

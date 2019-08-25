@@ -8,73 +8,43 @@
  * @format
  */
 
-import React, {Fragment} from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-} from 'react-native';
+import React from 'react';
+import {StatusBar, StyleSheet,} from 'react-native';
 
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors,} from 'react-native/Libraries/NewAppScreen';
+import {createAppContainer, createStackNavigator} from "react-navigation";
+import IndexPage from "./src/pages/IndexPage";
+import NavigationHeader from "./src/components/NavigationHeader";
+import {AnimatedModal, getTheme} from "rn-components-ui/dist";
 
-const App = () => {
-    const usingHermes = typeof HermesInternal === 'object' && HermesInternal !== null;
+import Screeen from 'react-native-screens';
 
-    return (
-        <Fragment>
-            <StatusBar barStyle="dark-content"/>
-            <SafeAreaView>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
-                    <Header/>
-                    {!usingHermes ? null : (
-                        <View style={styles.engine}>
-                            <Text style={styles.footer}>Engine: Hermes</Text>
-                        </View>
-                    )}
-                    <View style={styles.body}>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Step One</Text>
-                            <Text style={styles.sectionDescription}>
-                                Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-                                screen and then come back to see your edits.
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>See Your Changes</Text>
-                            <Text style={styles.sectionDescription}>
-                                <ReloadInstructions/>
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Debug</Text>
-                            <Text style={styles.sectionDescription}>
-                                <DebugInstructions/>
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Learn More</Text>
-                            <Text style={styles.sectionDescription}>
-                                Read the docs to discover what to do next:
-                            </Text>
-                        </View>
-                        <LearnMoreLinks/>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </Fragment>
-    );
-};
+const AppContainer = createAppContainer(createStackNavigator(
+    {
+        Index: IndexPage,
+    },
+    {
+        defaultNavigationOptions: {
+            header: NavigationHeader
+        }
+    }
+));
+
+/**
+ * Classe principal da aplicação
+ */
+export default class App extends React.PureComponent {
+    render() {
+        const theme = getTheme();
+        return (
+            <AnimatedModal>
+                <StatusBar backgroundColor={'rgba(0, 0, 0, 0.5)'} barStyle="light-content"/>
+                <AppContainer/>
+            </AnimatedModal>
+        );
+    }
+}
+
 
 const styles = StyleSheet.create({
     scrollView: {
