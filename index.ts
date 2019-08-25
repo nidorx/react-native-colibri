@@ -1,74 +1,74 @@
 export {
     default as Button,
     ButtonProps
-} from './lib/Button';
+} from './src/lib/Button';
 
 export {
     default as Card,
     CardProps
-} from './lib/Card';
+} from './src/lib/Card';
 
 
 export {
     default as Carousel,
     CarouselProps
-} from './lib/Carousel';
+} from './src/lib/Carousel';
 
 
 export {
     default as CarouselImage,
     CarouselImageProps,
     CarouselImageItem
-} from './lib/CarouselImage';
+} from './src/lib/CarouselImage';
 
 
 export {
     default as DateFormatted,
     DateFormattedProps
-} from './lib/DateFormatted';
+} from './src/lib/DateFormatted';
 
 
 export {
     default as DatePicker,
     DatePickerProps
-} from './lib/DatePicker';
+} from './src/lib/DatePicker';
 
 
 export {
     default as EmptyState,
     EmptyStateProps
-} from './lib/EmptyState';
+} from './src/lib/EmptyState';
 
 
 export {
     default as Loading,
     LoadingProps
-} from './lib/Loading';
+} from './src/lib/Loading';
 
 
 export {
     default as OkCancelView,
     OkCancelViewProps
-} from './lib/OkCancelView';
+} from './src/lib/OkCancelView';
 
 
 export {
     default as Segment,
     SegmentOption,
     SegmentProps
-} from './lib/Segment';
+} from './src/lib/Segment';
 
 
 export {
     default as Separator,
     SeparatorProps
-} from './lib/Separator';
+} from './src/lib/Separator';
 
 
 export {
     default as SimpleText,
     SimpleTextProps
-} from './lib/SimpleText';
+} from './src/lib/SimpleText';
 
 
 export {
@@ -76,7 +76,7 @@ export {
     TitleProps,
     TitleExtra,
     TitleExtraProps
-} from './lib/Title';
+} from './src/lib/Title';
 
 
 export {
@@ -84,17 +84,17 @@ export {
     AnimatedModalAPI,
     AnimatedModalOptions,
     AnimatedModalProps
-} from './lib/modal/AnimatedModal';
+} from './src/lib/modal/AnimatedModal';
 
 export {
     default as TableView,
     TableViewProps
-} from './lib/tableview/TableView';
+} from './src/lib/tableview/TableView';
 
 export {
     default as TableViewItem,
     TableViewItemProps
-} from './lib/tableview/TableViewItem';
+} from './src/lib/tableview/TableViewItem';
 
 export {
     TableViewRow,
@@ -109,7 +109,7 @@ export {
     DiscloruseIcon,
     tableViewGetItemIconSize,
     tableViewGetItemIconBigSize
-} from './lib/tableview/TableViewConstants';
+} from './src/lib/tableview/TableViewConstants';
 
 
 export {
@@ -119,4 +119,4 @@ export {
     animateGenericNative,
     QuinticEaseOut,
     Style
-} from './lib/Utils';
+} from './src/lib/Utils';

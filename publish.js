@@ -17,13 +17,23 @@ const rimraf = require('rimraf');
 const ncp = require('ncp').ncp;
 const cpExec = require('child_process').exec;
 
-function exec(command, callback) {
-    callback = callback || function () {
-    };
+function cp(source, dest) {
+    return new Promise(function (accept, reject) {
+        ncp(source, dest, function (err) {
+            if (err) {
+                return reject(err);
+            } else {
+                accept();
+            }
+        });
+    });
+}
+
+function exec(command, cwd) {
 
     return new Promise(function (accept, reject) {
-        console.log('[' + command + ']');
-        const com = cpExec(command);
+        console.log('[' + command + ']', cwd);
+        const com = cpExec(command, {cwd: cwd});
 
         com.stdout.on('data', function (data) {
             console.log(data.toString());
@@ -39,41 +49,38 @@ function exec(command, callback) {
                     code: code,
                     signal: signal,
                 });
-                callback(code);
             } else {
                 accept({
                     code: code,
                     signal: signal,
                 });
-                callback(null, signal);
             }
         });
     });
 }
 
-var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
-
-rimraf('./dist/assets', {}, function (err) {
+rimraf('./dist', {}, function (err) {
     if (err) {
         throw err;
     }
 
-    ncp('./src/assets/', './dist/assets/', function (err) {
-        if (err) {
-            return console.error(err);
-        }
-        console.log('done!');
+    var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
-        exec('npm publish')
-            .then(exec.bind(undefined, 'git add --all', null))
-            .then(exec.bind(undefined, 'git commit -m "Release of version v' + package.version + '"', null))
-            .then(exec.bind(undefined, 'git push', null))
-            .then(exec.bind(undefined, 'git tag v' + package.version, null))
-            .then(exec.bind(undefined, 'git push --tags', null))
-            .catch(err => {
-                console.error(err);
-            });
-    });
+    exec('npm run build-ts')
+        .then(cp.bind(undefined, './package.json', './dist/package.json'))
+        .then(cp.bind(undefined, './src/assets/', './dist/src/assets/'))
+        .then(exec.bind(undefined, 'npm publish', './dist'))
+        .then(exec.bind(undefined, 'git add --all', null))
+        .then(exec.bind(undefined, 'git commit -m "Release of version v' + package.version + '"', null))
+        .then(exec.bind(undefined, 'git push', null))
+        .then(exec.bind(undefined, 'git tag v' + package.version, null))
+        .then(exec.bind(undefined, 'git push --tags', null))
+        .catch(err => {
+            console.error(err);
+        });
+    ;
+
 
 });
+
 

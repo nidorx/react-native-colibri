@@ -12,6 +12,7 @@ import {
     View
 } from 'react-native';
 import {HeaderProps, NavigationScreenProp, NavigationStackScreenOptions} from 'react-navigation';
+import {getTheme} from "rn-components-ui";
 
 
 const ICON_HEIGHT = 24;
@@ -73,7 +74,6 @@ const getTranslateY = (animatedScrollValue: Animated.AnimatedValue, offset = 0) 
 const styles = StyleSheet.create({
     title: {
         color: '#FFF',
-
         fontWeight: 'normal',
         textAlign: 'left',
         lineHeight: HEADER_HEIGHT,
@@ -152,7 +152,7 @@ const ContentAnimatedHeader = (props: any) => {
  */
 const NavigationHeader = (props: HeaderProps) => {
 
-    const Theme = getTheme();
+    const theme = getTheme();
 
     const options: NavigationHeaderOptions = (props.scene as any).descriptor.options;
 
@@ -200,7 +200,15 @@ const NavigationHeader = (props: HeaderProps) => {
 
                 {/* Título */}
                 <View style={{flex: 1}}>
-                    <Text style={[styles.title, {paddingLeft: props.index > 0 ? 0 : Theme.padding}]}>
+                    <Text
+                        style={[
+                            styles.title,
+                            {
+                                paddingLeft: props.index > 0 ? 0 : theme.padding,
+                                fontSize: theme.fontSize
+                            }
+                        ]}
+                    >
                         {options.title}
                     </Text>
                 </View>
