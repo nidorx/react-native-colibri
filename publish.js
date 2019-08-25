@@ -14,6 +14,7 @@
 
 const fs = require('fs');
 const rimraf = require('rimraf');
+const ncp = require('ncp').ncp;
 const cpExec = require('child_process').exec;
 
 function exec(command, callback) {
@@ -36,13 +37,13 @@ function exec(command, callback) {
             if (signal) {
                 reject({
                     code: code,
-                    signal: signal
+                    signal: signal,
                 });
                 callback(code);
             } else {
                 accept({
                     code: code,
-                    signal: signal
+                    signal: signal,
                 });
                 callback(null, signal);
             }
@@ -52,21 +53,27 @@ function exec(command, callback) {
 
 var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
-rimraf('./dist', {}, function (err) {
+rimraf('./dist/assets', {}, function (err) {
     if (err) {
         throw err;
     }
 
-    // publicação
-    exec('npm publish')
-    // commit e push
-        .then(exec.bind(undefined, 'git add --all', null))
-        .then(exec.bind(undefined, 'git commit -m "Release of version v' + package.version + '"', null))
-        .then(exec.bind(undefined, 'git push', null))
-        .then(exec.bind(undefined, 'git tag v' + package.version, null))
-        .then(exec.bind(undefined, 'git push --tags', null))
-        .catch(err => {
-            console.error(err);
-        })
+    ncp('./src/assets/', './dist/assets/', function (err) {
+        if (err) {
+            return console.error(err);
+        }
+        console.log('done!');
+
+        exec('npm publish')
+            .then(exec.bind(undefined, 'git add --all', null))
+            .then(exec.bind(undefined, 'git commit -m "Release of version v' + package.version + '"', null))
+            .then(exec.bind(undefined, 'git push', null))
+            .then(exec.bind(undefined, 'git tag v' + package.version, null))
+            .then(exec.bind(undefined, 'git push --tags', null))
+            .catch(err => {
+                console.error(err);
+            });
+    });
+
 });
 
