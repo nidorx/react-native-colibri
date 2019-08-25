@@ -1,6 +1,6 @@
 {
     "name": "rn-ui-components",
-    "version": "0.1.0-pre.0",
+    "version": "1.0.0-pre.0",
     "description": "React Native UI Components.",
     "main": "dist/index.js",
     "repository": {
