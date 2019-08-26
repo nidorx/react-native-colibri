@@ -30,6 +30,19 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
                 sections={[
                     {
                         key: `section-${SEQ++}`,
+                        header: 'Import',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <Code src={`import { Carousel } from "rn-components-ui";`}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
                         header: 'Simple',
                         data: [
                             {

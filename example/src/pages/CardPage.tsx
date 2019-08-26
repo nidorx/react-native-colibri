@@ -7,11 +7,11 @@ import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
 
-export type IndexPageProps = {
+export type CardPageProps = {
     navigation: NavigationScreenProp<any, {}>
 }
 
-export default class CardPage extends React.PureComponent<IndexPageProps> {
+export default class CardPage extends React.PureComponent<CardPageProps> {
 
     static navigationOptions = (config: any): NavigationHeaderOptions => {
         return {
@@ -26,11 +26,71 @@ export default class CardPage extends React.PureComponent<IndexPageProps> {
         return (
             <GradientHeader
                 title={'Card'}
-                description={'This section provides guidance on the base elements of a card.'}
+                description={'Cards contain content and actions about a single subject.'}
                 sections={[
                     {
                         key: `section-${SEQ++}`,
+                        header: 'Import',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <Code src={`import { Card } from "rn-components-ui";`}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
                         header: 'Simple',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Card
+                                            title={'Recently updated'}
+                                            subtitle={'Fresh features & content'}
+                                        >
+                                            <SimpleText
+                                                text={'the content of card here...'}
+                                                style={{
+                                                    height: 100,
+                                                    backgroundColor: theme.colorBackground
+                                                }}
+                                            />
+                                        </Card>
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code
+                                        src={`
+                                            <Card
+                                                title={'Recently updated'}
+                                                subtitle={'Fresh features & content'}
+                                            >
+                                                <SimpleText
+                                                    text={'the content of card here...'}
+                                                    style={{
+                                                        height: 100,
+                                                        backgroundColor: theme.colorBackground
+                                                    }}
+                                                />
+                                            </Card>
+                                        `}
+                                        margin={true}
+                                    />
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'More Link',
                         data: [
                             {
                                 key: `row-${SEQ++}`,
@@ -91,7 +151,15 @@ export default class CardPage extends React.PureComponent<IndexPageProps> {
                                     <View>
                                         <Card
                                             title={'Gradient Tribute Posters'}
-                                            subtitle={'by Duminda Perera'}
+                                            subtitle={(
+                                                <SimpleText
+                                                    text={' by Duminda Perera '}
+                                                    color={'#FFF'}
+                                                    style={{
+                                                        backgroundColor: 'rgba(0,0,0,0.3)',
+                                                    }}
+                                                />
+                                            )}
                                             moreText={'View on Behance'}
                                             image={{
                                                 source: require('../assets/card_background.jpg')
@@ -119,7 +187,15 @@ export default class CardPage extends React.PureComponent<IndexPageProps> {
                                         src={`
                                             <Card
                                                 title={'Gradient Tribute Posters'}
-                                                subtitle={'by Duminda Perera'}
+                                                subtitle={(
+                                                    <SimpleText
+                                                        text={' by Duminda Perera '}
+                                                        color={'#FFF'}
+                                                        style={{
+                                                            backgroundColor: 'rgba(0,0,0,0.3)',
+                                                        }}
+                                                    />
+                                                )}
                                                 moreText={'View on Behance'}
                                                 image={{
                                                     source: require('../assets/card_background.jpg')
@@ -132,6 +208,7 @@ export default class CardPage extends React.PureComponent<IndexPageProps> {
                                                     text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
                                                     style={{
                                                         height: 150,
+                                                        // backgroundColor: 'rgba(0, 0, 0, 0.3)',
                                                         width: '60%',
                                                         alignSelf: 'flex-end',
                                                         paddingRight: theme.padding
@@ -154,18 +231,42 @@ export default class CardPage extends React.PureComponent<IndexPageProps> {
                         header: 'Usage',
                         data: [
                             {
-                                key: 'issues-feedback',
+                                key: `row-${SEQ++}`,
                                 title: (
                                     <View>
                                         <SimpleText align={'justify'}>
-                                            {`The Button is used mainly when the action taken is the final step in a process (i.e. submitting an form). However, the Button may also be used for ancillary actions such as the Next button navigating to a new screen in the Walkthrough steps.`}
+                                            {`Cards are surfaces that display content and actions on a single topic.`}
                                         </SimpleText>
 
                                         <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
-                                            {`When an action button is tapped if there are required fields that have not been filled out, a Toast should be shown indicating that there are required fields be filled out, and the screen will scroll to the fields in question. If there are mulitiple required fields yet to be filled out, scroll to the topmost one.`}
+                                            {`They should be easy to scan for relevant and actionable information. Elements, like text and images, should be placed on them in a way that clearly indicates hierarchy.`}
                                         </SimpleText>
                                     </View>
                                 )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Principles',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: 'Contained',
+                                subtitle: 'A card is identifiable as a single, contained unit.',
+                                reverse: true
+                            },
+                            {
+                                key: `row-${SEQ++}`,
+                                title: 'Independent',
+                                subtitle: 'A card can stand alone, without relying on surrounding elements for context.',
+                                reverse: true
+                            },
+                            {
+                                key: `row-${SEQ++}`,
+                                title: 'Individual',
+                                subtitle: 'A card cannot merge with another card, or divide into multiple cards.',
+                                reverse: true
                             }
                         ] as Array<TableViewRow>
                     }

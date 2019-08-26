@@ -10,17 +10,19 @@ import {
     ViewStyle
 } from 'react-native';
 
+export const GAP_DEFAULT = 6;
+
 export type CarouselProps = ViewProps & {
     /**
-     * Espaçamento entre os elementos
+     * Spacing between elements
      */
-    gap: number;
+    gap?: number;
     /**
-     * Permite personalizar o estilo do container de cada elemento
+     * Allows you to customize the container style of each element.
      */
     pageStyle?: StyleProp<ViewStyle>;
     /**
-     * Permite receber informações sobre a rolagem no Carousel
+     * Allows you to receive information about scrolling in Carousel
      */
     onScroll?: (event?: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Paginação de conteudo horizontal
+ * Horizontal content pagination
  */
 export default class Carousel extends React.PureComponent<CarouselProps> {
 
@@ -54,6 +56,8 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
     private childrenWidth: Array<number> = [];
 
     render() {
+        let gap = (this.props.gap || GAP_DEFAULT);
+        let margin = gap / 2;
         return (
             <View style={[styles.container, this.props.style]}>
                 <ScrollView
@@ -65,8 +69,8 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
                     showsHorizontalScrollIndicator={false}
                     automaticallyAdjustContentInsets={false}
                     contentContainerStyle={{
-                        paddingLeft: this.props.gap / 2,
-                        paddingRight: this.props.gap / 2
+                        paddingLeft: margin,
+                        paddingRight: margin
                     }}
                     onScroll={this.props.onScroll}
                     onScrollBeginDrag={this.onScrollBeginDrag}
@@ -81,8 +85,8 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
                                     style={[
                                         styles.page,
                                         {
-                                            marginLeft: this.props.gap / 2,
-                                            marginRight: this.props.gap / 2
+                                            marginLeft: margin,
+                                            marginRight: margin
                                         },
                                         this.props.pageStyle
                                     ]}
@@ -137,7 +141,7 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
                     break;
                 }
 
-                totalOffset += pageWidth + this.props.gap;
+                totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
             }
 
             this.scrollView.scrollTo({y: 0, x: totalOffset});
@@ -219,7 +223,7 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
                 }
             }
 
-            totalOffset += pageWidth + this.props.gap;
+            totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
         }
 
         if (pageIndex < 0) {

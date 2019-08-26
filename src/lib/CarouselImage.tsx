@@ -17,10 +17,8 @@ import {getTheme} from "./Utils";
 const GAP_DEFAULT = 6;
 
 export type CarouselImageItem = {
-    /**
-     * Identificador único do elemento
-     */
     key: string;
+
     image: ImageProps;
 
     [key: string]: any;
@@ -28,15 +26,15 @@ export type CarouselImageItem = {
 
 export type CarouselImageProps = ViewProps & {
     /**
-     * Os elementos que serão apresentados neste Carousel
+     * The elements that will be presented in this Carousel
      */
     data: Array<CarouselImageItem>;
     /**
-     * Quantos elementos exibir na tela?
+     * How many elements to display on the screen?
      */
     numColumns: number;
     /**
-     * Espaçamento entre os itens (default 6)
+     * Item Spacing (default 6)
      */
     gap?: number;
     /**
@@ -44,15 +42,15 @@ export type CarouselImageProps = ViewProps & {
      */
     image?: ImageProps;
     /**
-     * Informa que as imagens dos itens do Carousel serão apresentados como circulo
+     * Informs that images of Carousel items will be displayed as a circle.
      */
     rounded?: boolean;
     /**
-     * Invocado quando pressionar um elemento
+     * Invoked when pressing an element
      */
     onPress?: (item: CarouselImageItem) => void;
     /**
-     * Permite renderizar conteúdo adicional para a imagem, como titulos e etc.
+     * Allows you to render additional content to the image, such as titles and etc.
      */
     renderContent?: (item: CarouselImageItem) => JSX.Element | null;
 }
@@ -79,7 +77,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Componente de carousel implementado com imagem, similar ao Play Store do google
+ * Image-implemented carousel component, similar to Google Play Store
  */
 export default class CarouselImage extends React.PureComponent<CarouselImageProps, CarouselImageState> {
 
@@ -155,7 +153,7 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                 {
                                     // Adiciona um item vazio no inicio, quando tiver imagem
                                     this.props.image
-                                        ? <View key={'__-1'} style={{width: this.state.itemWidth * 2}}/>
+                                        ? <View key={'__EMPTY_FIRST__'} style={{width: this.state.itemWidth * 2}}/>
                                         : null
                                 }
 
@@ -213,7 +211,7 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                 {
                                     // Adiciona um item vazio no fim da lista
                                     this.state.itemWidth
-                                        ? <View key={`_${this.props.data.length}`} style={{width: this.state.itemWidth,}}/>
+                                        ? <View key={'__EMPTY_LAST__'} style={{width: this.state.itemWidth,}}/>
                                         : null
                                 }
                             </Carousel>
