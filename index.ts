@@ -78,6 +78,12 @@ export {
     TitleExtraProps
 } from './src/lib/Title';
 
+export {
+    default as Toast,
+    DURATION,
+    ToastProps
+} from './src/lib/Toast';
+
 
 export {
     default as AnimatedModal,

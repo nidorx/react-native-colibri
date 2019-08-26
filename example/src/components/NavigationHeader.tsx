@@ -143,7 +143,7 @@ const NavigationHeader = (props: HeaderProps) => {
             <View style={StyleSheet.absoluteFill}>
                 <Image
                     style={[StyleSheet.absoluteFill, {resizeMode: 'stretch'}]}
-                    source={require('./../assets/gradiente.png')}
+                    source={require('./../assets/gradient.png')}
                 />
             </View>
 

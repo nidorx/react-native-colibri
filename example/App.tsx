@@ -4,10 +4,12 @@ import {createAppContainer, createStackNavigator} from "react-navigation";
 import IndexPage from "./src/pages/IndexPage";
 import NavigationHeader from "./src/components/NavigationHeader";
 import {AnimatedModal, getTheme} from "rn-components-ui";
+import ButtonPage from "./src/pages/ButtonPage";
 
 const AppContainer = createAppContainer(createStackNavigator(
     {
         Index: IndexPage,
+        ButtonPage: ButtonPage
     },
     {
         defaultNavigationOptions: {
