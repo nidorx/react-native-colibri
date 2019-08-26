@@ -80,7 +80,7 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                 ? 'right'
                                 : this.props.align === 'justify'
                                     ? 'justify'
-                                    : 'center',
+                                    : 'left',
                         width: this.props.inline ? undefined : '100%',
                         textDecorationLine: (this.props.underline && this.props.lineThrough)
                             ? "underline line-through"
