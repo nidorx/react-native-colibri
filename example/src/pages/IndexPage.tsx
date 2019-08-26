@@ -13,7 +13,7 @@ const COMPONENTS = [
     ['Button', 'A button consists of text that clearly communicates what action will occur when the user touches it.'],
     ['Card', 'This page provides guidance on the base elements of a card'],
     ['Carousel', 'Allows you to display multiple items in a horizontal slide. '],
-    ['CarouselImage', ''],
+    ['CarouselImage', 'Allows you to display multiple items in a horizontal slide with images, like Google Play Store.'],
     ['DateFormatted', ''],
     ['DatePicker', ''],
     ['EmptyState', ''],
