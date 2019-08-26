@@ -6,4 +6,5 @@ module.exports = {
     "apple.png": 30,
     "arrow-back.png": 30,
     "github.png": 50,
+    "card_background.jpg": 200,
 };

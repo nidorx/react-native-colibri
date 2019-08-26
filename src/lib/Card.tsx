@@ -1,20 +1,17 @@
 import React from 'react'
-import {Image, ImageProps, LayoutChangeEvent, Text, TouchableHighlight, View, ViewProps} from 'react-native';
+import {Image, ImageProps, LayoutChangeEvent, TouchableHighlight, View, ViewProps} from 'react-native';
 import {getTheme} from "./Utils";
+import SimpleText from "./SimpleText";
 
 export type CardProps = ViewProps & {
-    title: string;
-    subtitle?: string;
+    title: string | JSX.Element;
+    subtitle?: string | JSX.Element;
     moreText?: string;
     onPressMore?: () => void;
-    color?: string;
-    /**
-     * Permite adicionar uma imagem que representa esse Carousel
-     */
     image?: ImageProps;
 }
 
-interface CardState {
+type CardState = {
     contentHeight?: number;
 }
 
@@ -42,43 +39,44 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
         const header = (
             <View
                 style={{
+                    width: '100%',
                     flexDirection: 'row',
                     alignContent: 'center',
                     justifyContent: 'center',
-                    width: '100%',
                     padding: theme.padding
                 }}
             >
 
                 <View style={{flexDirection: 'column', flex: 1}}>
-                    <Text style={{fontSize: theme.fontSize, color: '#000'}}>
-                        {this.props.title}
-                    </Text>
                     {
-                        this.props.subtitle
+                        (typeof this.props.title === 'string')
                             ? (
-                                <Text style={{
-                                    fontSize: theme.fontSizeSubline,
-                                    color: theme.colorTextSecondary // '#555'/*Theme.colorOpacity('#000', 0.8)*/,
-                                }}>
-                                    {this.props.subtitle}
-                                </Text>
+                                <SimpleText
+                                    text={this.props.title}
+                                />
                             )
-                            : null
+                            : this.props.title
+                    }
+                    {
+                        (typeof this.props.subtitle === 'string')
+                            ? (
+                                <SimpleText
+                                    subline={true}
+                                    color={theme.colorTextSecondary}
+                                    text={this.props.subtitle}
+                                />
+                            )
+                            : this.props.subtitle
                     }
                 </View>
                 {
                     this.props.onPressMore
                         ? (
-                            <Text
-                                style={{
-                                    fontSize: theme.fontSize,
-                                    textAlignVertical: 'center',
-                                    color: theme.colorLink,
-                                }}
-                            >
-                                {this.props.moreText || 'More'}
-                            </Text>
+                            <SimpleText
+                                text={this.props.moreText || 'More'}
+                                align={'right'}
+                                color={theme.colorLink}
+                            />
                         )
                         : null
                 }
@@ -135,6 +133,5 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
             </View>
         );
     }
-
 
 }

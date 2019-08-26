@@ -1,10 +1,10 @@
 import React from 'react';
-import {Clipboard, TextInput, TouchableOpacity,} from 'react-native';
-import {getTheme, SimpleText} from "rn-components-ui";
-import Toast, {DURATION} from "rn-components-ui/src/lib/Toast";
+import {Clipboard, TextInput, TouchableOpacity, View,} from 'react-native';
+import {getTheme, SimpleText, Toast} from "rn-components-ui";
 
 export type CodeProps = {
     src: string;
+    margin?: boolean;
 }
 
 export default class Code extends React.PureComponent<CodeProps> {
@@ -27,61 +27,57 @@ export default class Code extends React.PureComponent<CodeProps> {
         }
 
         return (
-            <TouchableOpacity
-                onPress={(ev) => {
-                    Clipboard.setString(code);
-                    if (this.toast) {
-                        this.toast.show('Code copied to clipboard.', DURATION.FOREVER);
-                    }
-                }}
-                activeOpacity={0.5}
-                style={{
-                    width: '100%',
-                    position: 'relative',
-                    backgroundColor: '#F6F2EF',
-                    borderRadius: theme.borderRadiusSmall,
-                    padding: theme.paddingMinimum,
-                    marginVertical: theme.paddingSmall
-                }}
-            >
-                <TextInput
-                    multiline={true}
-                    value={code}
-                    editable={false}
-                    accessibilityIgnoresInvertColors={true}
-                    underlineColorAndroid={'transparent'}
-                    selectionColor={'#000'}
-                    placeholderTextColor={'#000'}
-                    contextMenuHidden={true}
+            <View style={{paddingHorizontal: this.props.margin ? theme.padding : undefined,}}>
+                <TouchableOpacity
+                    onPress={(ev) => {
+                        Clipboard.setString(code);
+                        Toast.show('Code copied to clipboard.');
+                    }}
                     style={{
-                        fontSize: theme.fontSizeSmall,
-                        color: '#366C84',
-                        padding: 0
+                        width: '100%',
+                        position: 'relative',
+                        backgroundColor: '#F6F2EF',
+                        borderRadius: theme.borderRadiusSmall,
+                        padding: theme.paddingMinimum,
+                        marginVertical: theme.paddingSmall,
+                        borderColor: theme.colorLine,
+                        borderWidth: theme.lineWidth
                     }}
-                />
-                <SimpleText
-                    text={'code'}
-                    align={'right'}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                        padding: 3,
-                        paddingVertical: 1,
-                        borderTopRightRadius: theme.borderRadiusSmall,
-                        borderBottomLeftRadius: theme.borderRadiusSmall
-                    }}
-                    small={true}
-                    inline={true}
-                    color={'#FFF'}
-                />
-                <Toast
-                    ref={toast => {
-                        this.toast = toast || undefined;
-                    }}
-                />
-            </TouchableOpacity>
+                >
+                    <TextInput
+                        multiline={true}
+                        value={code}
+                        editable={false}
+                        accessibilityIgnoresInvertColors={true}
+                        underlineColorAndroid={'transparent'}
+                        selectionColor={'#000'}
+                        placeholderTextColor={'#000'}
+                        contextMenuHidden={true}
+                        style={{
+                            fontSize: theme.fontSizeSmall,
+                            color: '#366C84',
+                            padding: 0
+                        }}
+                    />
+                    <SimpleText
+                        text={'code'}
+                        align={'right'}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                            padding: 3,
+                            paddingVertical: 1,
+                            borderTopRightRadius: theme.borderRadiusSmall,
+                            borderBottomLeftRadius: theme.borderRadiusSmall
+                        }}
+                        small={true}
+                        inline={true}
+                        color={'#FFF'}
+                    />
+                </TouchableOpacity>
+            </View>
         );
     }
 }

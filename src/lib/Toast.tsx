@@ -75,7 +75,7 @@ const DEFAULTS = {
     fadeInDuration: 500,
     fadeOutDuration: 500,
     defaultCloseDelay: 250,
-    opacity: 1
+    opacity: 0.9
 };
 
 const {height, width} = Dimensions.get('window');

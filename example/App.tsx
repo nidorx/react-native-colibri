@@ -3,13 +3,15 @@ import {StatusBar,} from 'react-native';
 import {createAppContainer, createStackNavigator} from "react-navigation";
 import IndexPage from "./src/pages/IndexPage";
 import NavigationHeader from "./src/components/NavigationHeader";
-import {AnimatedModal, getTheme} from "rn-components-ui";
+import {AnimatedModal, getTheme, Toast} from "rn-components-ui";
 import ButtonPage from "./src/pages/ButtonPage";
+import CardPage from "./src/pages/CardPage";
 
 const AppContainer = createAppContainer(createStackNavigator(
     {
         Index: IndexPage,
-        ButtonPage: ButtonPage
+        ButtonPage: ButtonPage,
+        CardPage: CardPage,
     },
     {
         defaultNavigationOptions: {
@@ -28,6 +30,9 @@ export default class App extends React.PureComponent {
             <AnimatedModal>
                 <StatusBar backgroundColor={'transparent'} translucent={true} barStyle="light-content"/>
                 <AppContainer/>
+                <Toast
+                    opacity={0.9}
+                />
             </AnimatedModal>
         );
     }

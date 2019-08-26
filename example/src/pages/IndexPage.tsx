@@ -6,14 +6,12 @@ import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "rn-comp
 import GradientHeader from "../components/GradientHeader";
 
 export type IndexPageProps = {
-    navigation: NavigationScreenProp<any, {
-        showModalProfile: () => void;
-    }>
+    navigation: NavigationScreenProp<any, {}>
 }
 
 const COMPONENTS = [
-    ['Button', 'Simple button using TouchableOpacity'],
-    ['Card', ''],
+    ['Button', 'A button consists of text that clearly communicates what action will occur when the user touches it.'],
+    ['Card', 'This page provides guidance on the base elements of a card'],
     ['Carousel', ''],
     ['CarouselImage', ''],
     ['DateFormatted', ''],
