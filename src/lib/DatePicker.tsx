@@ -77,6 +77,11 @@ export type DatePickerProps = ViewProps & {
      * Changes the text color.
      */
     textColor?: string;
+
+    /**
+     * The formatting view as defined by Moment.js. Default: 'LLLL'
+     */
+    format?: string;
 }
 
 type DatePickerState = {
@@ -138,6 +143,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
                         <DateFormatted
                             date={this.props.date}
                             locale={this.props.locale}
+                            format={this.props.format}
                         />
                     )
                 }}
