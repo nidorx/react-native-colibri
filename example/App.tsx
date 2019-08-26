@@ -6,12 +6,16 @@ import NavigationHeader from "./src/components/NavigationHeader";
 import {AnimatedModal, getTheme, Toast} from "rn-components-ui";
 import ButtonPage from "./src/pages/ButtonPage";
 import CardPage from "./src/pages/CardPage";
+import CarouselPage from "./src/pages/CarouselPage";
+import CarouselImagePage from "./src/pages/CarouselImagePage";
 
 const AppContainer = createAppContainer(createStackNavigator(
     {
         Index: IndexPage,
         ButtonPage: ButtonPage,
         CardPage: CardPage,
+        CarouselPage: CarouselPage,
+        CarouselImagePage: CarouselImagePage,
     },
     {
         defaultNavigationOptions: {

@@ -57,6 +57,7 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
 
         return (
             <Type
+                {...this.props}
                 style={[
                     {
 

@@ -9,8 +9,6 @@ export type CodeProps = {
 
 export default class Code extends React.PureComponent<CodeProps> {
 
-    private toast?: Toast;
-
     render() {
         const theme = getTheme();
         let code = this.props.src;

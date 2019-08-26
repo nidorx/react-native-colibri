@@ -7,11 +7,11 @@ import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
 
-export type IndexPageProps = {
+export type ButtonPageProps = {
     navigation: NavigationScreenProp<any, {}>
 }
 
-export default class ButtonPage extends React.PureComponent<IndexPageProps> {
+export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
 
     static navigationOptions = (config: any): NavigationHeaderOptions => {
         return {
@@ -28,6 +28,19 @@ export default class ButtonPage extends React.PureComponent<IndexPageProps> {
                 title={'Button'}
                 description={'A button consists of text that clearly communicates what action will occur when the user touches it. The two main types of buttons used are Process buttons, and Ancillary buttons.'}
                 sections={[
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Import',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <Code src={`import { Button } from "rn-components-ui";`}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
                     {
                         key: `section-${SEQ++}`,
                         header: 'Simple',
