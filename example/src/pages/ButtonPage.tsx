@@ -8,9 +8,7 @@ import Code from "../components/Code";
 
 
 export type IndexPageProps = {
-    navigation: NavigationScreenProp<any, {
-        showModalProfile: () => void;
-    }>
+    navigation: NavigationScreenProp<any, {}>
 }
 
 export default class ButtonPage extends React.PureComponent<IndexPageProps> {
@@ -32,10 +30,10 @@ export default class ButtonPage extends React.PureComponent<IndexPageProps> {
                 sections={[
                     {
                         key: `section-${SEQ++}`,
-                        header:'Simple example',
+                        header: 'Simple',
                         data: [
                             {
-                                key: 'issues-feedback',
+                                key: `row-${SEQ++}`,
                                 title: (
                                     <View>
                                         <Button
@@ -60,6 +58,206 @@ export default class ButtonPage extends React.PureComponent<IndexPageProps> {
                     },
                     {
                         key: `section-${SEQ++}`,
+                        header: 'Rounded',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            rounded={true}
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    rounded={true}
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Large',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            large={true}
+                                            rounded={true}
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    large={true}
+                                                    rounded={true}
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Loading',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            rounded={true}
+                                            isLoading={true}
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    rounded={true}
+                                                    isLoading={true}
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Disabled',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            rounded={true}
+                                            disabled={true}
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    rounded={true}
+                                                    disabled={true}
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Custom Color',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            rounded={true}
+                                            fgColor={'#446800'}
+                                            bgColor={'#92C63E'}
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    rounded={true}
+                                                    fgColor={'#446800'}
+                                                    bgColor={'#92C63E'}
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Custom Style',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Button
+                                            title={'Submit Form'}
+                                            onPress={() => {
+                                            }}
+                                            style={{
+                                                borderWidth: 5,
+                                                borderRadius: 8,
+                                                backgroundColor: '#83A8CC',
+                                                borderColor: 'rgba(0, 0, 0, 0.4)'
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`
+                                                <Button
+                                                    title={'Submit Form'}
+                                                    onPress={() => {
+                                                    }}
+                                                    style={{
+                                                        borderWidth: 5,
+                                                        borderRadius: 8,
+                                                        backgroundColor: '#83A8CC',
+                                                        borderColor: 'rgba(0, 0, 0, 0.4)'
+                                                    }}
+                                                />
+                                            `}
+                                    />
+                                )
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
                         header: 'Usage',
                         data: [
                             {
@@ -74,8 +272,7 @@ export default class ButtonPage extends React.PureComponent<IndexPageProps> {
                                             {`When an action button is tapped if there are required fields that have not been filled out, a Toast should be shown indicating that there are required fields be filled out, and the screen will scroll to the fields in question. If there are mulitiple required fields yet to be filled out, scroll to the topmost one.`}
                                         </SimpleText>
                                     </View>
-                                ),
-                                subtitle: 'rn-components-ui issues on Github',
+                                )
                             }
                         ] as Array<TableViewRow>
                     }

@@ -58,7 +58,8 @@ const getStatusBarHeight = () => {
 };
 
 const getNavigationHeight = () => {
-    return defaultHeaderHeight + getStatusBarHeight();
+    const theme = getTheme();
+    return defaultHeaderHeight + getStatusBarHeight() + theme.fontSize;
 };
 
 // const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56;
@@ -124,7 +125,7 @@ const NavigationHeader = (props: HeaderProps) => {
 
     const actions = options.actions;
 
-    const HEADER_PADDING = HEADER_HEIGHT / 2 - theme.fontSize;
+    const HEADER_PADDING = theme.fontSize;
 
     const headerStyle = Object.assign({
         overflow: 'hidden',
