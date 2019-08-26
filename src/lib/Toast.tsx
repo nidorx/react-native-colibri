@@ -1,7 +1,6 @@
 /**
- * react-native-easy-toast
- * https://github.com/crazycodeboy/react-native-easy-toast
- * Email:crazycodeboy@gmail.com
+ * Based on react-native-easy-toast (https://github.com/crazycodeboy/react-native-easy-toast)
+ * E-mail:crazycodeboy@gmail.com
  * Blog:http://jiapenghui.com
  */
 import React from 'react';
@@ -64,7 +63,6 @@ type ToastState = {
     opacityValue: Animated.Value;
 }
 
-
 export const DURATION = {
     LENGTH_SHORT: 500,
     FOREVER: 0,
@@ -84,89 +82,47 @@ const {height, width} = Dimensions.get('window');
 
 export default class Toast extends React.PureComponent<ToastProps, ToastState> {
 
+    private static instance?: Toast;
+
+    public static show(text: string, duration?: number, callback?: () => void) {
+        if (!Toast.instance) {
+            throw new Error('Toast instance not found');
+        }
+        Toast.instance.show(text, duration, callback);
+    }
+
+    public static close(duration?: number) {
+        if (!Toast.instance) {
+            throw new Error('Toast instance not found');
+        }
+        Toast.instance.close(duration);
+    }
 
     private timer: any;
+
     private duration?: number;
-    private isShow: boolean = false;
+
     private callback?: () => void;
+
+    private isShow: boolean = false;
+
     private animation?: Animated.CompositeAnimation;
 
-    constructor(props: ToastProps) {
-        super(props);
-        this.state = {
-            text: '',
-            isShow: false,
-            opacityValue: new Animated.Value(this.props.opacity || DEFAULTS.opacity),
+    state = {
+        text: '',
+        isShow: false,
+        opacityValue: new Animated.Value(this.props.opacity || DEFAULTS.opacity),
+    };
+
+    componentDidMount() {
+        if (Toast.instance) {
+            throw new Error('Allowed only one instance of Toast');
         }
-    }
-
-    /**
-     * Show a toast,unit is millisecond，and do callback
-     *
-     * @param text
-     * @param duration
-     * @param callback
-     */
-    show(text: string, duration?: number, callback?: () => void) {
-        this.duration = typeof duration === 'number' ? duration : DURATION.LENGTH_SHORT;
-        this.callback = callback;
-        this.setState({
-            isShow: true,
-            text: text,
-        });
-
-        this.animation = Animated.timing(
-            this.state.opacityValue,
-            {
-                toValue: this.props.opacity || DEFAULTS.opacity,
-                duration: this.props.fadeInDuration || DEFAULTS.fadeInDuration,
-            }
-        );
-
-        this.animation.start(() => {
-            this.isShow = true;
-            if (duration !== DURATION.FOREVER) this.close();
-        });
-    }
-
-    /**
-     * Start the close timer
-     *
-     * @param duration
-     */
-    close(duration?: number) {
-        let delay = typeof duration === 'undefined' ? this.duration : duration;
-
-        if (delay === DURATION.FOREVER) {
-            delay = this.props.defaultCloseDelay || DEFAULTS.defaultCloseDelay
-        }
-
-        if (!this.isShow && !this.state.isShow) {
-            return
-        }
-        this.timer && clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-            this.animation = Animated.timing(
-                this.state.opacityValue,
-                {
-                    toValue: 0.0,
-                    duration: this.props.fadeOutDuration || DEFAULTS.fadeOutDuration,
-                }
-            );
-
-            this.animation.start(() => {
-                this.setState({
-                    isShow: false,
-                });
-                this.isShow = false;
-                if (typeof this.callback === 'function') {
-                    this.callback();
-                }
-            });
-        }, delay);
+        Toast.instance = this;
     }
 
     componentWillUnmount() {
+        Toast.instance = undefined;
         if (this.animation) {
             this.animation.stop();
         }
@@ -210,5 +166,59 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                 </View>
             )
             : null;
+    }
+
+    public show(text: string, duration?: number, callback?: () => void) {
+        this.duration = typeof duration === 'number' ? duration : DURATION.LENGTH_SHORT;
+        this.callback = callback;
+        this.setState({
+            isShow: true,
+            text: text,
+        });
+
+        this.animation = Animated.timing(
+            this.state.opacityValue,
+            {
+                toValue: this.props.opacity || DEFAULTS.opacity,
+                duration: this.props.fadeInDuration || DEFAULTS.fadeInDuration,
+            }
+        );
+
+        this.animation.start(() => {
+            this.isShow = true;
+            if (duration !== DURATION.FOREVER) this.close();
+        });
+    }
+
+    public close(duration?: number) {
+        let delay = typeof duration === 'undefined' ? this.duration : duration;
+
+        if (delay === DURATION.FOREVER) {
+            delay = this.props.defaultCloseDelay || DEFAULTS.defaultCloseDelay
+        }
+
+        if (!this.isShow && !this.state.isShow) {
+            return
+        }
+        this.timer && clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.animation = Animated.timing(
+                this.state.opacityValue,
+                {
+                    toValue: 0.0,
+                    duration: this.props.fadeOutDuration || DEFAULTS.fadeOutDuration,
+                }
+            );
+
+            this.animation.start(() => {
+                this.setState({
+                    isShow: false,
+                });
+                this.isShow = false;
+                if (typeof this.callback === 'function') {
+                    this.callback();
+                }
+            });
+        }, delay);
     }
 }

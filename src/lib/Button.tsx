@@ -35,7 +35,7 @@ const buttonStyles = StyleSheet.create({
 });
 
 /**
- * Botão genérico
+ * Simple button using TouchableOpacity
  */
 export default class Button extends React.PureComponent<ButtonProps> {
 
