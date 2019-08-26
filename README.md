@@ -23,3 +23,8 @@
 
 ****
 
+https://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html
+
+
+keytool -genkeypair -v -dname "CN=nidorx.github.io, O=Alex Rodin, L=Brasília, S=DF, C=BR"  -keystore nidorx.keystore -alias nidorx -keyalg RSA -keysize 2048 -deststoretype pkcs12 -validity 10000
+
