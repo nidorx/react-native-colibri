@@ -192,9 +192,14 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     </View>
                                 ),
                                 subtitle: (
-                                    <Code src={`...`}
+                                    <Code
+                                        margin={true}
+                                        src={`...`}
                                     />
-                                )
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
                             }
                         ] as Array<TableViewRow>
                     },
@@ -216,9 +221,14 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     </View>
                                 ),
                                 subtitle: (
-                                    <Code src={`...`}
+                                    <Code
+                                        margin={true}
+                                        src={`...`}
                                     />
-                                )
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
                             }
                         ] as Array<TableViewRow>
                     },
@@ -252,16 +262,20 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     </View>
                                 ),
                                 subtitle: (
-                                    <Code src={`...`}
+                                    <Code
+                                        margin={true}
+                                        src={`...`}
                                     />
-                                )
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
                             }
                         ] as Array<TableViewRow>
                     },
-                    ,
                     {
                         key: `section-${SEQ++}`,
-                        header: 'Rectangular images',
+                        header: 'Non-Square images',
                         data: [
                             {
                                 key: `row-${SEQ++}`,
@@ -269,7 +283,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     <View>
                                         <CarouselImage
                                             data={BOOKS}
-                                            numColumns={3}
+                                            numColumns={2}
                                             renderContent={item => {
                                                 return (
                                                     <View>
@@ -279,21 +293,86 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                                             subline={true}
                                                             numberOfLines={2}
                                                             inline={true}
-                                                            ellipsizeMode={'tail'}
+                                                        />
+                                                        <SimpleText
+                                                            text={item.edition}
+                                                            align={'left'}
+                                                            subline={true}
+                                                            small={true}
+                                                            numberOfLines={1}
+                                                            inline={true}
                                                         />
                                                     </View>
                                                 )
                                             }}
                                             onPress={item => {
-                                                Toast.show(`Download app ${item.name}`);
+                                                Toast.show(item.name);
                                             }}
                                         />
                                     </View>
                                 ),
                                 subtitle: (
-                                    <Code src={`...`}
+                                    <Code
+                                        margin={true}
+                                        src={`...`}
                                     />
-                                )
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Background',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <CarouselImage
+                                            data={BOOKS}
+                                            numColumns={3}
+                                            image={{
+                                                source: require('../assets/book-background.png')
+                                            }}
+                                            renderContent={item => {
+                                                return (
+                                                    <View>
+                                                        <SimpleText
+                                                            text={item.name}
+                                                            align={'left'}
+                                                            subline={true}
+                                                            numberOfLines={1}
+                                                            inline={true}
+                                                        />
+                                                        <SimpleText
+                                                            text={item.edition}
+                                                            align={'left'}
+                                                            subline={true}
+                                                            small={true}
+                                                            numberOfLines={1}
+                                                            inline={true}
+                                                        />
+                                                    </View>
+                                                )
+                                            }}
+                                            onPress={item => {
+                                                Toast.show(item.name);
+                                            }}
+                                        />
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code
+                                        margin={true}
+                                        src={`...`}
+                                    />
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
                             }
                         ] as Array<TableViewRow>
                     },
@@ -302,15 +381,31 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                         header: 'Usage',
                         data: [
                             {
-                                key: 'issues-feedback',
+                                key: `row-${SEQ++}`,
                                 title: (
                                     <View>
                                         <SimpleText align={'justify'}>
-                                            {`The Button is used mainly when the action taken is the final step in a process (i.e. submitting an form). However, the Button may also be used for ancillary actions such as the Next button navigating to a new screen in the Walkthrough steps.`}
+                                            {`Use when you have a large set of items to show, but want to let the user concentrate his or her attention only on a select few items at a time.`}
                                         </SimpleText>
 
                                         <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
-                                            {`When an action button is tapped if there are required fields that have not been filled out, a Toast should be shown indicating that there are required fields be filled out, and the screen will scroll to the fields in question. If there are mulitiple required fields yet to be filled out, scroll to the topmost one.`}
+                                            {`Use when you want to tease the user by letting him or her know that there are more items available than what is currently shown.`}
+                                        </SimpleText>
+
+                                        <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
+                                            {`Use when you do not have enough space to show all items at once.`}
+                                        </SimpleText>
+
+                                        <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
+                                            {`Use when you have highly visual items to display such as movie posters, album covers, products etc.`}
+                                        </SimpleText>
+
+                                        <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
+                                            {`Do not use when the items are non-visual such as links to text articles, PDF documents etc.`}
+                                        </SimpleText>
+
+                                        <SimpleText align={'justify'} style={{paddingTop: theme.padding}}>
+                                            {`Do not use when the content linked to cannot be immediately identified by an image.`}
                                         </SimpleText>
                                     </View>
                                 )

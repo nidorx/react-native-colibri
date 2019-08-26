@@ -81,9 +81,9 @@ for (var name in images) {
 
     let parsedViewBox = false;
 
-    DENSITIES.forEach((size) => {
+    DENSITIES.forEach((density) => {
 
-        const suffix = (size > 1 ? ('@' + (size) + 'x') : '');
+        const suffix = (density > 1 ? ('@' + (density) + 'x') : '');
         const outPath = pathOutput.replace(outputExt, suffix + outputExt);
         if (fs.existsSync(outPath) && !FORCE) {
             return;
@@ -111,8 +111,8 @@ for (var name in images) {
             }
         }
 
-        const resW = baseSize[0] === 1 ? 1 : size * baseSize[0];
-        const resH = baseSize[1] === 1 ? 1 : size * baseSize[1];
+        const resW = baseSize[0] === 1 ? 1 : density * baseSize[0];
+        const resH = baseSize[1] === 1 ? 1 : density * baseSize[1];
 
         console.log('Salvando arquivo: ', outPath);
 

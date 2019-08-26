@@ -2,7 +2,7 @@ import React from 'react';
 import {View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import {Button, Carousel, getTheme, SimpleText, TableViewRow} from "rn-components-ui";
+import {Carousel, getTheme, SimpleText, TableViewRow} from "rn-components-ui";
 import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
@@ -233,7 +233,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                         header: 'Usage',
                         data: [
                             {
-                                key: 'issues-feedback',
+                                key: `row-${SEQ++}`,
                                 title: (
                                     <View>
                                         <SimpleText align={'justify'}>
