@@ -52,6 +52,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                         (typeof this.props.title === 'string')
                             ? (
                                 <SimpleText
+                                    align={'left'}
                                     text={this.props.title}
                                 />
                             )
@@ -60,8 +61,10 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                     {
                         (typeof this.props.subtitle === 'string')
                             ? (
+
                                 <SimpleText
                                     subline={true}
+                                    align={'left'}
                                     color={theme.colorTextSecondary}
                                     text={this.props.subtitle}
                                 />
@@ -72,11 +75,13 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                 {
                     this.props.onPressMore
                         ? (
-                            <SimpleText
-                                text={this.props.moreText || 'More'}
-                                align={'right'}
-                                color={theme.colorLink}
-                            />
+                            <View style={{justifyContent: 'center'}}>
+                                <SimpleText
+                                    text={this.props.moreText || 'More'}
+                                    align={'right'}
+                                    color={theme.colorLink}
+                                />
+                            </View>
                         )
                         : null
                 }

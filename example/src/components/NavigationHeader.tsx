@@ -1,11 +1,10 @@
 import React from 'react'
 import {
-    Animated,
     Dimensions,
     Image,
     ImageProps,
     Platform,
-    PlatformIOSStatic,
+    StatusBar,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -18,74 +17,59 @@ import {getTheme} from "rn-components-ui";
 
 const ICON_HEIGHT = 24;
 
-let androidStatusBarHeight = 0;
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const X_WIDTH = 375;
+const X_HEIGHT = 812; // iPhone X and XS
 
-const IPHONE_XS_HEIGHT = 812; // iPhone X and XS
-const IPHONE_XR_HEIGHT = 896; // iPhone XR and XS Max
-const {width: WINDOW_WIDTH, height: WINDOW_HEIGHT} = Dimensions.get('window');
-export const IS_IPHONE_X =
-    Platform.OS === 'ios' &&
-    !(Platform as PlatformIOSStatic).isPad &&
-    !(Platform as PlatformIOSStatic).isTVOS &&
-    (WINDOW_HEIGHT === IPHONE_XS_HEIGHT || WINDOW_WIDTH === IPHONE_XS_HEIGHT || WINDOW_HEIGHT === IPHONE_XR_HEIGHT || WINDOW_WIDTH === IPHONE_XR_HEIGHT);
+const XSMAX_WIDTH = 414;
+const XSMAX_HEIGHT = 896; // iPhone XR and XS Max
 
+const {height: W_HEIGHT, width: W_WIDTH} = Dimensions.get('window');
 
-const defaultHeaderHeight = Platform.select({
-    ios: 44,
-    android: 56,
-    web: 50
+let isIPhoneX = false;
+
+if (Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS) {
+    isIPhoneX = W_WIDTH === X_WIDTH && W_HEIGHT === X_HEIGHT || W_WIDTH === XSMAX_WIDTH && W_HEIGHT === XSMAX_HEIGHT;
+}
+
+/**
+ * Altura da barra de navegação interna do APP
+ */
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 44;
+
+/**
+ * Altura da barra de status do sistema operacional
+ */
+const STATUSBAR_HEIGHT = Platform.select({
+    ios: isIPhoneX ? 44 : 20,
+    android: StatusBar.currentHeight,
+    default: 0
 });
-
-let _safeBounceHeight: number;
-
-const getSafeBounceHeight = () => _safeBounceHeight != null ? _safeBounceHeight : Platform.select({
-    ios: 300,
-    android: 100,
-    web: 200
-});
-
-export const setSafeBounceHeight = (height: number) => {
-    _safeBounceHeight = height
-};
-
-const getStatusBarHeight = () => {
-    if (Platform.OS === 'ios') {
-        return IS_IPHONE_X ? 44 : 20;
-    } else {
-        return 0
-    }
-};
-
-const getNavigationHeight = () => {
-    const theme = getTheme();
-    return defaultHeaderHeight + getStatusBarHeight() + theme.fontSize;
-};
 
 // const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56;
-export const HEADER_HEIGHT = getNavigationHeight();
+export const HEADER_HEIGHT = APPBAR_HEIGHT + STATUSBAR_HEIGHT;
 
 const styles = StyleSheet.create({
     title: {
         color: '#FFF',
         fontWeight: 'normal',
         textAlign: 'left',
-        lineHeight: HEADER_HEIGHT,
+        lineHeight: APPBAR_HEIGHT,
     },
     iconContainer: {
         alignItems: 'center',
         justifyContent: 'center',
         alignContent: 'center',
+        alignSelf: 'center',
         flexDirection: 'row',
-        height: HEADER_HEIGHT,
-        width: HEADER_HEIGHT,
-        alignSelf: 'flex-start'
+        width: APPBAR_HEIGHT,
+        height: APPBAR_HEIGHT
     },
     iconImage: {
         width: ICON_HEIGHT,
         height: ICON_HEIGHT,
         resizeMode: 'contain',
-        tintColor: '#FFFFFF'
+        alignSelf: 'center'
+        // tintColor: '#FFFFFF'
     },
     actionsContainer: {
         flexDirection: 'row',
@@ -108,7 +92,6 @@ export interface HeaderAction {
  */
 export interface NavigationHeaderOptions extends NavigationStackScreenOptions {
     actions?: Array<HeaderAction>;
-    subHeader?: ImageProps | JSX.Element;
 }
 
 /**
@@ -125,12 +108,10 @@ const NavigationHeader = (props: HeaderProps) => {
 
     const actions = options.actions;
 
-    const HEADER_PADDING = theme.fontSize;
-
     const headerStyle = Object.assign({
         overflow: 'hidden',
-        paddingTop: HEADER_PADDING,
         height: HEADER_HEIGHT,
+        paddingTop: STATUSBAR_HEIGHT,
         position: 'relative',
         justifyContent: 'center',
         flexDirection: 'column',
@@ -138,7 +119,8 @@ const NavigationHeader = (props: HeaderProps) => {
         alignItems: 'center'
     } as ViewStyle, options.headerStyle);
 
-    let content = (
+
+    return (
         <View style={headerStyle}>
 
             <View style={StyleSheet.absoluteFill}>
@@ -148,23 +130,33 @@ const NavigationHeader = (props: HeaderProps) => {
                 />
             </View>
 
-            <View style={{flex: 1, flexDirection: 'row', width: '100%'}}>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    width: '100%'
+                }}
+            >
 
                 {
                     // Botão voltar
-                    props.index > 0 ? (
-                        <TouchableOpacity onPress={() => {
-                            navigation.goBack()
-                        }} style={styles.iconContainer}>
-                            <Image
-                                style={[styles.iconImage, {tintColor: '#FFF'}]}
-                                source={require('./../assets/arrow-back.png')}
-                            />
-                        </TouchableOpacity>
-                    ) : null
+                    (props.index > 0)
+                        ? (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.goBack()
+                                }}
+                                style={styles.iconContainer}
+                            >
+                                <Image
+                                    style={[styles.iconImage, {tintColor: '#FFF'}]}
+                                    source={require('./../assets/arrow-back.png')}
+                                />
+                            </TouchableOpacity>
+                        ) : null
                 }
 
-                {/* title */}
+                {/* Título */}
                 <View style={{flex: 1}}>
                     <Text
                         style={[
@@ -181,44 +173,34 @@ const NavigationHeader = (props: HeaderProps) => {
 
                 {
                     // Botões de ação
-                    actions ? (
-                        <View style={styles.actionsContainer}>
-                            {
-                                actions.map((action, index) => {
-                                    const img = (action.icon as ImageProps);
-                                    return (
-                                        <TouchableOpacity
-                                            key={`${index}`}
-                                            onPressIn={() => {
-                                                action.onPress(navigation);
-                                            }}
-                                            style={styles.iconContainer}
-                                        >
-                                            {
-                                                img.source
-                                                    ? <Image {...img} style={[styles.iconImage, img.style]}/>
-                                                    : action
-                                            }
-                                        </TouchableOpacity>
-                                    )
-                                })
-                            }
-                        </View>
-                    ) : null
+                    actions
+                        ? (
+                            <View style={styles.actionsContainer}>
+                                {
+                                    actions.map((action, index) => {
+                                        const img = (action.icon as ImageProps);
+                                        return (
+                                            <TouchableOpacity
+                                                key={`${index}`}
+                                                onPressIn={() => {
+                                                    action.onPress(navigation);
+                                                }}
+                                                style={styles.iconContainer}
+                                            >
+                                                {
+                                                    img.source
+                                                        ? <Image {...img} style={[styles.iconImage, img.style]}/>
+                                                        : action
+                                                }
+                                            </TouchableOpacity>
+                                        )
+                                    })
+                                }
+                            </View>
+                        ) : null
                 }
             </View>
         </View>
-    );
-
-    return (
-        <Animated.View
-            style={{
-                width: '100%',
-            }}
-        >
-            {content}
-            {options.subHeader}
-        </Animated.View>
     );
 };
 
