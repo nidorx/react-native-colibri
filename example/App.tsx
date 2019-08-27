@@ -8,6 +8,17 @@ import ButtonPage from "./src/pages/ButtonPage";
 import CardPage from "./src/pages/CardPage";
 import CarouselPage from "./src/pages/CarouselPage";
 import CarouselImagePage from "./src/pages/CarouselImagePage";
+import DateFormattedPage from "./src/pages/DateFormattedPage";
+import DatePickerPage from "./src/pages/DatePickerPage";
+import EmptyStatePage from "./src/pages/EmptyStatePage";
+import LoadingPage from "./src/pages/LoadingPage";
+import OkCancelViewPage from "./src/pages/OkCancelViewPage";
+import SegmentPage from "./src/pages/SegmentPage";
+import SeparatorPage from "./src/pages/SeparatorPage";
+import SimpleTextPage from "./src/pages/SimpleTextPage";
+import TitlePage from "./src/pages/TitlePage";
+import AnimatedModalPage from "./src/pages/AnimatedModalPage";
+import TableViewPage from "./src/pages/TableViewPage";
 
 const AppContainer = createAppContainer(createStackNavigator(
     {
@@ -16,11 +27,27 @@ const AppContainer = createAppContainer(createStackNavigator(
         CardPage: CardPage,
         CarouselPage: CarouselPage,
         CarouselImagePage: CarouselImagePage,
+        DateFormattedPage: DateFormattedPage,
+        DatePickerPage: DatePickerPage,
+        EmptyStatePage: EmptyStatePage,
+        LoadingPage: LoadingPage,
+        OkCancelViewPage: OkCancelViewPage,
+        SegmentPage: SegmentPage,
+        SeparatorPage: SeparatorPage,
+        SimpleTextPage: SimpleTextPage,
+        TitlePage: TitlePage,
+        AnimatedModalPage: AnimatedModalPage,
+        TableViewPage: TableViewPage
     },
     {
         defaultNavigationOptions: {
             header: NavigationHeader
-        }
+        },
+        mode: 'card',
+        headerTransitionPreset: 'uikit',
+        cardShadowEnabled: false,
+        cardOverlayEnabled: false,
+        transparentCard: true,
     }
 ));
 
