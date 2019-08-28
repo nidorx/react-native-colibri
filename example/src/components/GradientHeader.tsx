@@ -37,7 +37,7 @@ export default class GradientHeader extends React.PureComponent<GradientHeaderPr
                 subHeader: (
                     <View style={{paddingVertical: theme.paddingBig}}>
                         <EmptyState
-                            titleProps={{color: '#FFF'}}
+                            title={false}
                             description={
                                 (typeof this.props.description === 'string')
                                     ? (

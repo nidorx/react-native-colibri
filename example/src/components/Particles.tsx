@@ -49,7 +49,7 @@ const PARTICLES_COLORS = [
 const MAX_PARTICLES = 20;
 
 // Duração da animação
-const ANIM_DURATION = 10 * 1000;
+const ANIM_DURATION = 15 * 1000;
 
 export type ParticlesProps = {
     max?: number;
