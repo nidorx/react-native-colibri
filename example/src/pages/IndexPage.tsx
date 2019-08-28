@@ -1,9 +1,9 @@
 import React from 'react';
 import {Linking, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
-import {NavigationHeaderOptions} from "../components/NavigationHeader";
 import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "rn-components-ui";
 import GradientHeader from "../components/GradientHeader";
+import {NavigationHeaderOptions} from "../components/NavigationHeader";
 
 export type IndexPageProps = {
     navigation: NavigationScreenProp<any, {}>
@@ -41,7 +41,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
 
         return (
             <GradientHeader
-                title={'RN Components UI'}
+                navigation={this.props.navigation}
                 description={(
                     <View>
                         <SimpleText
@@ -192,8 +192,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 }
                             } as TableViewRow
                         })
-                    },
-
+                    }
                 ]}
             />
         );

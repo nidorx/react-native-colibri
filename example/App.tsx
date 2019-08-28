@@ -48,6 +48,7 @@ const AppContainer = createAppContainer(createStackNavigator(
         cardShadowEnabled: false,
         cardOverlayEnabled: false,
         transparentCard: true,
+        headerBackTitleVisible: false
     }
 ));
 

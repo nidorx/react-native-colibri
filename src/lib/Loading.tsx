@@ -121,7 +121,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
 
         const trasnlateIndicator = this.animatedIndicatorValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [-50, this.state.height / 4]
+            outputRange: [-200, this.state.height / 4]
         });
 
         const opacityOverlay = this.animatedOpacityValue.interpolate({
