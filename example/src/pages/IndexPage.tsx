@@ -48,7 +48,14 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             color={'#FFF'}
                         >
                             {'Welcome to '}
-                            <SimpleText bold={true} text={'rn-components-ui'} color={'#4a415c'}/>
+                            <SimpleText
+                                bold={true}
+                                text={' rn-components-ui '}
+                                color={'#4a415c'}
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255,0.3)'
+                                }}
+                            />
                             {' demo application.'}
                         </SimpleText>
                         <SimpleText
@@ -57,7 +64,14 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             color={'#FFF'}
                         >
                             {`In this demo you will find extensive information about color, components, and accessibility to help you to build consistent and engaging React Native applications using `}
-                            <SimpleText bold={true} text={'rn-components-ui'} color={'#4a415c'}/>
+                            <SimpleText
+                                bold={true}
+                                text={' rn-components-ui '}
+                                color={'#4a415c'}
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255,0.3)'
+                                }}
+                            />
                             {'.'}
                         </SimpleText>
                     </View>
