@@ -25,7 +25,7 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
 
         return (
             <GradientHeader
-                title={'Card'}
+                navigation={this.props.navigation}
                 description={'Cards contain content and actions about a single subject.'}
                 sections={[
                     {

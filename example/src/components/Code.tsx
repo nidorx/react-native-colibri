@@ -7,6 +7,9 @@ export type CodeProps = {
     margin?: boolean;
 }
 
+/**
+ *
+ */
 export default class Code extends React.PureComponent<CodeProps> {
 
     render() {

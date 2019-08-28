@@ -25,7 +25,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
 
         return (
             <GradientHeader
-                title={'Carousel'}
+                navigation={this.props.navigation}
                 description={(
                     <View>
                         <SimpleText align={'justify'} color={'#FFF'}>

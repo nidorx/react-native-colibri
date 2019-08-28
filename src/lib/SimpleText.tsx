@@ -74,8 +74,8 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                 ? theme.colorTextReverse
                                 : theme.colorText,
                         marginVertical: this.props.margin ? theme.padding : undefined,
-                        textAlign: this.props.align === 'left'
-                            ? 'left'
+                        textAlign: this.props.align === 'center'
+                            ? 'center'
                             : this.props.align === 'right'
                                 ? 'right'
                                 : this.props.align === 'justify'

@@ -158,7 +158,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
 
         return (
             <GradientHeader
-                title={'CarouselImage'}
+                navigation={this.props.navigation}
                 description={'A carousel implementation using images to show a collection like Google Play Store. The size of items is defined by "numColumns" property.'}
                 sections={[
                     {

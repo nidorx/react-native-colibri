@@ -1,8 +1,9 @@
 import React from 'react'
 import {
+    Animated,
     Dimensions,
     Image,
-    ImageProps,
+    ImageProps, LayoutChangeEvent,
     Platform,
     StatusBar,
     StyleSheet,
@@ -12,7 +13,8 @@ import {
     ViewStyle
 } from 'react-native';
 import {HeaderProps, NavigationScreenProp, NavigationStackScreenOptions} from 'react-navigation';
-import {getTheme} from "rn-components-ui";
+import {EmptyState, getTheme, SimpleText} from "rn-components-ui";
+import Particles from "./Particles";
 
 
 const ICON_HEIGHT = 24;
@@ -34,7 +36,7 @@ if (Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS) {
 /**
  * Altura da barra de navegação interna do APP
  */
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 44;
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 50 : 50;
 
 /**
  * Altura da barra de status do sistema operacional
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     title: {
         color: '#FFF',
         fontWeight: 'normal',
-        textAlign: 'left',
+        textAlign: 'center',
         lineHeight: APPBAR_HEIGHT,
     },
     iconContainer: {
@@ -94,113 +96,211 @@ export interface NavigationHeaderOptions extends NavigationStackScreenOptions {
     actions?: Array<HeaderAction>;
 }
 
+type HeaderState = {
+    subHeaderHeight: number;
+}
+
+class NavigationHeaderComponent extends React.PureComponent<HeaderProps, HeaderState> {
+
+    state = {
+        subHeaderHeight: 0
+    };
+
+    render() {
+        const props = this.props;
+        const theme = getTheme();
+
+        const options: NavigationHeaderOptions = (props.scene as any).descriptor.options;
+
+        // Navigation da tela atual
+        const navigation: NavigationScreenProp<any, any> = (props.scene as any).descriptor.navigation;
+
+        const actions = options.actions;
+
+        const headerStyle = Object.assign({
+            overflow: 'hidden',
+            height: HEADER_HEIGHT,
+            paddingTop: STATUSBAR_HEIGHT,
+            position: 'relative',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignContent: 'center',
+            alignItems: 'center'
+        } as ViewStyle, options.headerStyle);
+
+
+        const content = (
+            <View style={headerStyle}>
+
+
+                <View
+                    style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        width: '100%'
+                    }}
+                >
+
+                    {
+                        // Botão voltar
+                        (props.index > 0)
+                            ? (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        navigation.goBack()
+                                    }}
+                                    style={styles.iconContainer}
+                                >
+                                    <Image
+                                        style={[styles.iconImage, {tintColor: '#FFF'}]}
+                                        source={require('./../assets/arrow-back.png')}
+                                    />
+                                </TouchableOpacity>
+                            ) : null
+                    }
+
+                    {/* Título */}
+                    <View style={{flex: 1}}>
+                        <SimpleText
+                            style={{
+                                lineHeight: APPBAR_HEIGHT,
+                                paddingLeft: props.index > 0 ? 0 : theme.padding
+                            }}
+                            color={'#FFF'}
+                            text={options.title}
+                            size={theme.fontSizeBig}
+                        />
+                    </View>
+
+                    {
+                        // Botões de ação
+                        actions
+                            ? (
+                                <View style={styles.actionsContainer}>
+                                    {
+                                        actions.map((action, index) => {
+                                            const img = (action.icon as ImageProps);
+                                            return (
+                                                <TouchableOpacity
+                                                    key={`${index}`}
+                                                    onPressIn={() => {
+                                                        action.onPress(navigation);
+                                                    }}
+                                                    style={styles.iconContainer}
+                                                >
+                                                    {
+                                                        img.source
+                                                            ? <Image {...img} style={[styles.iconImage, img.style]}/>
+                                                            : action
+                                                    }
+                                                </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+                                </View>
+                            ) : null
+                    }
+                </View>
+            </View>
+        );
+
+        let translateY = 0;
+        let subHeaderOpacity = 1;
+        const params = this.props.scene.route.params || {};
+        if (params.animatedScrollValue) {
+            translateY = params.animatedScrollValue.interpolate({
+                inputRange: [0, this.state.subHeaderHeight],
+                outputRange: [0, -this.state.subHeaderHeight],
+                extrapolate: 'clamp'
+            });
+            subHeaderOpacity = params.animatedScrollValue.interpolate({
+                inputRange: [0, this.state.subHeaderHeight * 0.7],
+                outputRange: [1, 0],
+                extrapolate: 'clamp'
+            });
+        }
+
+        if (this.state.subHeaderHeight === 0) {
+            subHeaderOpacity = 0;
+        }
+
+        return (
+            <View>
+                <Animated.View
+                    style={[
+                        StyleSheet.absoluteFill,
+                        {
+                            height: HEADER_HEIGHT + this.state.subHeaderHeight,
+                            overflow: 'hidden',
+                            transform: [{translateY: translateY}]
+                        }
+                    ]}
+                    pointerEvents={'box-none'}
+                >
+                    <Image
+                        style={[StyleSheet.absoluteFill, {resizeMode: 'cover'}]}
+                        source={require('./../assets/gradient.png')}
+                    />
+                </Animated.View>
+
+                <Animated.View
+                    style={{
+                        width: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        height: HEADER_HEIGHT + this.state.subHeaderHeight,
+                        transform: [{translateY: translateY}]
+                    }}
+                >
+                    <Particles
+                        height={HEADER_HEIGHT + this.state.subHeaderHeight}
+                    />
+                </Animated.View>
+
+
+                {content}
+
+                {
+                    params.subHeader
+                        ? (
+                            <Animated.View
+                                style={{
+                                    width: '100%',
+                                    position: 'absolute',
+                                    top: HEADER_HEIGHT,
+                                    opacity: subHeaderOpacity,
+                                    transform: [{translateY: translateY}]
+                                }}
+                                onLayout={(event: LayoutChangeEvent) => {
+
+                                    this.setState({
+                                        subHeaderHeight: event.nativeEvent.layout.height
+                                    }, () => {
+                                        if (params && params.onSubHeaderLayout) {
+                                            params.onSubHeaderLayout(this.state.subHeaderHeight);
+                                        }
+                                    })
+                                }}
+                            >
+                                {params.subHeader}
+                            </Animated.View>
+                        )
+                        : null
+                }
+
+
+            </View>
+        );
+    }
+
+}
+
 /**
  * Sobrescreve o Header do react navigation
  */
 const NavigationHeader = (props: HeaderProps) => {
-
-    const theme = getTheme();
-
-    const options: NavigationHeaderOptions = (props.scene as any).descriptor.options;
-
-    // Navigation da tela atual
-    const navigation: NavigationScreenProp<any, any> = (props.scene as any).descriptor.navigation;
-
-    const actions = options.actions;
-
-    const headerStyle = Object.assign({
-        overflow: 'hidden',
-        height: HEADER_HEIGHT,
-        paddingTop: STATUSBAR_HEIGHT,
-        position: 'relative',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignContent: 'center',
-        alignItems: 'center'
-    } as ViewStyle, options.headerStyle);
-
-
     return (
-        <View style={headerStyle}>
-
-            <View style={StyleSheet.absoluteFill}>
-                <Image
-                    style={[StyleSheet.absoluteFill, {resizeMode: 'stretch'}]}
-                    source={require('./../assets/gradient.png')}
-                />
-            </View>
-
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    width: '100%'
-                }}
-            >
-
-                {
-                    // Botão voltar
-                    (props.index > 0)
-                        ? (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={styles.iconContainer}
-                            >
-                                <Image
-                                    style={[styles.iconImage, {tintColor: '#FFF'}]}
-                                    source={require('./../assets/arrow-back.png')}
-                                />
-                            </TouchableOpacity>
-                        ) : null
-                }
-
-                {/* Título */}
-                <View style={{flex: 1}}>
-                    <Text
-                        style={[
-                            styles.title,
-                            {
-                                paddingLeft: props.index > 0 ? 0 : theme.padding,
-                                fontSize: theme.fontSize
-                            }
-                        ]}
-                    >
-                        {options.title}
-                    </Text>
-                </View>
-
-                {
-                    // Botões de ação
-                    actions
-                        ? (
-                            <View style={styles.actionsContainer}>
-                                {
-                                    actions.map((action, index) => {
-                                        const img = (action.icon as ImageProps);
-                                        return (
-                                            <TouchableOpacity
-                                                key={`${index}`}
-                                                onPressIn={() => {
-                                                    action.onPress(navigation);
-                                                }}
-                                                style={styles.iconContainer}
-                                            >
-                                                {
-                                                    img.source
-                                                        ? <Image {...img} style={[styles.iconImage, img.style]}/>
-                                                        : action
-                                                }
-                                            </TouchableOpacity>
-                                        )
-                                    })
-                                }
-                            </View>
-                        ) : null
-                }
-            </View>
-        </View>
+        <NavigationHeaderComponent {...props}/>
     );
 };
 

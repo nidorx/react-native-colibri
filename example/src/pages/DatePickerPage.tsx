@@ -25,7 +25,7 @@ export default class DatePickerPage extends React.PureComponent<DatePickerPagePr
 
         return (
             <GradientHeader
-                title={'DatePicker'}
+                navigation={this.props.navigation}
                 description={'A button consists of text that clearly communicates what action will occur when the user touches it. The two main types of buttons used are Process buttons, and Ancillary buttons.'}
                 sections={[
                     {
