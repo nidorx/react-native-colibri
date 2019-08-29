@@ -2,7 +2,7 @@ import React from 'react';
 import {Linking, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import {Card, getTheme, SimpleText, TableViewRow} from "rn-components-ui";
+import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "rn-components-ui";
 import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
@@ -11,13 +11,101 @@ export type CardPageProps = {
     navigation: NavigationScreenProp<any, {}>
 }
 
-export default class CardPage extends React.PureComponent<CardPageProps> {
+const BOOKS: Array<CarouselImageItem> = [
+    {
+        key: `b-1`,
+        image: {
+            source: require('../assets/book-1.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Android Application Development for the Intel Platform',
+        edition: '1st ed. Edition'
+    },
+    {
+        key: `b-2`,
+        image: {
+            source: require('../assets/book-2.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Learning Python, 5th Edition',
+        edition: 'Fifth Edition'
+    },
+    {
+        key: `b-3`,
+        image: {
+            source: require('../assets/book-3.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Deep Learning with Python',
+        edition: '1st Edition'
+    },
+    {
+        key: `b-4`,
+        image: {
+            source: require('../assets/book-4.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Head First Java, 2nd Edition',
+        edition: '2nd Edition'
+    },
+    {
+        key: `b-5`,
+        image: {
+            source: require('../assets/book-5.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Building Microservices: Designing Fine-Grained Systems',
+        edition: '1st Edition'
+    },
+    {
+        key: `b-6`,
+        image: {
+            source: require('../assets/book-6.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5',
+        edition: '5th Edition'
+    },
+    {
+        key: `b-7`,
+        image: {
+            source: require('../assets/book-7.jpg'),
+            style: {
+                resizeMode: 'contain'
+            }
+        },
+        name: 'Linux Pocket Guide: Essential Commands',
+        edition: '3rd Edition'
+    }
+];
+
+type CardPageState = {
+    carouselImage?: CarouselImage;
+}
+
+export default class CardPage extends React.PureComponent<CardPageProps, CardPageState> {
 
     static navigationOptions = (config: any): NavigationHeaderOptions => {
         return {
             title: 'Card'
         };
     };
+
+    state: CardPageState = {};
+
+    private carouselImage?: CarouselImage;
 
     render() {
         const theme = getTheme();
@@ -55,6 +143,7 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                         >
                                             <SimpleText
                                                 text={'the content of card here...'}
+                                                align={'center'}
                                                 style={{
                                                     height: 100,
                                                     backgroundColor: theme.colorBackground
@@ -72,6 +161,7 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                             >
                                                 <SimpleText
                                                     text={'the content of card here...'}
+                                                    align={'center'}
                                                     style={{
                                                         height: 100,
                                                         backgroundColor: theme.colorBackground
@@ -105,6 +195,7 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                         >
                                             <SimpleText
                                                 text={'the content of card here...'}
+                                                align={'center'}
                                                 style={{
                                                     height: 100,
                                                     backgroundColor: theme.colorBackground
@@ -125,6 +216,7 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                             >
                                                 <SimpleText
                                                     text={'the content of card here...'}
+                                                    align={'center'}
                                                     style={{
                                                         height: 100,
                                                         backgroundColor: theme.colorBackground
@@ -153,11 +245,8 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                             title={'Gradient Tribute Posters'}
                                             subtitle={(
                                                 <SimpleText
-                                                    text={' by Duminda Perera '}
-                                                    color={'#FFF'}
-                                                    style={{
-                                                        backgroundColor: 'rgba(0,0,0,0.3)',
-                                                    }}
+                                                    text={'by Duminda Perera '}
+                                                    small={true}
                                                 />
                                             )}
                                             moreText={'View on Behance'}
@@ -189,11 +278,114 @@ export default class CardPage extends React.PureComponent<CardPageProps> {
                                                 title={'Gradient Tribute Posters'}
                                                 subtitle={(
                                                     <SimpleText
-                                                        text={' by Duminda Perera '}
-                                                        color={'#FFF'}
-                                                        style={{
-                                                            backgroundColor: 'rgba(0,0,0,0.3)',
-                                                        }}
+                                                        text={'by Duminda Perera '}
+                                                        small={true}
+                                                    />
+                                                )}
+                                                moreText={'View on Behance'}
+                                                image={{
+                                                    source: require('../assets/card_background.jpg')
+                                                }}
+                                                onPressMore={() => {
+                                                    Linking.openURL('https://www.behance.net/gallery/38072705/Gradient-Tribute-Posters');
+                                                }}
+                                            >
+                                                <SimpleText
+                                                    text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
+                                                    style={{
+                                                        height: 150,
+                                                        // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                                        width: '60%',
+                                                        alignSelf: 'flex-end',
+                                                        paddingRight: theme.padding
+                                                    }}
+                                                    align={'right'}
+                                                />
+                                            </Card>
+                                        `}
+                                        margin={true}
+                                    />
+                                ),
+                                style: {
+                                    paddingHorizontal: 0
+                                }
+                            }
+                        ] as Array<TableViewRow>
+                    },
+                    {
+                        key: `section-${SEQ++}`,
+                        header: 'Image background + Complex content',
+                        data: [
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <View>
+                                        <Card
+                                            title={'Recently updated'}
+                                            subtitle={(
+                                                <SimpleText
+                                                    text={'Fresh features & content'}
+                                                    small={true}
+                                                />
+                                            )}
+                                            moreText={'See more'}
+                                            image={{
+                                                source: require('../assets/book-background.png')
+                                            }}
+                                            onPressMore={() => {
+
+                                            }}
+                                            imageTranslateXValue={
+                                                this.state.carouselImage
+                                                    ? this.state.carouselImage.animatedValueScroll
+                                                    : undefined
+                                            }
+                                        >
+                                            <CarouselImage
+                                                ref={(carouselImage) => {
+                                                    this.setState({
+                                                        carouselImage: carouselImage || undefined
+                                                    });
+                                                }}
+                                                data={([null] as any).concat(BOOKS)}
+                                                numColumns={3}
+                                                renderContent={item => {
+                                                    return (
+                                                        <View>
+                                                            <SimpleText
+                                                                text={item.name}
+                                                                align={'left'}
+                                                                subline={true}
+                                                                numberOfLines={2}
+                                                                inline={true}
+                                                            />
+                                                            <SimpleText
+                                                                text={item.edition}
+                                                                align={'left'}
+                                                                subline={true}
+                                                                small={true}
+                                                                numberOfLines={1}
+                                                                inline={true}
+                                                            />
+                                                        </View>
+                                                    )
+                                                }}
+                                                onPress={item => {
+                                                    Toast.show(item.name);
+                                                }}
+                                            />
+                                        </Card>
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code
+                                        src={`
+                                            <Card
+                                                title={'Gradient Tribute Posters'}
+                                                subtitle={(
+                                                    <SimpleText
+                                                        text={'by Duminda Perera '}
+                                                        small={true}
                                                     />
                                                 )}
                                                 moreText={'View on Behance'}

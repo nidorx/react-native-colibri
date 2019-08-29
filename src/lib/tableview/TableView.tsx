@@ -246,20 +246,25 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                 : header.title
                                                         }
                                                         {
-                                                            (typeof header.subtitle === 'string')
+                                                            // @TODO: Align center
+                                                            header.subtitle
                                                                 ? (
-                                                                    <SimpleText
-                                                                        text={header.subtitle}
-                                                                        color={theme.colorTextSecondary}
-                                                                        subline={true}
-                                                                        align={'justify'}
-                                                                    />
-                                                                )
-                                                                : (
-                                                                    <View style={{marginLeft: theme.paddingSmall}}>
-                                                                        {header.subtitle}
+                                                                    <View style={{paddingTop: theme.paddingMinimum}}>
+                                                                        {
+                                                                            (typeof header.subtitle === 'string')
+                                                                                ? (
+                                                                                    <SimpleText
+                                                                                        text={header.subtitle}
+                                                                                        color={theme.colorTextSecondary}
+                                                                                        subline={true}
+                                                                                    />
+                                                                                )
+                                                                                : header.subtitle
+                                                                        }
                                                                     </View>
                                                                 )
+                                                                : null
+
                                                         }
                                                     </View>
                                                 )

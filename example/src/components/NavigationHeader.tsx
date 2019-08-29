@@ -36,7 +36,7 @@ if (Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS) {
 /**
  * Altura da barra de navegação interna do APP
  */
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 50 : 50;
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 40 : 40;
 
 /**
  * Altura da barra de status do sistema operacional
@@ -131,8 +131,6 @@ class NavigationHeaderComponent extends React.PureComponent<HeaderProps, HeaderS
 
         const content = (
             <View style={headerStyle}>
-
-
                 <View
                     style={{
                         flex: 1,
@@ -142,7 +140,7 @@ class NavigationHeaderComponent extends React.PureComponent<HeaderProps, HeaderS
                 >
 
                     {
-                        // Botão voltar
+                        // Back button
                         (props.index > 0)
                             ? (
                                 <TouchableOpacity
@@ -251,6 +249,7 @@ class NavigationHeaderComponent extends React.PureComponent<HeaderProps, HeaderS
                         height: HEADER_HEIGHT + this.state.subHeaderHeight,
                         transform: [{translateY: translateY}]
                     }}
+                    pointerEvents={'box-none'}
                 >
                     <Particles
                         height={HEADER_HEIGHT + this.state.subHeaderHeight}
@@ -281,6 +280,7 @@ class NavigationHeaderComponent extends React.PureComponent<HeaderProps, HeaderS
                                         }
                                     })
                                 }}
+                                pointerEvents={'box-none'}
                             >
                                 {params.subHeader}
                             </Animated.View>
