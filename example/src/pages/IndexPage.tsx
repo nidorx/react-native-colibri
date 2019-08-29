@@ -46,6 +46,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                     <View>
                         <SimpleText
                             color={'#FFF'}
+                            align={'justify'}
                         >
                             {'Welcome to '}
                             <SimpleText
@@ -102,7 +103,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             title: 'Design Guidelines & Miscellaneous',
                             subtitle: (
                                 <View>
-                                    <SimpleText subline={true} color={theme.colorTextSecondary} align={'justify'}>
+                                    <SimpleText subline={true} color={theme.colorTextSecondary} align={'left'}>
                                         {'If there is ever a question about how something works in '}
                                         <SimpleText bold={true} color={'#4a415c'} subline={true}>
                                             {'rn-components-ui'}

@@ -68,7 +68,6 @@ export default class GradientHeader extends React.PureComponent<GradientHeaderPr
                                 disableScrollViewPanResponder={true}
                                 showsVerticalScrollIndicator={false}
                                 header={<View style={{height: this.state.subHeaderHeight}}/>}
-                                // transparent={true}
                                 onScroll={Animated.event(
                                     [{nativeEvent: {contentOffset: {y: this.animatedScrollValue}}}],
                                     {useNativeDriver: true, listener: this.props.onScroll}

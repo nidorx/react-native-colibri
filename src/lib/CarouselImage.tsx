@@ -29,26 +29,32 @@ export type CarouselImageProps = ViewProps & {
      * The elements that will be presented in this Carousel
      */
     data: Array<CarouselImageItem>;
+
     /**
      * How many elements to display on the screen?
      */
     numColumns: number;
+
     /**
      * Item Spacing (default 6)
      */
     gap?: number;
+
     /**
-     * Permite adicionar uma imagem que representa esse Carousel
+     * How many items to skip at start
      */
-    image?: ImageProps;
+    skip?: number;
+
     /**
      * Informs that images of Carousel items will be displayed as a circle.
      */
     rounded?: boolean;
+
     /**
      * Invoked when pressing an element
      */
     onPress?: (item: CarouselImageItem) => void;
+
     /**
      * Allows you to render additional content to the image, such as titles and etc.
      */
@@ -103,42 +109,6 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
         return (
             <View style={styles.containner} onLayout={this.onLayout}>
                 {
-                    // Imagem de fundo do Carrousel
-                    (this.props.image && this.state.itemWidth)
-                        ? (
-                            <Animated.Image
-                                {...this.props.image}
-                                style={[
-                                    this.props.image.style,
-                                    styles.image,
-                                    {
-                                        height: '100%',
-                                        resizeMode: 'contain',
-                                        width: this.state.itemWidth * 2,
-                                        // Oculta imagem á medida que o scroll é executado
-                                        opacity: this.animatedValueScroll.interpolate({
-                                            inputRange: [0, this.state.itemWidth * 2],
-                                            outputRange: [1, 0.05],
-                                            easing: Easing.bezier(0, 0, 0.58, 1)
-                                        }),
-                                        transform: [
-                                            {
-                                                // Anima exibição da imagem á medida que o scroll é executado
-                                                translateX: this.animatedValueScroll.interpolate({
-                                                    inputRange: [0, this.state.itemWidth * 2],
-                                                    outputRange: [0, -(this.state.itemWidth * 0.25)],
-                                                    easing: Easing.bezier(0, 0, 0.58, 1)
-                                                })
-                                            }
-                                        ]
-                                    }
-                                ]}
-                            />
-                        )
-                        : null
-                }
-
-                {
                     // Só renderiza o carousel após calcular a largura correta
                     this.state.itemWidth
                         ? (
@@ -151,9 +121,14 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                 }}
                             >
                                 {
-                                    // Adiciona um item vazio no inicio, quando tiver imagem
-                                    this.props.image
-                                        ? <View key={'__EMPTY_FIRST__'} style={{width: this.state.itemWidth * 2}}/>
+                                    // Permite adicionar itens vazios no inicio
+                                    (this.props.skip && this.props.skip > 0)
+                                        ? (
+                                            <View
+                                                key={'__EMPTY_SKIP__'}
+                                                style={{width: this.state.itemWidth * this.props.skip}}
+                                            />
+                                        )
                                         : null
                                 }
 
@@ -209,9 +184,9 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                 }
 
                                 {
-                                    // Adiciona um item vazio no fim da lista
+                                    // Adiciona um item vazio no fim da lista, para melhorar a navegação
                                     this.state.itemWidth
-                                        ? <View key={'__EMPTY_LAST__'} style={{width: this.state.itemWidth,}}/>
+                                        ? <View key={'__EMPTY_LAST__'} style={{width: this.state.itemWidth}}/>
                                         : null
                                 }
                             </Carousel>
@@ -222,4 +197,3 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
         );
     }
 }
-
