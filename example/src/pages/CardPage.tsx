@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking, View,} from 'react-native';
+import {Image, Linking, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
 import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "rn-components-ui";
@@ -314,7 +314,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                     },
                     {
                         key: `section-${SEQ++}`,
-                        header: 'Image background + Complex content',
+                        header: 'Image background & Animation',
                         data: [
                             {
                                 key: `row-${SEQ++}`,
@@ -340,15 +340,22 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                                     ? this.state.carouselImage.animatedValueScroll
                                                     : undefined
                                             }
+                                            style={{
+                                                paddingBottom: theme.padding,
+                                            }}
+                                            boxed={true}
+                                            shadowPattern={'C'}
+                                            // shadowColor={'#5F30C2'}
                                         >
                                             <CarouselImage
+                                                skip={2}
+                                                numColumns={3}
                                                 ref={(carouselImage) => {
                                                     this.setState({
                                                         carouselImage: carouselImage || undefined
                                                     });
                                                 }}
-                                                data={([null] as any).concat(BOOKS)}
-                                                numColumns={3}
+                                                data={BOOKS}
                                                 renderContent={item => {
                                                     return (
                                                         <View>
