@@ -37,11 +37,52 @@ export type CardProps = ViewProps & {
      * Allow to add translate effects on background image
      */
     imageTranslateXValue?: Animated.Value;
+    /**
+     * Render as box (Horizontal margin)
+     */
+    boxed?: boolean;
+    /**
+     * Show shadow pattern
+     */
+    shadow?: boolean;
+    /**
+     * Change tint color of shadow
+     */
+    shadowColor?: string;
+    /**
+     * Select a pattern for shadow
+     */
+    shadowPattern?: 'A' | 'B' | 'C' | 'D';
+    /**
+     * Change opacity of shadow
+     */
+    shadowOpacity?: number;
 }
 
 type CardState = {
     contentHeight?: number;
+    contentInnerWidth?: number;
 }
+
+const SHADOWS = {
+    'A': {
+        image: require('./../assets/shadow-a.png'),
+        margin: 1.5
+    },
+    'B': {
+        image: require('./../assets/shadow-b.png'),
+        margin: 2.5
+    },
+    'C': {
+        image: require('./../assets/shadow-c.png'),
+        margin: 2.5
+    },
+    'D': {
+        image: require('./../assets/shadow-d.png'),
+        margin: 4.0
+    },
+};
+
 
 /**
  * Componente de Cartão genérico, semelhante aos agrupadores de categorias do Google Play
@@ -53,6 +94,12 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
     private onLayout = (event: LayoutChangeEvent) => {
         this.setState({
             contentHeight: event.nativeEvent.layout.height
+        });
+    };
+
+    private onLayoutInner = (event: LayoutChangeEvent) => {
+        this.setState({
+            contentInnerWidth: event.nativeEvent.layout.width
         });
     };
 
@@ -117,6 +164,9 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
             </View>
         );
 
+        const shadow = this.props.shadow || (this.props.boxed && this.props.shadow !== false)
+            ? SHADOWS[this.props.shadowPattern || 'A']
+            : null;
 
         return (
             <View
@@ -126,68 +176,108 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                     {
                         width: '100%',
                         flexDirection: 'column',
-                        // backgroundColor: Theme.colorOpacity(Theme.colorBackground, 0.7),
-                        paddingBottom: 0,
-                        marginBottom: theme.padding * 1.5
-                    },
-                    this.props.style
+                        padding: 0,
+                        marginBottom: theme.padding * 1.5,
+                        zIndex: shadow ? 1 : 0
+                    }
                 ]}
             >
+                <View
+                    onLayout={this.onLayoutInner}
+                    style={[
+                        this.props.boxed
+                            ? {
+                                overflow: 'hidden',
+                                marginHorizontal: theme.paddingSmall,
+                                borderRadius: theme.borderRadiusSmall,
+                                borderWidth: theme.lineWidth,
+                                borderColor: theme.colorLine,
+                            }
+                            : undefined,
+                        this.props.style,
+                        {
+                            marginBottom: 0
+                        }
+                    ]}
+                >
+                    {
+                        this.props.image && this.state.contentHeight
+                            ? (
+                                <Animated.Image
+                                    {...this.props.image}
+                                    style={[
+                                        this.props.image.style,
+                                        {
+                                            width: this.state.contentHeight,
+                                            height: this.state.contentHeight,
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: 0,
+                                            resizeMode: 'cover',
+                                            // Oculta imagem a medida que o scroll é executado
+                                            opacity: this.props.imageTranslateXValue
+                                                ? this.props.imageTranslateXValue.interpolate({
+                                                    inputRange: [0, this.state.contentHeight * 0.15, this.state.contentHeight * 0.75],
+                                                    outputRange: [1, 1, 0.25],
+                                                    easing: Easing.bezier(0, 0, 0.58, 1),
+                                                    extrapolate: 'clamp'
+                                                })
+                                                : 1,
+                                            // Anima exibição da imagem a medida que o scroll é executado
+                                            transform: [
+                                                {
+                                                    translateX: this.props.imageTranslateXValue
+                                                        ? this.props.imageTranslateXValue.interpolate({
+                                                            inputRange: [0, this.state.contentHeight * 0.75],
+                                                            outputRange: [0, -(this.state.contentHeight * 0.1)],
+                                                            extrapolate: 'clamp'
+                                                        })
+                                                        : 0
+                                                }
+                                            ]
+                                        }
+                                    ]}
+                                />
+                            )
+                            : undefined
+                    }
+                    {
+                        this.props.onPressMore
+                            ? (
+                                <TouchableOpacity
+                                    onPress={this.onPressMore}
+                                    activeOpacity={0.3}
+                                >
+                                    {header}
+                                </TouchableOpacity>
+                            )
+                            : header
+                    }
+
+                    {this.props.children}
+                </View>
                 {
-                    this.props.image && this.state.contentHeight
+                    shadow
                         ? (
-                            <Animated.Image
-                                {...this.props.image}
-                                style={[
-                                    this.props.image.style,
-                                    {
-                                        width: this.state.contentHeight,
-                                        height: this.state.contentHeight,
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 0,
-                                        resizeMode: 'cover',
-                                        // Oculta imagem a medida que o scroll é executado
-                                        opacity: this.props.imageTranslateXValue
-                                            ? this.props.imageTranslateXValue.interpolate({
-                                                inputRange: [0, this.state.contentHeight * 0.15, this.state.contentHeight * 0.75],
-                                                outputRange: [1, 1, 0.25],
-                                                easing: Easing.bezier(0, 0, 0.58, 1),
-                                                extrapolate: 'clamp'
-                                            })
-                                            : 1,
-                                        // Anima exibição da imagem a medida que o scroll é executado
-                                        transform: [
-                                            {
-                                                translateX: this.props.imageTranslateXValue
-                                                    ? this.props.imageTranslateXValue.interpolate({
-                                                        inputRange: [0, this.state.contentHeight * 0.75],
-                                                        outputRange: [0, -(this.state.contentHeight * 0.1)],
-                                                        extrapolate: 'clamp'
-                                                    })
-                                                    : 0
-                                            }
-                                        ]
-                                    }
-                                ]}
+                            <Image
+                                source={shadow.image}
+                                style={{
+                                    position: 'absolute',
+                                    top: this.state.contentHeight,
+                                    // left:0,
+                                    // right:0,
+                                    width: this.state.contentInnerWidth
+                                        ? this.state.contentInnerWidth - (this.props.boxed ? theme.borderRadiusSmall : 0)
+                                        : '100%',
+                                    alignSelf: 'center',
+                                    resizeMode: 'stretch',
+                                    opacity: this.props.shadowOpacity || 0.3,
+                                    tintColor: this.props.shadowColor
+                                }}
                             />
                         )
-                        : undefined
+                        : null
                 }
-                {
-                    this.props.onPressMore
-                        ? (
-                            <TouchableOpacity
-                                onPress={this.onPressMore}
-                                activeOpacity={0.3}
-                            >
-                                {header}
-                            </TouchableOpacity>
-                        )
-                        : header
-                }
-                {this.props.children}
-
             </View>
         );
     }
