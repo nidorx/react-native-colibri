@@ -4,7 +4,6 @@ import {NavigationScreenProp} from 'react-navigation';
 import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import ColibriAnimation from "../components/ColibriAnimation";
 
 export type IndexPageProps = {
     navigation: NavigationScreenProp<any, {}>
@@ -46,7 +45,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                 description={(
                     <View>
 
-                        <ColibriAnimation/>
+                        {/*<ColibriAnimation/>*/}
 
                         <SimpleText
                             color={'#FFF'}
@@ -96,7 +95,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 },
                                 iconBig: true,
                                 onPress: row => {
-                                    Linking.openURL('https://github.com/nidorx/rn-ui-components/issues');
+                                    Linking.openURL('https://github.com/nidorx/react-native-colibri/issues');
                                 }
                             }
                         ] as Array<TableViewRow>
