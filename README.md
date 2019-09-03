@@ -2,7 +2,7 @@
     <h1>React Native Colibri</h1>
     <img src="./docs/logo-sm.png" width="250" />
     <p align="center">
-        Fast, Small and Beautifull.
+        Fast, Small and Beautiful
     </p>    
     <p>
         <a href="https://badge.fury.io/js/react-native-colibri">
