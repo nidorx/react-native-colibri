@@ -1,6 +1,6 @@
 import React from 'react';
 import {Clipboard, TextInput, TouchableOpacity, View,} from 'react-native';
-import {getTheme, SimpleText, Toast} from "rn-components-ui";
+import {getTheme, SimpleText, Toast} from "react-native-colibri";
 
 export type CodeProps = {
     src: string;

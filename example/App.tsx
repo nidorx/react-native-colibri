@@ -3,7 +3,7 @@ import {StatusBar,} from 'react-native';
 import {createAppContainer, createStackNavigator} from "react-navigation";
 import IndexPage from "./src/pages/IndexPage";
 import NavigationHeader from "./src/components/NavigationHeader";
-import {AnimatedModal, getTheme, Toast} from "rn-components-ui";
+import {AnimatedModal, getTheme, Toast} from "react-native-colibri";
 import ButtonPage from "./src/pages/ButtonPage";
 import CardPage from "./src/pages/CardPage";
 import CarouselPage from "./src/pages/CarouselPage";

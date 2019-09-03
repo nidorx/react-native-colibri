@@ -13,7 +13,7 @@ import {
     ViewStyle
 } from 'react-native';
 import {HeaderProps, NavigationScreenProp, NavigationStackScreenOptions} from 'react-navigation';
-import {EmptyState, getTheme, SimpleText} from "rn-components-ui";
+import {EmptyState, getTheme, SimpleText} from "react-native-colibri";
 import Particles from "./Particles";
 
 

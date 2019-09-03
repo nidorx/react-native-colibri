@@ -1,9 +1,10 @@
 import React from 'react';
-import {Linking, View,} from 'react-native';
+import {Animated, Easing, Image, Linking, StyleSheet, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
-import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "rn-components-ui";
+import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
+import ColibriAnimation from "../components/ColibriAnimation";
 
 export type IndexPageProps = {
     navigation: NavigationScreenProp<any, {}>
@@ -32,7 +33,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
 
     static navigationOptions = (config: any): NavigationHeaderOptions => {
         return {
-            title: 'RN Components UI'
+            title: 'React Native Colibri'
         };
     };
 
@@ -44,6 +45,9 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                 navigation={this.props.navigation}
                 description={(
                     <View>
+
+                        <ColibriAnimation/>
+
                         <SimpleText
                             color={'#FFF'}
                             align={'justify'}
@@ -51,7 +55,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             {'Welcome to '}
                             <SimpleText
                                 bold={true}
-                                text={' rn-components-ui '}
+                                text={' react-native-colibri '}
                                 color={'#4a415c'}
                                 style={{
                                     backgroundColor: 'rgba(255, 255, 255,0.3)'
@@ -67,7 +71,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             {`In this demo you will find extensive information about color, components, and accessibility to help you to build consistent and engaging React Native applications using `}
                             <SimpleText
                                 bold={true}
-                                text={' rn-components-ui '}
+                                text={' react-native-colibri '}
                                 color={'#4a415c'}
                                 style={{
                                     backgroundColor: 'rgba(255, 255, 255,0.3)'
@@ -85,7 +89,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             {
                                 key: 'issues-feedback',
                                 title: 'Submitting Bugs and Feedback',
-                                subtitle: 'rn-components-ui issues on Github',
+                                subtitle: 'react-native-colibri issues on Github',
                                 disclosure: true,
                                 icon: {
                                     source: require('../assets/github.png')
@@ -106,7 +110,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                     <SimpleText subline={true} color={theme.colorTextSecondary} align={'left'}>
                                         {'If there is ever a question about how something works in '}
                                         <SimpleText bold={true} color={'#4a415c'} subline={true}>
-                                            {'rn-components-ui'}
+                                            {'react-native-colibri'}
                                         </SimpleText>
                                         {', the first place to look is the documentation itself. As much as possible, we follow the design principles provided by the platform owners.'}
                                     </SimpleText>

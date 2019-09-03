@@ -2,7 +2,7 @@ import React from 'react';
 import {View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import {CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "rn-components-ui";
+import {CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
@@ -168,7 +168,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <Code src={`import { CarouselImage } from "rn-components-ui";`}
+                                    <Code src={`import { CarouselImage } from "react-native-colibri";`}
                                     />
                                 )
                             }
