@@ -1,6 +1,6 @@
 <div align="center">
     <h1>React Native Colibri</h1>
-    <img src="./docs/colibri.png" width="250" />
+    <img src="./docs/logo-sm.png" width="250" />
     <p align="center">
         Fast, Small and Beautifull.
     </p>    
