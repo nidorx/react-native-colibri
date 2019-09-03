@@ -2,7 +2,7 @@ import React from 'react';
 import {View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import {Button, getTheme, SimpleText, TableViewRow} from "rn-components-ui";
+import {Button, getTheme, SimpleText, TableViewRow} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
@@ -35,7 +35,7 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <Code src={`import { Carousel } from "rn-components-ui";`}
+                                    <Code src={`import { Carousel } from "react-native-colibri";`}
                                     />
                                 )
                             }

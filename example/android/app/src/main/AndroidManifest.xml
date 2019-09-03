@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.rncomponentsui">
+  package="com.github.nidorx.colibri">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

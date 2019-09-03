@@ -1,7 +1,7 @@
 import React from 'react';
 import {Animated, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
-import {EmptyState, getTheme, Loading, SimpleText, TableView, TableViewProps} from "rn-components-ui";
+import {EmptyState, getTheme, Loading, SimpleText, TableView, TableViewProps} from "react-native-colibri";
 
 export type GradientHeaderProps = TableViewProps & {
     description: string | JSX.Element;

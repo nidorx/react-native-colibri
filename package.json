@@ -1,11 +1,11 @@
 {
-    "name": "rn-components-ui",
+    "name": "react-native-colibri",
     "version": "0.1.0-pre.13",
-    "description": "React Native UI Components.",
+    "description": "React Native Colibri",
     "main": "index",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/nidorx/rn-components-ui.git"
+        "url": "git+https://github.com/nidorx/react-native-colibri.git"
     },
     "scripts": {
         "build-ts": "tsc",

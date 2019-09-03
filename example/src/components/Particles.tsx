@@ -1,7 +1,7 @@
 import React from 'react';
 import {Animated, Dimensions, ImageBackground, StyleSheet, View,} from 'react-native';
 import {LayoutEvent, NavigationScreenProp} from 'react-navigation';
-import {EmptyState, getTheme, SimpleText, TableView, TableViewProps} from "rn-components-ui";
+import {EmptyState, getTheme, SimpleText, TableView, TableViewProps} from "react-native-colibri";
 
 const randomBetween = (min: number, max: number) => {
     return Math.random() * (max - min) + min;

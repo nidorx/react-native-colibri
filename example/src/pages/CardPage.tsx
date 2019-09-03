@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, Linking, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
-import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "rn-components-ui";
+import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, TableViewRow, Toast} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import Code from "../components/Code";
 
@@ -138,7 +138,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <Code src={`import { Card } from "rn-components-ui";`}
+                                    <Code src={`import { Card } from "react-native-colibri";`}
                                     />
                                 )
                             }
@@ -249,7 +249,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                         key: `section-${SEQ++}`,
                         header: {
                             title: 'Shadow',
-                            subtitle: 'You can add shadows to cards. The implementation of rn-components-ui uses image to apply shadows due to Android compatibility issues.'
+                            subtitle: 'You can add shadows to cards. The implementation of react-native-colibri uses image to apply shadows due to Android compatibility issues.'
                         },
                         data: [
                             {

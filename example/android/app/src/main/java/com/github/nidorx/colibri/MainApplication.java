@@ -1,4 +1,4 @@
-package com.rncomponentsui;
+package com.github.nidorx.colibri;
 
 import android.app.Application;
 import android.util.Log;
