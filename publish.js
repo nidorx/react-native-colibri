@@ -68,6 +68,8 @@ rimraf('./dist', {}, function (err) {
 
     exec('npm run build-ts')
         .then(cp.bind(undefined, './package.json', './dist/package.json'))
+        .then(cp.bind(undefined, './README.md', './dist/README.md'))
+        .then(cp.bind(undefined, './LICENSE', './dist/LICENSE'))
         .then(cp.bind(undefined, './src/assets/', './dist/src/assets/'))
         .then(exec.bind(undefined, 'npm publish', './dist'))
         .then(exec.bind(undefined, 'git add --all', null))
