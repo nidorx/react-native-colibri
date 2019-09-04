@@ -27,7 +27,7 @@ export type AnimatedModalOptions = {
     /**
      * Posicionamento vertical da modal, default CENTER
      */
-    ver?: 'top' | 'center' | 'botomm';
+    ver?: 'top' | 'center' | 'bottom';
 
     /**
      * Posicionamento horizontal da modal, default CENTER
@@ -37,9 +37,9 @@ export type AnimatedModalOptions = {
     /**
      * Largura da modal, default MEDIUM
      *
-     * Larguras são percentual da largura da tela, 'extra-small' | 'small' | 'medium' | 'large' = 20, 40, 50, 70, 90
+     * Larguras são percentual da largura da tela,  'small' | 'medium' | 'large' = 40, 70, 90
      */
-    width?: 'extra-small' | 'small' | 'medium' | 'large' | 'extra';
+    width?: 'small' | 'medium' | 'large';
 }
 
 const DEFAULT_API: AnimatedModalAPI = {

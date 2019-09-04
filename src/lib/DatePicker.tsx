@@ -129,7 +129,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
                 </OkCancelView>
             );
             modalApi.show(content, {
-                width: 'extra'
+                width: 'large'
             });
         }
     }
