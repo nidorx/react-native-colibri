@@ -157,6 +157,11 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                     // right
                     this.renderRight(row, theme)
                 }
+
+                {
+                    // flag
+                    this.renderFlag(row, theme)
+                }
             </Animated.View>
         );
     }
@@ -302,6 +307,103 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                 </View>
             )
             : null;
+    }
+
+    /**
+     * Render flag
+     *
+     * @param row
+     * @param theme
+     */
+    private renderFlag(row: TableViewRow, theme: Theme) {
+        if (!row.flag) {
+            return null;
+        }
+
+        const FLAG_SIZE = 28;
+        const SQRT2 = Math.sqrt(2);
+        const FLAG_W = SQRT2 * (FLAG_SIZE / 2);
+        const FLAG_ICON = FLAG_W / 2.5;
+
+        let imageSource;
+        let imageStyle;
+        let color;
+        let flagIcon: any;
+
+        if (row.flag === 'danger') {
+            color = theme.colorDanger;
+            imageSource = require('./../../assets/flag-exclamation.png');
+        } else if (row.flag === 'warning') {
+            color = theme.colorWarning;
+            imageSource = require('./../../assets/flag-exclamation.png');
+        } else if (row.flag === 'info') {
+            color = theme.colorInfo;
+            imageSource = require('./../../assets/flag-info.png');
+        } else {
+            color = row.flag.color || theme.colorDanger;
+            flagIcon = (row.flag.icon || {});
+            if (flagIcon === 'info') {
+                imageSource = require('./../../assets/flag-info.png');
+                flagIcon = undefined;
+            } else if (flagIcon === 'exclamation') {
+                imageSource = require('./../../assets/flag-exclamation.png');
+                flagIcon = undefined;
+            } else {
+                imageStyle = flagIcon.style;
+                imageSource = flagIcon.source;
+            }
+        }
+
+        return (
+            <View
+                style={{
+                    width: FLAG_SIZE,
+                    height: FLAG_SIZE,
+                    position: 'absolute',
+                    overflow: 'hidden',
+                    right: 0,
+                    top: 0
+                }}
+            >
+                <View
+                    style={{
+                        width: FLAG_SIZE,
+                        height: FLAG_SIZE,
+                        backgroundColor: color,
+                        transform: [
+                            {rotate: '45deg'},
+                            {translateY: -(FLAG_W)},
+                        ]
+                    }}
+                >
+                    {
+                        imageSource
+                            ? (
+                                <Image
+                                    {...(flagIcon || {})}
+                                    source={imageSource}
+                                    style={[
+                                        {
+                                            tintColor: '#FFF',
+                                            width: FLAG_ICON,
+                                            height: FLAG_ICON,
+                                            resizeMode: 'contain',
+                                            transform: [
+                                                {rotate: '-45deg'},
+                                                {translateY: FLAG_W},
+                                                {translateX: -(FLAG_W / 4)}
+
+                                            ]
+                                        },
+                                        imageStyle
+                                    ]}
+                                />
+                            )
+                            : null
+                    }
+                </View>
+            </View>
+        );
     }
 
     /**

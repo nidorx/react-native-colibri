@@ -24,6 +24,7 @@ export type Theme = {
      */
     colorSelected: string;
     colorPrimary: string;
+    colorInfo: string;
     colorSuccess: string;
     colorWarning: string;
     colorDanger: string;
@@ -67,6 +68,7 @@ const THEME_DEFAULT: Theme = {
     colorLink: '#007AFF',
     colorSelected: '#F2F2F2',
     colorPrimary: '#007AFF',
+    colorInfo: '#007AFF',
     colorSuccess: '#90C053',
     colorWarning: '#FF9500',
     colorDanger: '#D83434',
