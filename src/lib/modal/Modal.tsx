@@ -61,7 +61,7 @@ export type ModalProps = {
         /**
          * Posicionamento vertical da modal, default CENTER
          */
-        ver?: 'top' | 'center' | 'botomm';
+        ver?: 'top' | 'center' | 'bottom';
 
         /**
          * Posicionamento horizontal da modal, default CENTER
@@ -71,9 +71,9 @@ export type ModalProps = {
         /**
          * Largura da modal, default MEDIUM
          *
-         * Larguras são percentual da largura da tela, 'extra-small' | 'small' | 'medium' | 'large' = 20, 40, 50, 70, 90
+         * Larguras são percentual da largura da tela, 'small' | 'medium' | 'large' = 40, 70, 90
          */
-        width?: 'extra-small' | 'small' | 'medium' | 'large' | 'extra';
+        width?: 'small' | 'medium' | 'large';
     };
 }
 
@@ -96,8 +96,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
 
     private animatedShake = new Animated.Value(0);
     private animatedOpacity = new Animated.Value(0);
-    private animatedOpacityFlip = new Animated.Value(0);
-    private animatedScale = new Animated.Value(0);
     private animatedTop = new Animated.Value(0);
     private animatedLeft = new Animated.Value(0);
     private animatedWidth = new Animated.Value(0);
@@ -117,15 +115,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             width: '100%',
             opacity: this.animatedOpacity,
             transform: [
-                {perspective: 800},
-                {
-                    // Show/Hide
-                    scale: this.animatedScale.interpolate({
-                        inputRange: [0, 1, 1.3, 2],
-                        outputRange: [2.0, 1, 1, 1.5],
-                        extrapolate: 'clamp'
-                    })
-                },
                 {
                     // Shake
                     translateX: this.animatedShake.interpolate({
@@ -187,9 +176,14 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         }
 
         // Faz animação de posicionamento do elmento
-        const {top, left, width, height} = this.getPositions();
+        let {top, left, width, height} = this.getPositions();
 
         if (this.state.firstContentHeightAnimation) {
+            if (this.props.options && this.props.options.ver === 'bottom') {
+                top = top - height / 2;
+            } else {
+                top = top + height / 2;
+            }
             this.animatedTop.setValue(top);
             this.animatedLeft.setValue(left);
             this.animatedWidth.setValue(width);
@@ -198,7 +192,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             Animated
                 .parallel([
                     animateGenericNative(this.animatedOpacity, 1, undefined, false),
-                    animateGenericNative(this.animatedScale, 1, undefined, false),
                     animateGenericNative(this.animatedTop, top, undefined, false),
                     animateGeneric(this.animatedLeft, left, undefined, false, false),
                     animateGeneric(this.animatedWidth, width, undefined, false, false),
@@ -214,40 +207,46 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         const statusBarHeight = getStatusBarHeight();
 
         const screenWidth = styleCommon.WIDTH;
-        const screenHeight = styleCommon.HEIGHT - statusBarHeight - this.keyboardHeight;
-        const optVer = options.ver || 'center';
-        const optHor = options.hor || 'center';
+        const screenHeight = (styleCommon.HEIGHT * 0.9) - this.keyboardHeight;
+        const verticalPosition = options.ver || 'center';
+        const horizontalPosition = options.hor || 'center';
         const optWidth = options.width || 'large';
 
         let width =
             optWidth === 'medium'
-                ? screenWidth * 0.5
-                : optWidth === 'extra-small'
-                ? screenWidth * 0.2
-                : optWidth === 'small'
-                    ? screenWidth * 0.25
-                    : optWidth === 'large'
-                        ? screenWidth * 0.7
-                        : screenWidth * 0.9;
+                ? screenWidth * 0.7
+                : (
+                    optWidth === 'small'
+                        ? screenWidth * 0.4
+                        : screenWidth * 0.9
+                );
 
         let left =
-            optHor === 'center'
+            horizontalPosition === 'center'
                 ? (screenWidth * 0.5 - width * 0.5)
-                : optHor === 'left'
+                : horizontalPosition === 'left'
                 ? theme.padding
                 : screenWidth - theme.padding - width;
 
         // Altura é conteudo ou 90%da tela
-        let height = Math.min(this.state.contentHeight, (screenHeight - statusBarHeight - theme.padding));
+        let height = Math.min(this.state.contentHeight, screenHeight);
 
+        let paddingTop = screenHeight * 0.1;
         let top =
-            optVer === 'center'
-                ? (screenHeight * 0.5 - height * 0.5)
-                : optVer === 'top'
-                ? theme.padding
-                : screenHeight - height - theme.padding;
+            verticalPosition === 'center'
+                ? (screenHeight * 0.5 - height * 0.5) + paddingTop
+                : (
+                    verticalPosition === 'top'
+                        ? paddingTop
+                        : screenHeight - height + paddingTop
+                );
 
-        return {top, left, width, height};
+        return {
+            top,
+            left,
+            width,
+            height
+        };
     };
 
     componentDidMount() {
@@ -376,9 +375,16 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             this.props.onBeforeClose();
         }
 
+        let {top, left, width, height} = this.getPositions();
+        if (this.props.options && this.props.options.ver === 'bottom') {
+            top = top - height / 2;
+        } else {
+            top = top + height / 2;
+        }
+
         Animated.parallel([
             animateGenericNative(this.animatedOpacity, 0, undefined, false),
-            animateGenericNative(this.animatedScale, 2, undefined, false)
+            animateGenericNative(this.animatedTop, top, undefined, false),
         ]).start(() => {
             this.setState({
                 overlayVisible: false,
