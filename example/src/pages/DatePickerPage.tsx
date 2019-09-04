@@ -35,8 +35,15 @@ export default class DatePickerPage extends React.PureComponent<DatePickerPagePr
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <Code src={`import { Carousel } from "react-native-colibri";`}
-                                    />
+                                    <View>
+                                        <SimpleText
+                                            text={'To use Datepicker, you must first install react-native-date-picker.'}/>
+
+                                        <Code src={`npm install --save react-native-date-picker`}/>
+                                    </View>
+                                ),
+                                subtitle: (
+                                    <Code src={`import { Carousel } from "react-native-colibri";`}/>
                                 )
                             }
                         ] as Array<TableViewRow>

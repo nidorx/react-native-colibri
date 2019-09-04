@@ -18,7 +18,6 @@
     "dependencies": {
         "memoize-one": "^5.0.4",
         "moment": "^2.22.1",
-        "react-native-date-picker": "^2.6.1",
         "react-native-status-bar-height": "^2.4.0"
     },
     "devDependencies": {
@@ -34,7 +33,8 @@
     },
     "peerDependencies": {
         "react": "^16.8.6",
-        "react-native": "^0.60.4"
+        "react-native": "^0.60.4",
+        "react-native-date-picker": "^2.6.1"
     },
     "keywords": [
         "button",

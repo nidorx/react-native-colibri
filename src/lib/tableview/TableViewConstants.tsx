@@ -111,6 +111,14 @@ export type TableViewRow = {
     swipeActions?: TableViewSwipeActions;
 
     /**
+     * Permite adicionar uma flag no item
+     */
+    flag?: 'danger' | 'warning' | 'info' | {
+        color: string;
+        icon?: ImageProps | 'info' | 'exclamation';
+    };
+
+    /**
      * Permite definir os estilos do elemento
      */
     style?: ViewStyle;

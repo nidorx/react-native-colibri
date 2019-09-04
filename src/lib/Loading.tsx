@@ -135,7 +135,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
         });
 
         return (
-            <View style={StyleSheet.absoluteFill}>
+            <View style={{flex: 1}}>
                 {
                     visible ?
                         (
@@ -166,6 +166,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                                             <SimpleText
                                                 text={this.props.message}
                                                 subline={true}
+                                                align={'center'}
                                                 style={{
                                                     marginTop: this.state.height / 3,
                                                 }}
