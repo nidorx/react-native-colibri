@@ -18,7 +18,8 @@
     "dependencies": {
         "memoize-one": "^5.0.4",
         "moment": "^2.22.1",
-        "react-native-status-bar-height": "^2.4.0"
+        "react-native-status-bar-height": "^2.4.0",
+        "react-native-typography": "^1.4.1"
     },
     "devDependencies": {
         "@react-native-community/eslint-config": "0.0.5",

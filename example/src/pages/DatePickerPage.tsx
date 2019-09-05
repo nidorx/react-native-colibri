@@ -46,7 +46,7 @@ export default class DatePickerPage extends React.PureComponent<DatePickerPagePr
                                     <Code src={`import { Carousel } from "react-native-colibri";`}/>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -74,7 +74,7 @@ export default class DatePickerPage extends React.PureComponent<DatePickerPagePr
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -94,7 +94,7 @@ export default class DatePickerPage extends React.PureComponent<DatePickerPagePr
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

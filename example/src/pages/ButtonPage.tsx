@@ -39,7 +39,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -97,7 +97,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -129,7 +129,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -161,7 +161,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -193,7 +193,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -227,7 +227,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -267,7 +267,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -287,7 +287,7 @@ export default class ButtonPage extends React.PureComponent<ButtonPageProps> {
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />
