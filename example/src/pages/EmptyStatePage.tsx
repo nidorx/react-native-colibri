@@ -39,7 +39,7 @@ export default class EmptyStatePage extends React.PureComponent<EmptyStatePagePr
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class EmptyStatePage extends React.PureComponent<EmptyStatePagePr
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class EmptyStatePage extends React.PureComponent<EmptyStatePagePr
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

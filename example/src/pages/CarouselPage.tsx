@@ -49,7 +49,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -111,7 +111,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -155,7 +155,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -226,7 +226,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -262,7 +262,7 @@ export default class CarouselPage extends React.PureComponent<CarouselPageProps>
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

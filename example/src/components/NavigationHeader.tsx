@@ -7,13 +7,12 @@ import {
     Platform,
     StatusBar,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View,
     ViewStyle
 } from 'react-native';
 import {HeaderProps, NavigationScreenProp, NavigationStackScreenOptions} from 'react-navigation';
-import {EmptyState, getTheme, SimpleText} from "react-native-colibri";
+import {getTheme, SimpleText} from "react-native-colibri";
 import Particles from "./Particles";
 
 

@@ -25,7 +25,6 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
 
         return (
             <GradientHeader
-                title={'Button'}
                 description={'A button consists of text that clearly communicates what action will occur when the user touches it. The two main types of buttons used are Process buttons, and Ancillary buttons.'}
                 sections={[
                     {
@@ -39,7 +38,7 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +66,7 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +86,7 @@ export default class ComponentPage extends React.PureComponent<IndexPageProps> {
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

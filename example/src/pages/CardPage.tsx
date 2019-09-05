@@ -142,7 +142,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -189,7 +189,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -243,7 +243,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -299,7 +299,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -402,7 +402,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -496,7 +496,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -586,7 +586,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     backgroundColor: '#C8ACFF'
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -701,7 +701,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     backgroundColor: '#FFC96F'
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -846,7 +846,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -870,7 +870,7 @@ export default class CardPage extends React.PureComponent<CardPageProps, CardPag
                                 subtitle: 'A card cannot merge with another card, or divide into multiple cards.',
                                 reverse: true
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

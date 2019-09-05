@@ -39,7 +39,7 @@ export default class SimpleTextPage extends React.PureComponent<SimpleTextPagePr
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class SimpleTextPage extends React.PureComponent<SimpleTextPagePr
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class SimpleTextPage extends React.PureComponent<SimpleTextPagePr
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

@@ -172,7 +172,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -201,7 +201,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -230,7 +230,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -271,7 +271,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -321,7 +321,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -374,7 +374,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     paddingHorizontal: 0
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -410,7 +410,7 @@ export default class CarouselImagePage extends React.PureComponent<CarouselImage
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

@@ -39,7 +39,7 @@ export default class TitlePage extends React.PureComponent<TitlePageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class TitlePage extends React.PureComponent<TitlePageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class TitlePage extends React.PureComponent<TitlePageProps> {
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

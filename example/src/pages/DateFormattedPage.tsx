@@ -39,7 +39,7 @@ export default class DateFormattedPage extends React.PureComponent<DateFormatted
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class DateFormattedPage extends React.PureComponent<DateFormatted
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class DateFormattedPage extends React.PureComponent<DateFormatted
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

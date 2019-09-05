@@ -39,7 +39,7 @@ export default class AnimatedModalPage extends React.PureComponent<AnimatedModal
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class AnimatedModalPage extends React.PureComponent<AnimatedModal
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class AnimatedModalPage extends React.PureComponent<AnimatedModal
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

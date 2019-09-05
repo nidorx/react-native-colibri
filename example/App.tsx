@@ -19,10 +19,15 @@ import SimpleTextPage from "./src/pages/SimpleTextPage";
 import TitlePage from "./src/pages/TitlePage";
 import AnimatedModalPage from "./src/pages/AnimatedModalPage";
 import TableViewPage from "./src/pages/TableViewPage";
+import DesignPrinciplesPage from "./src/pages/DesignPrinciplesPage";
+import TypographyPage from "./src/pages/TypographyPage";
 
 const AppContainer = createAppContainer(createStackNavigator(
     {
         Index: IndexPage,
+        DesignPrinciplesPage: DesignPrinciplesPage,
+        TypographyPage: TypographyPage,
+        // UI Components
         ButtonPage: ButtonPage,
         CardPage: CardPage,
         CarouselPage: CarouselPage,

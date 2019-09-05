@@ -39,7 +39,7 @@ export default class OkCancelViewPage extends React.PureComponent<OkCancelViewPa
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class OkCancelViewPage extends React.PureComponent<OkCancelViewPa
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class OkCancelViewPage extends React.PureComponent<OkCancelViewPa
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />

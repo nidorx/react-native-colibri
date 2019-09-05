@@ -1,7 +1,7 @@
 import React from 'react';
 import {Animated, Easing, Image, Linking, StyleSheet, View,} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
-import {EmptyState, getTheme, SimpleText, TableView, TableViewRow} from "react-native-colibri";
+import {EmptyState, getTheme, SimpleText, TableView, TableViewRow, TableViewSection} from "react-native-colibri";
 import GradientHeader from "../components/GradientHeader";
 import {NavigationHeaderOptions} from "../components/NavigationHeader";
 
@@ -24,7 +24,7 @@ const COMPONENTS = [
     ['SimpleText', ''],
     ['Title', ''],
     ['AnimatedModal', ''],
-    ['TableView', ''],
+    ['TableView', '', {flag: 'danger'}],
     ['Utils', ''],
 ];
 
@@ -37,6 +37,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
     };
 
     render() {
+        let SEQ = 0;
         const theme = getTheme();
 
         return (
@@ -62,6 +63,14 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             />
                             {' demo application.'}
                         </SimpleText>
+
+                        <SimpleText
+                            text={'Colibri is made up of a wide variety of design foundations, components, and patterns that is packaged together in a harmonious library.'}
+                            align={'justify'}
+                            style={{paddingTop: theme.padding}}
+                            color={'#FFF'}
+                        />
+
                         <SimpleText
                             align={'justify'}
                             style={{paddingTop: theme.padding}}
@@ -78,30 +87,79 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                             />
                             {'.'}
                         </SimpleText>
+
+
                     </View>
                 )}
                 sections={[
                     {
-                        key: 'question-comments',
-                        header: 'Questions or Comments?',
+                        key: `${SEQ++}`,
+                        header: 'General Concepts',
                         data: [
                             {
-                                key: 'issues-feedback',
-                                title: 'Submitting Bugs and Feedback',
-                                subtitle: 'react-native-colibri issues on Github',
+                                key: `${SEQ++}`,
+                                title: 'Design Principles',
+                                subtitle: 'The design principles are the beating heart of Colibri. Find out how these design principles can help you create impactful apps.',
                                 disclosure: true,
                                 icon: {
-                                    source: require('../assets/github.png')
+                                    source: require('../assets/heart.png'),
+                                    style: {
+                                        tintColor: theme.colorTextSecondary
+                                    }
                                 },
-                                iconBig: true,
                                 onPress: row => {
-                                    Linking.openURL('https://github.com/nidorx/react-native-colibri/issues');
+                                    this.props.navigation.navigate('DesignPrinciplesPage');
+                                }
+                            },
+                            {
+                                key: `${SEQ++}`,
+                                title: 'Typography ',
+                                subtitle: 'Typography plays a crucial role in establishing hierarchy in the content with great legibility and scalability.',
+                                disclosure: true,
+                                icon: {
+                                    source: require('../assets/font-size.png'),
+                                    style: {
+                                        tintColor: theme.colorTextSecondary
+                                    }
+                                },
+                                onPress: row => {
+                                    this.props.navigation.navigate('TypographyPage');
+                                }
+                            },
+                            {
+                                key: `${SEQ++}`,
+                                title: 'Colors',
+                                subtitle: 'Color is essential in setting a delightful Colibri-based user experience that guides the user through the functions of the application in a concise manner. Find out more about the color palette to understand how to use it effectively.',
+                                disclosure: true,
+                                icon: {
+                                    source: require('../assets/paint-palette.png'),
+                                    style: {
+                                        tintColor: theme.colorTextSecondary
+                                    }
+                                },
+                                onPress: row => {
+                                    this.props.navigation.navigate('ColorsPage');
+                                }
+                            },
+                            {
+                                key: `${SEQ++}`,
+                                title: 'Layout',
+                                subtitle: 'The layout of the app follows certain logic that makes the app accessible, scalable, and readable. Components are designed in increments that make it easier to scale between different devices. Learn about the rules behind the layout to create an organized and clean interface.',
+                                disclosure: true,
+                                icon: {
+                                    source: require('../assets/squared-menu.png'),
+                                    style: {
+                                        tintColor: theme.colorTextSecondary
+                                    }
+                                },
+                                onPress: row => {
+                                    this.props.navigation.navigate('LayoutPage');
                                 }
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
-                        key: 'guidelines',
+                        key: `${SEQ++}`,
                         header: {
                             title: 'Design Guidelines & Miscellaneous',
                             subtitle: (
@@ -122,19 +180,20 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                         },
                         data: [
                             {
-                                key: 'ios-guidelines',
+                                key: `${SEQ++}`,
                                 title: 'iOS Human Interface Guidelines',
                                 subtitle: 'Get in-depth information and UI resources for designing great apps that integrate seamlessly with Apple platforms.',
                                 disclosure: true,
                                 icon: {
                                     source: require('../assets/apple.png')
                                 },
+
                                 onPress: row => {
                                     Linking.openURL('https://developer.apple.com/design/human-interface-guidelines/ios');
                                 }
                             },
                             {
-                                key: 'ios-resolution-guide',
+                                key: `${SEQ++}`,
                                 title: 'iPhone Resolution Guide',
                                 subtitle: 'The Ultimate Guide To iPhone Resolutions',
                                 disclosure: true,
@@ -146,7 +205,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 }
                             },
                             {
-                                key: 'android-guidelines',
+                                key: `${SEQ++}`,
                                 title: 'Android Developer Guidelines',
                                 subtitle: 'The following links provide everything you need to design a high quality Android app.',
                                 disclosure: true,
@@ -158,7 +217,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 }
                             },
                             {
-                                key: 'android-material',
+                                key: `${SEQ++}`,
                                 title: 'Android Material Design',
                                 subtitle: 'Material is an adaptable system of guidelines, components, and tools that support the best practices of user interface design.',
                                 disclosure: true,
@@ -170,7 +229,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 }
                             },
                             {
-                                key: 'android-device-metrics',
+                                key: `${SEQ++}`,
                                 title: 'Device Metrics',
                                 subtitle: 'A comprehensive resource for sizing, resolution, and more across multiple devices.',
                                 disclosure: true,
@@ -182,7 +241,7 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                 }
                             },
                             {
-                                key: 'android-dp-px-converter',
+                                key: `${SEQ++}`,
                                 title: 'Android DP/PX Converter',
                                 subtitle: 'Calculate pixels (and other units) in DPs. This tool helps you convert pixels to and from DPs (density independent pixels).',
                                 disclosure: true,
@@ -193,25 +252,47 @@ export default class IndexPage extends React.PureComponent<IndexPageProps> {
                                     Linking.openURL('http://pixplicity.com/dp-px-converter/');
                                 }
                             },
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
-                        key: 'xpto',
-                        header: 'Components',
+                        key: `${SEQ++}`,
+                        header: 'UI Components',
                         data: COMPONENTS.map(component => {
-                            let componentName = component[0];
+                            let name = component[0];
+                            let description = component[1];
+                            let props: any = component[2] || {};
                             return {
-                                key: componentName,
-                                title: componentName,
-                                subtitle: component[1],
+                                key: `${SEQ++}`,
+                                title: name,
+                                subtitle: description,
                                 disclosure: true,
                                 onPress: row => {
-                                    this.props.navigation.navigate(componentName + 'Page');
-                                }
-                            } as TableViewRow
+                                    this.props.navigation.navigate(name + 'Page');
+                                },
+                                ...props
+                            };
                         })
+                    },
+                    {
+                        key: `${SEQ++}`,
+                        header: 'Questions or Comments?',
+                        data: [
+                            {
+                                key: `${SEQ++}`,
+                                title: 'Submitting Bugs and Feedback',
+                                subtitle: 'react-native-colibri issues on Github',
+                                disclosure: true,
+                                icon: {
+                                    source: require('../assets/github.png')
+                                },
+                                iconBig: true,
+                                onPress: row => {
+                                    Linking.openURL('https://github.com/nidorx/react-native-colibri/issues');
+                                }
+                            }
+                        ]
                     }
-                ]}
+                ] as Array<TableViewSection>}
             />
         );
     }

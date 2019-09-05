@@ -39,7 +39,7 @@ export default class LoadingPage extends React.PureComponent<LoadingPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -67,7 +67,7 @@ export default class LoadingPage extends React.PureComponent<LoadingPageProps> {
                                     />
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     },
                     {
                         key: `section-${SEQ++}`,
@@ -87,7 +87,7 @@ export default class LoadingPage extends React.PureComponent<LoadingPageProps> {
                                     </View>
                                 )
                             }
-                        ] as Array<TableViewRow>
+                        ]
                     }
                 ]}
             />
