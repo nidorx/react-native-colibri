@@ -1,6 +1,7 @@
 import React from 'react';
 import {ActivityIndicator, Animated, LayoutChangeEvent, StyleSheet, View} from 'react-native';
-import {animateGenericNative, getTheme} from "./Utils";
+import {getTheme} from "./Theme";
+import {animateGenericNative} from "./Utils";
 import SimpleText from "./SimpleText";
 
 const AnimatedActivityIndicator = Animated.createAnimatedComponent(ActivityIndicator);
@@ -60,12 +61,6 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
         };
     }
 
-    private onLayout = (event: LayoutChangeEvent) => {
-        this.setState({
-            height: event.nativeEvent.layout.height
-        });
-    };
-
     componentDidMount() {
         this.animateOpacity();
     }
@@ -113,7 +108,6 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
             }
         }
     }
-
 
     render() {
         const theme = getTheme();
@@ -165,7 +159,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                                         ? (
                                             <SimpleText
                                                 text={this.props.message}
-                                                subline={true}
+                                                small={true}
                                                 align={'center'}
                                                 style={{
                                                     marginTop: this.state.height / 3,
@@ -190,4 +184,10 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
             </View>
         );
     }
+
+    private onLayout = (event: LayoutChangeEvent) => {
+        this.setState({
+            height: event.nativeEvent.layout.height
+        });
+    };
 }

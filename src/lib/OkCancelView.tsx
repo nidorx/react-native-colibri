@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
 import Button from "./Button";
-import {getTheme} from "./Utils";
+import {getTheme, spacingReact} from "./Theme";
 
 const styles = StyleSheet.create({
     okCancelContainer: {
@@ -38,6 +38,8 @@ export default class OkCancelView extends React.PureComponent <OkCancelViewProps
 
     render() {
         const theme = getTheme();
+        const padding = spacingReact(theme, 'micro');
+
         return (
             <View style={styles.okCancelContainer}>
                 {this.props.children}
@@ -45,12 +47,12 @@ export default class OkCancelView extends React.PureComponent <OkCancelViewProps
                     style={[
                         styles.buttons,
                         {
-                            marginTop: theme.padding,
-                            padding: theme.paddingSmall,
+                            marginTop: spacingReact(theme, 'small'),
+                            padding: spacingReact(theme, 'tiny'),
                         }
                     ]}
                 >
-                    <View style={[styles.button, {paddingRight: theme.paddingMinimum}]}>
+                    <View style={[styles.button, {paddingRight: padding}]}>
                         <Button
                             block={true}
                             rounded={true}
@@ -59,7 +61,7 @@ export default class OkCancelView extends React.PureComponent <OkCancelViewProps
                             onPress={this.props.onCancel}
                         />
                     </View>
-                    <View style={[styles.button, {paddingLeft: theme.paddingMinimum}]}>
+                    <View style={[styles.button, {paddingLeft: padding}]}>
                         <Button
                             block={true}
                             rounded={true}

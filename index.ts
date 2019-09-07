@@ -67,6 +67,12 @@ export {
 
 export {
     default as SimpleText,
+    H1,
+    H2,
+    H3,
+    Large,
+    Small,
+    Caption,
     SimpleTextProps
 } from './src/lib/SimpleText';
 
@@ -113,16 +119,21 @@ export {
     TableViewSectionListRenderItemInfo,
     TableViewRowSectionCallbackFn,
     DiscloruseIcon,
-    tableViewGetItemIconSize,
-    tableViewGetItemIconBigSize
+    DiscloruseIconProps
 } from './src/lib/tableview/TableViewConstants';
+
+
+export {
+    animateGeneric,
+    animateGenericNative,
+    QuinticEaseOut
+} from './src/lib/Utils';
 
 
 export {
     getTheme,
     setTheme,
-    animateGeneric,
-    animateGenericNative,
-    QuinticEaseOut,
-    Style
-} from './src/lib/Utils';
+    ThemeProps,
+    FontSpec,
+    Spacing
+} from './src/lib/Theme';

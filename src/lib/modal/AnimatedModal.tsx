@@ -70,11 +70,10 @@ type AnimatedModalState = {
 export default class AnimatedModal extends React.PureComponent<AnimatedModalProps, AnimatedModalState> {
 
     public static Consumer: Consumer<AnimatedModalAPI> = Context.Consumer;
-
-    private modal: Modal | null = null;
-
     state: AnimatedModalState = {};
-
+    private modal: Modal | null = null;
+    private containerStyle: any;
+    private animatedContentValue = new Animated.Value(1);
     private api: AnimatedModalAPI = {
         error: (message: string) => {
             if (this.modal) {
@@ -103,44 +102,9 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
         }
     };
 
-    private onBeforeClose = () => {
-        animateGenericNative(this.animatedContentValue, 1);
-    };
-
-    private onClose = () => {
-        const onClose = this.state.onClose;
-        // Limpa as referencias
-        this.setState({
-            content: undefined,
-            onClose: undefined,
-            options: undefined
-        }, () => {
-            requestAnimationFrame(() => {
-                if (onClose) {
-                    try {
-                        onClose();
-                    } catch (e) {
-                    }
-                }
-            });
-        });
-    };
-
-    private containerStyle: any;
-
-    private animatedContentValue = new Animated.Value(1);
-
     constructor(props: any) {
         super(props);
         this.containerStyle = {
-            opacity: this.animatedContentValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0.3, 1]
-            }),
-            // borderRadius: this.animatedContentValue.interpolate({
-            //     inputRange: [0, 0.3],
-            //     outputRange: [Theme.borderRadiusBig, 0]
-            // }),
             overflow: 'hidden',
             transform: [
                 {perspective: 1000},
@@ -182,4 +146,27 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
             </View>
         )
     }
+
+    private onBeforeClose = () => {
+        animateGenericNative(this.animatedContentValue, 1);
+    };
+
+    private onClose = () => {
+        const onClose = this.state.onClose;
+        // Limpa as referencias
+        this.setState({
+            content: undefined,
+            onClose: undefined,
+            options: undefined
+        }, () => {
+            requestAnimationFrame(() => {
+                if (onClose) {
+                    try {
+                        onClose();
+                    } catch (e) {
+                    }
+                }
+            });
+        });
+    };
 }

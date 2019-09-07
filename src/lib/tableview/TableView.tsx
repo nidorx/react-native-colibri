@@ -2,8 +2,6 @@ import React from 'react';
 import {Image, ImageProps, SectionList, SectionListProps, TouchableOpacity, View, ViewStyle} from 'react-native';
 import memoize from 'memoize-one';
 import {
-    tableViewGetItemIconBigSize,
-    tableViewGetItemIconSize,
     TableViewRow,
     TableViewRowSectionCallbackFn,
     TableViewSection,
@@ -12,13 +10,15 @@ import {
     TableViewSwipeAction
 } from './TableViewConstants';
 import TableViewItem from './TableViewItem';
-import SimpleText from './../SimpleText';
+import SimpleText, {Large, Small} from './../SimpleText';
 import EmptyState, {EmptyStateProps} from "../EmptyState";
-import {getTheme} from "../Utils";
+import Theme, {getTheme, spacingReact, ThemeProps} from "../Theme";
 
 const EMPTY_STATE_KEY = '__EMPTY_STATE_SPECIAL_KEY__';
 
 export type TableViewProps = SectionListProps<any> & {
+    theme?: Partial<ThemeProps>;
+
     /**
      * Permite definir um cabeçalho global para a View
      */
@@ -177,149 +177,167 @@ export default class TableView extends React.PureComponent<TableViewProps> {
      *
      * @param info
      */
-    private renderSectionHeader(info: any) {
-        const theme = getTheme();
-        const section = info.section as TableViewSection;
-
-        if (section.header === undefined) {
-            return null;
-        }
-
-        const styleContainer: ViewStyle = {
-            width: '100%',
-            flexDirection: 'row',
-            backgroundColor: theme.colorBackground,
-            borderBottomColor: theme.colorLine,
-            borderBottomWidth: theme.lineWidth,
-            paddingHorizontal: theme.padding
-        };
-
-        const styleLeft: ViewStyle = {
-            flex: 1,
-            paddingTop: theme.padding,
-            paddingBottom: theme.paddingSmall
-        };
-
-        const styleRight: ViewStyle = {
-            flexDirection: 'row',
-            alignSelf: 'flex-end',
-            alignItems: 'center',
-            justifyContent: 'center'
-        };
-
-        const HEIGHT = theme.padding + theme.paddingSmall + theme.fontSize;
-        // const ICON_HEIGHT = HEIGHT - Theme.paddingSmall * 2;
-        const ICON_HEIGHT = 24;
-
+    private renderSectionHeader = (info: any) => {
         return (
-            <View style={[styleContainer, section.style]}>
-                <View style={styleLeft}>
-                    {
-                        (!section.header || section.header === '')
-                            ? null
-                            : (
-                                (typeof section.header === 'string')
-                                    ? (
-                                        <SimpleText
-                                            color={theme.colorTextSecondary}
-                                            subline={true}
-                                        >
-                                            {section.header.toLocaleUpperCase()}
-                                        </SimpleText>
-                                    )
+            <Theme>
+                {() => {
+                    const theme = getTheme(this.props.theme);
+                    const section = info.section as TableViewSection;
+                    const padding = spacingReact(theme, 'tiny') as number;
 
-                                    : (() => {
-                                        let header = (section.header as TableViewSectionHeaderMixed);
-                                        return (
-                                            (header.title || header.subtitle)
-                                                ? (
-                                                    <View style={{flexDirection: 'column'}}>
-                                                        {
-                                                            (typeof header.title === 'string')
-                                                                ? (
-                                                                    <SimpleText
-                                                                        text={header.title.toLocaleUpperCase()}
-                                                                        color={theme.colorTextSecondary}
-                                                                        subline={true}
-                                                                    />
-                                                                )
-                                                                : header.title
-                                                        }
-                                                        {
-                                                            // @TODO: Align center
-                                                            header.subtitle
-                                                                ? (
-                                                                    <View style={{paddingTop: theme.paddingMinimum}}>
-                                                                        {
-                                                                            (typeof header.subtitle === 'string')
-                                                                                ? (
-                                                                                    <SimpleText
-                                                                                        text={header.subtitle}
-                                                                                        color={theme.colorTextSecondary}
-                                                                                        subline={true}
-                                                                                    />
-                                                                                )
-                                                                                : header.subtitle
-                                                                        }
-                                                                    </View>
-                                                                )
-                                                                : null
-
-                                                        }
-                                                    </View>
-                                                )
-                                                // JSX.Element
-                                                : section.header
-                                        )
-                                    })()
-                            )
+                    if (section.header === undefined) {
+                        return null;
                     }
-                </View>
-                {
-                    section.actions
-                        ? (
-                            <View style={styleRight}>
+
+                    const spacingSmall = spacingReact(theme, 'small');
+
+                    const styleContainer: ViewStyle = {
+                        width: '100%',
+                        flexDirection: 'row',
+                        backgroundColor: theme.colorBackground,
+                        borderBottomColor: theme.colorLine,
+                        borderBottomWidth: theme.lineWidth,
+                        paddingHorizontal: spacingSmall
+                    };
+
+                    const styleLeft: ViewStyle = {
+                        flex: 1,
+                        paddingTop: spacingSmall,
+                        paddingBottom: padding
+                    };
+
+                    const styleRight: ViewStyle = {
+                        flexDirection: 'row',
+                        alignSelf: 'flex-end',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    };
+
+                    const fontLargeSize = theme.fontLarge.size as number;
+
+                    const HEIGHT = (spacingSmall as number) + padding + fontLargeSize;
+                    // const ICON_HEIGHT = HEIGHT - ThemeProps.paddingSmall * 2;
+                    //  @TODO
+                    const ICON_HEIGHT = 24;
+
+                    return (
+                        <View style={[styleContainer, section.style]}>
+                            <View style={styleLeft}>
                                 {
-                                    Array.isArray(section.actions)
-                                        ? section.actions.map((action, index) => {
-                                            action = action as TableViewSectionAction;
-                                            const img = (action.icon as ImageProps);
-                                            return (
-                                                <TouchableOpacity
-                                                    key={`${index}`}
-                                                    onPress={() => {
-                                                        action.onPress(section);
-                                                    }}
-                                                    style={{alignItems: 'center', flexDirection: 'row', height: HEIGHT}}
-                                                >
-                                                    {
-                                                        img.source
-                                                            ? <Image
-                                                                {...img}
-                                                                style={[
+                                    (!section.header || section.header === '')
+                                        ? null
+                                        : (
+                                            (typeof section.header === 'string')
+                                                ? (
+                                                    <Large
+                                                        theme={theme}
+                                                        text={section.header}
+                                                        color={theme.colorTextSecondary}
+                                                    />
+                                                )
+                                                : (() => {
+                                                    let header = (section.header as TableViewSectionHeaderMixed);
+                                                    return (
+                                                        (header.title || header.subtitle)
+                                                            ? (
+                                                                <View style={{flexDirection: 'column'}}>
                                                                     {
-                                                                        width: ICON_HEIGHT,
-                                                                        height: ICON_HEIGHT,
-                                                                        resizeMode: 'contain',
-                                                                        margin: theme.paddingMinimum,
-                                                                        marginLeft: theme.paddingSmall
-                                                                    },
-                                                                    img.style
-                                                                ]}
-                                                            />
-                                                            : action
-                                                    }
-                                                </TouchableOpacity>
-                                            )
-                                        })
-                                        : section.actions
+                                                                        (typeof header.title === 'string')
+                                                                            ? (
+                                                                                <Large
+                                                                                    theme={theme}
+                                                                                    text={header.title}
+                                                                                    color={theme.colorTextSecondary}
+                                                                                />
+                                                                            )
+                                                                            : header.title
+                                                                    }
+                                                                    {
+                                                                        // @TODO: Align center
+                                                                        header.subtitle
+                                                                            ? (
+                                                                                <View
+                                                                                    style={{
+                                                                                        paddingTop: spacingReact(theme, 'micro')
+                                                                                    }}
+                                                                                >
+                                                                                    {
+                                                                                        (typeof header.subtitle === 'string')
+                                                                                            ? (
+                                                                                                <Small
+                                                                                                    theme={theme}
+                                                                                                    text={header.subtitle}
+                                                                                                    color={theme.colorTextSecondary}
+                                                                                                />
+                                                                                            )
+                                                                                            : header.subtitle
+                                                                                    }
+                                                                                </View>
+                                                                            )
+                                                                            : null
+
+                                                                    }
+                                                                </View>
+                                                            )
+                                                            // JSX.Element
+                                                            : section.header
+                                                    )
+                                                })()
+                                        )
                                 }
                             </View>
-                        )
-                        : null
-                }
-            </View>
-        )
+                            {
+                                section.actions
+                                    ? (
+                                        <View style={styleRight}>
+                                            {
+                                                Array.isArray(section.actions)
+                                                    ? section.actions.map((action, index) => {
+                                                        action = action as TableViewSectionAction;
+                                                        const img = (action.icon as ImageProps);
+                                                        return (
+                                                            <TouchableOpacity
+                                                                key={`${index}`}
+                                                                onPress={() => {
+                                                                    action.onPress(section);
+                                                                }}
+                                                                style={{
+                                                                    alignItems: 'center',
+                                                                    flexDirection: 'row',
+                                                                    height: HEIGHT
+                                                                }}
+                                                            >
+                                                                {
+                                                                    img.source
+                                                                        ? <Image
+                                                                            {...img}
+                                                                            style={[
+                                                                                {
+                                                                                    width: ICON_HEIGHT,
+                                                                                    height: ICON_HEIGHT,
+                                                                                    resizeMode: 'contain',
+                                                                                    margin: spacingReact(theme, 'micro'),
+                                                                                    marginLeft: padding
+                                                                                },
+                                                                                img.style
+                                                                            ]}
+                                                                        />
+                                                                        : action
+                                                                }
+                                                            </TouchableOpacity>
+                                                        )
+                                                    })
+                                                    : section.actions
+                                            }
+                                        </View>
+                                    )
+                                    : null
+                            }
+                        </View>
+                    )
+                }}
+            </Theme>
+        );
     }
 
     private renderItem = (info: any) => {
@@ -327,6 +345,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         const section = info.section as TableViewSection;
         return (
             <TableViewItem
+                theme={this.props.theme}
                 info={info}
                 row={row}
                 section={section}
@@ -361,10 +380,10 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                             ? 0
                             : hasIcon
                                 ? (
-                                    (theme.padding * 2) + (
+                                    ((spacingReact(theme, 'small') as number) * 2) + (
                                         leadingItem.iconBig
-                                            ? tableViewGetItemIconBigSize()
-                                            : tableViewGetItemIconSize()
+                                            ? spacingReact(theme, 'x-large') as number
+                                            : spacingReact(theme, 'large') as number
                                     )
                                 )
                                 : 0,
@@ -394,8 +413,8 @@ export default class TableView extends React.PureComponent<TableViewProps> {
 
         // Sempre exibe o footer (ultimo item tem marcação, conforme modelo no zeplin)
         if (section.footer && section.footer !== '') {
-            style.padding = theme.padding;
-            style.paddingTop = theme.paddingSmall;
+            style.padding = spacingReact(theme, 'small');
+            style.paddingTop = spacingReact(theme, 'tiny');
         }
 
         return (
@@ -407,7 +426,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                         ? (
                             <SimpleText
                                 color={theme.colorTextSecondary}
-                                subline={true}
+                                small={true}
                             >
                                 {section.footer}
                             </SimpleText>

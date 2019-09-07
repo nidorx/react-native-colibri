@@ -83,6 +83,16 @@ const {height, width} = Dimensions.get('window');
 export default class Toast extends React.PureComponent<ToastProps, ToastState> {
 
     private static instance?: Toast;
+    state = {
+        text: '',
+        isShow: false,
+        opacityValue: new Animated.Value(this.props.opacity || DEFAULTS.opacity),
+    };
+    private timer: any;
+    private duration?: number;
+    private callback?: () => void;
+    private isShow: boolean = false;
+    private animation?: Animated.CompositeAnimation;
 
     public static show(text: string, duration?: number, callback?: () => void) {
         if (!Toast.instance) {
@@ -97,22 +107,6 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
         }
         Toast.instance.close(duration);
     }
-
-    private timer: any;
-
-    private duration?: number;
-
-    private callback?: () => void;
-
-    private isShow: boolean = false;
-
-    private animation?: Animated.CompositeAnimation;
-
-    state = {
-        text: '',
-        isShow: false,
-        opacityValue: new Animated.Value(this.props.opacity || DEFAULTS.opacity),
-    };
 
     componentDidMount() {
         if (Toast.instance) {
