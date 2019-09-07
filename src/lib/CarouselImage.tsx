@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Animated,
     Dimensions,
-    Easing,
     Image,
     ImageProps,
     LayoutChangeEvent,
@@ -12,7 +11,7 @@ import {
     ViewProps
 } from 'react-native';
 import Carousel from './Carousel';
-import {getTheme} from "./Utils";
+import {getTheme, spacingReact} from "./Theme";
 
 const GAP_DEFAULT = 6;
 
@@ -94,16 +93,6 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
         itemWidth: 0
     };
 
-    private onLayout = (event: LayoutChangeEvent) => {
-        const width = event.nativeEvent.layout.width;
-        let itemWidth = Math.round((width - (this.props.numColumns * (this.props.gap || GAP_DEFAULT))) / (this.props.numColumns + 0.25));
-
-        this.setState({
-            width: width,
-            itemWidth: itemWidth
-        });
-    };
-
     render() {
         const theme = getTheme();
         return (
@@ -160,7 +149,7 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                                             {
                                                                 width: this.state.itemWidth,
                                                                 height: this.state.itemWidth,
-                                                                marginBottom: theme.paddingSmall
+                                                                marginBottom: spacingReact(theme, 'tiny')
                                                             },
                                                             this.props.rounded
                                                                 ? {
@@ -196,4 +185,14 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
             </View>
         );
     }
+
+    private onLayout = (event: LayoutChangeEvent) => {
+        const width = event.nativeEvent.layout.width;
+        let itemWidth = Math.round((width - (this.props.numColumns * (this.props.gap || GAP_DEFAULT))) / (this.props.numColumns + 0.25));
+
+        this.setState({
+            width: width,
+            itemWidth: itemWidth
+        });
+    };
 }

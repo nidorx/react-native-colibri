@@ -99,16 +99,6 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
 
     modalApi?: AnimatedModalAPI;
 
-    private onDateChange = () => {
-        if (this.props.onDateChange) {
-            this.props.onDateChange(this.state.date || this.props.date || new Date());
-        }
-
-        if (this.modalApi) {
-            this.modalApi.hide();
-        }
-    };
-
     public show() {
         let modalApi = this.modalApi;
         if (modalApi) {
@@ -150,6 +140,16 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
             </AnimatedModal.Consumer>
         );
     }
+
+    private onDateChange = () => {
+        if (this.props.onDateChange) {
+            this.props.onDateChange(this.state.date || this.props.date || new Date());
+        }
+
+        if (this.modalApi) {
+            this.modalApi.hide();
+        }
+    };
 
 
 }

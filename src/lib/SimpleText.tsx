@@ -1,31 +1,37 @@
-import React from 'react'
-import {Animated, Platform, Text as TextRN, TextProps as RnTextProps} from 'react-native';
-import {getTheme} from "./Utils";
-import {human} from 'react-native-typography';
-import {systemWeights} from 'react-native-typography';
+import React, {ReactNode} from 'react'
+import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
+import Theme, {FontSpec, fontStyle, getTheme, Spacing, spacingReact, ThemeProps} from "./Theme";
+
+export type TextAlign = 'left' | 'right' | 'center' | 'justify';
 
 export type SimpleTextProps = RnTextProps & {
-    text?: string;
+    /**
+     * Lets you overwrite the theme
+     */
+    theme?: Partial<ThemeProps>;
+    /**
+     *
+     */
+    font?: Partial<FontSpec>;
+    text?: string | ReactNode;
     h1?: boolean;
     h2?: boolean;
     h3?: boolean;
-    subline?: boolean;
+    large?: boolean;
     small?: boolean;
+    caption?: boolean;
+    reverse?: boolean;
     bold?: boolean;
     italic?: boolean;
-    reverse?: boolean;
-    margin?: boolean;
-    align?: 'left' | 'right' | 'justify' | 'center';
-    inline?: boolean;
     underline?: boolean;
     lineThrough?: boolean;
-    /**
-     * Permite utilizar a API Animated
-     */
-    animated?: boolean;
-    size?: number | Animated.Animated;
-    color?: string | Animated.Animated;
+    margin?: Spacing;
+    align?: TextAlign;
+    inline?: boolean;
+    size?: number;
+    color?: string;
 }
+
 
 /**
  * Generic text component, standardizes and facilitates use
@@ -33,141 +39,176 @@ export type SimpleTextProps = RnTextProps & {
 export default class SimpleText extends React.PureComponent<SimpleTextProps> {
 
     render() {
+        let render = () => {
+            const theme = getTheme(this.props.theme);
+            let font = theme.fontRegular;
 
-        const theme = getTheme();
+            if (this.props.h1) {
+                font = theme.fontTitle1;
+            } else if (this.props.h2) {
+                font = theme.fontTitle2;
+            } else if (this.props.h3) {
+                font = theme.fontTitle3;
+            } else if (this.props.large) {
+                font = theme.fontLarge;
+            } else if (this.props.small) {
+                font = theme.fontSmall;
+            } else if (this.props.caption) {
+                font = theme.fontCaption;
+            }
 
-        const Type = this.props.animated ? Animated.Text : TextRN;
-        let styleH = {};
+            // Override font
+            if (this.props.font) {
+                font = {
+                    ...font,
+                    ...this.props.font
+                }
+            }
 
-        if (this.props.h1) {
-            styleH = {
-                fontSize: theme.fontSizeBig,
-                fontWeight: 'bold'
-            };
-        } else if (this.props.h2) {
-            styleH = {
-                fontSize: theme.fontSizeBig,
-                fontWeight: "400"
-            };
-        } else if (this.props.h3) {
-            styleH = {
-                fontSize: theme.fontSizeBig,
-                fontWeight: "100",
-                fontStyle: 'italic'
-            };
-        }
+            if (this.props.bold) {
+                font.weight = 'bold';
+            }
 
-        return (
-            <Type
-                {...this.props}
-                style={[
-                    {
+            if (this.props.size) {
+                font.size = this.props.size;
+            }
 
-                        textAlignVertical: 'center',
-                        fontWeight: this.props.bold
-                            ? 'bold'
-                            : this.props.subline ? '100' : 'normal',
-                        fontStyle: this.props.italic ? 'italic' : 'normal',
-                        fontFamily: 'System',
-                        fontSize: this.props.size ? this.props.size
-                            : this.props.small ? theme.fontSizeSmall
-                                : this.props.subline ? theme.fontSizeSubline
-                                    : theme.fontSize,
-                        color: this.props.color
-                            ? this.props.color
-                            : this.props.reverse
-                                ? theme.colorTextReverse
-                                : theme.colorText,
-                        marginVertical: this.props.margin ? theme.padding : undefined,
-                        textAlign: this.props.align === 'center'
-                            ? 'center'
-                            : this.props.align === 'right'
-                                ? 'right'
-                                : this.props.align === 'justify'
-                                    ? 'justify'
-                                    : 'left',
-                        width: this.props.inline ? undefined : '100%',
-                        textDecorationLine: (this.props.underline && this.props.lineThrough)
-                            ? "underline line-through"
-                            : this.props.underline
-                                ? 'underline'
-                                : this.props.lineThrough
-                                    ? 'line-through'
-                                    : 'none'
-                    },
-                    // Estilos de Headers
-                    styleH,
-                    // Permite modificar sobscrever o style
-                    this.props.style
-                ]}
-            >
-                {this.props.text || this.props.children}
-            </Type>
-        );
+            return (
+                <Text
+                    {...this.props}
+                    style={[
+                        font.style,
+                        fontStyle(font),
+                        {
+                            textAlignVertical: 'center',
+                            fontStyle: this.props.italic ? 'italic' : 'normal',
+                            color:
+                                this.props.color
+                                    ? this.props.color
+                                    : (
+                                        this.props.reverse
+                                            ? theme.colorTextReverse
+                                            : theme.colorText
+                                    ),
+                            textAlign:
+                                this.props.align === 'center'
+                                    ? 'center'
+                                    : (
+                                        this.props.align === 'right'
+                                            ? 'right'
+                                            : (
+                                                this.props.align === 'justify'
+                                                    ? 'justify'
+                                                    : 'left'
+                                            )
+                                    ),
+                            marginVertical: spacingReact(theme, this.props.margin),
+                            width: this.props.inline ? undefined : '100%',
+                            textDecorationLine:
+                                (this.props.underline && this.props.lineThrough)
+                                    ? "underline line-through"
+                                    : (
+                                        this.props.underline
+                                            ? 'underline'
+                                            : (
+                                                this.props.lineThrough
+                                                    ? 'line-through'
+                                                    : 'none'
+                                            )
+                                    )
+                        } as StyleProp<TextStyle>,
+                        this.props.style
+                    ] as any}
+                >
+                    {this.props.text || this.props.children}
+                </Text>
+            )
+        };
+
+        return (<Theme>{render}</Theme>);
     }
 }
 
+/**
+ * Title 1
+ *
+ * @param props
+ * @constructor
+ */
+export const H1 = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        h1={true}
+    />
+);
 
-export const H1 = (props: SimpleTextProps) => {
-    return (
-        <SimpleText
-            {...props}
-            h1={true}
-            h2={false}
-            h3={false}
-            subline={false}
-            small={false}
-        />
-    )
-};
+/**
+ * Title 2
+ *
+ * @param props
+ * @constructor
+ */
+export const H2 = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        h2={true}
+    />
+);
 
-export const H2 = (props: SimpleTextProps) => {
-    return (
-        <SimpleText
-            {...props}
-            h1={false}
-            h2={true}
-            h3={false}
-            subline={false}
-            small={false}
-        />
-    )
-};
+/**
+ * Title 3
+ *
+ * @param props
+ * @constructor
+ */
+export const H3 = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        h3={true}
+    />
+);
 
-export const H3 = (props: SimpleTextProps) => {
-    return (
-        <SimpleText
-            {...props}
-            h1={false}
-            h2={false}
-            h3={true}
-            subline={false}
-            small={false}
-        />
-    )
-};
+/**
+ * Large text
+ *
+ * @param props
+ * @constructor
+ */
+export const Large = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        large={true}
+    />
+);
 
-export const Subline = (props: SimpleTextProps) => {
-    return (
-        <SimpleText
-            {...props}
-            h1={false}
-            h2={false}
-            h3={false}
-            subline={true}
-        />
-    )
-};
+/**
+ * Small text
+ *
+ * @param props
+ * @constructor
+ */
+export const Small = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        small={true}
+    />
+);
 
-export const Small = (props: SimpleTextProps) => {
-    return (
-        <SimpleText
-            {...props}
-            h1={false}
-            h2={false}
-            h3={false}
-            subline={false}
-            small={true}
-        />
-    )
-};
+/**
+ * Caption
+ *
+ * @param props
+ * @constructor
+ */
+export const Caption = (props: SimpleTextProps) => (
+    <SimpleText
+        {...props}
+        text={props.text || (props as any).children}
+        caption={true}
+    />
+);

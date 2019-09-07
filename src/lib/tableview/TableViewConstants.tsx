@@ -2,24 +2,10 @@ import React from 'react';
 import {ImageProps, ListRenderItemInfo, SectionListData, View, ViewStyle} from 'react-native';
 import {TitleExtra} from '../Title';
 import {EmptyStateProps} from "../EmptyState";
-import {getTheme} from "../Utils";
+import Theme, {getTheme, spacingReact, ThemeProps} from "../Theme";
 
 export type TableViewSectionListRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT> & {
     section: SectionListData<ItemT>;
-}
-
-/**
- * Largura e altura do ícone
- */
-export function tableViewGetItemIconSize() {
-    return getTheme().fontSize * 2.5;
-}
-
-/**
- * Largura e altura do ícone grande
- */
-export function tableViewGetItemIconBigSize() {
-    return getTheme().fontSize * 4;
 }
 
 /**
@@ -186,51 +172,58 @@ export type TableViewSection = {
     [key: string]: any;
 }
 
+export type DiscloruseIconProps = {
+    theme?: Partial<ThemeProps>;
+}
+
 /**
  * Ícone chevron
  *
  * @constructor
  */
-export class DiscloruseIcon extends React.PureComponent<any> {
+export class DiscloruseIcon extends React.PureComponent<DiscloruseIconProps> {
     render() {
-        const theme = getTheme();
+        const render = () => {
+            const theme = getTheme(this.props.theme);
 
-        // const size = 8;
-        // d=V2a
-        // a = V2(d/2)
-        // Calcula a largura a partir da diagonal
-        const height = theme.fontSizeSubline;
-        const size = Math.sqrt(2) * (height / 2);
+            // const size = 8;
+            // d=V2a
+            // a = V2(d/2)
+            // Calcula a largura a partir da diagonal
+            const height = theme.fontSmall.size as number;
+            const size = Math.sqrt(2) * (height / 2);
 
-        return (
-            <View
-                style={{
-                    alignSelf: 'center',
-                    position: 'relative',
-                    alignContent: 'flex-end',
-                    justifyContent: 'center',
-                    width: height,
-                    height: height,
-                    marginLeft: theme.paddingSmall
-                }}
-            >
+            return (
                 <View
                     style={{
+                        alignSelf: 'center',
                         position: 'relative',
-                        width: size,
-                        height: size,
-                        borderTopWidth: 1,
-                        borderRightWidth: 1,
-                        borderColor: theme.colorTextSecondary,
-                        opacity: 0.5,
-                        transform: [
-                            {
-                                rotate: '45deg',
-                            },
-                        ],
+                        alignContent: 'flex-end',
+                        justifyContent: 'center',
+                        width: height,
+                        height: height,
+                        marginLeft: spacingReact(theme, 'tiny')
                     }}
-                />
-            </View>
-        )
+                >
+                    <View
+                        style={{
+                            position: 'relative',
+                            width: size,
+                            height: size,
+                            borderTopWidth: 1,
+                            borderRightWidth: 1,
+                            borderColor: theme.colorTextSecondary,
+                            opacity: 0.5,
+                            transform: [
+                                {
+                                    rotate: '45deg',
+                                },
+                            ],
+                        }}
+                    />
+                </View>
+            )
+        };
+        return (<Theme>{render}</Theme>);
     }
 }

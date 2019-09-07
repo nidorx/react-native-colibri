@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import {
     DiscloruseIcon,
-    tableViewGetItemIconBigSize,
-    tableViewGetItemIconSize,
     TableViewRow,
     TableViewRowSectionCallbackFn,
     TableViewSection,
@@ -20,10 +18,12 @@ import {
 } from './TableViewConstants';
 import Title from '../Title';
 import SimpleText from './../SimpleText';
-import {animateGeneric, getTheme, Theme} from "../Utils";
+import {animateGeneric} from "../Utils";
+import Theme, {fontStyle, getTheme, spacingReact, ThemeProps} from "../Theme";
 
 
 export type TableViewItemProps = {
+    theme?: Partial<ThemeProps>;
     row: TableViewRow;
     section: TableViewSection;
     extraData?: any;
@@ -108,65 +108,73 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
         return content;
     }
 
-    private renderContent(row: TableViewRow) {
-        const theme = getTheme();
-
-        const hasSubtitle = (row.subtitle && row.subtitle !== '');
-
-        const backgroundColor = this.animateColorValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [theme.colorContent, theme.colorUnderlay]
-        });
-
-        /**
-         * Altura mínima dos itens, permite uma melhor padronização visual
-         */
-        const TABLE_VIEW_ITEM_MIN_HEIGHT = theme.paddingSmall * 2 + theme.fontSize;
-
+    private renderContent = (row: TableViewRow) => {
         return (
-            <Animated.View
-                style={[
-                    {
-                        flexDirection: 'row',
-                        alignContent: 'center',
-                        justifyContent: 'flex-start',
-                        backgroundColor: row.selected ? theme.colorSelected : backgroundColor,
-                        paddingHorizontal: theme.paddingBig,
-                        paddingVertical: (row.large || !hasSubtitle) ? theme.padding : theme.paddingSmall,
-                        minHeight: TABLE_VIEW_ITEM_MIN_HEIGHT
-                    },
-                    row.style
-                ]}
-            >
-                {
-                    // left
-                    this.renderLeft(row, theme)
-                }
+            <Theme>
+                {() => {
+                    const theme = getTheme(this.props.theme);
+                    const spacingTiny = spacingReact(theme, 'tiny') as number;
+                    const spacingSmall = spacingReact(theme, 'small');
 
-                {
-                    // icon
-                    this.renderIcon(row, theme)
-                }
+                    const hasSubtitle = (row.subtitle && row.subtitle !== '');
 
-                {
-                    // title and subtitle
-                    this.renderTitleSubtitle(row)
-                }
+                    const backgroundColor = this.animateColorValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [theme.colorContent, theme.colorUnderlay]
+                    });
 
-                {
-                    // right
-                    this.renderRight(row, theme)
-                }
+                    /**
+                     * Altura mínima dos itens, permite uma melhor padronização visual
+                     */
+                    const TABLE_VIEW_ITEM_MIN_HEIGHT = spacingTiny * 2 + (theme.fontRegular.size as number);
 
-                {
-                    // flag
-                    this.renderFlag(row, theme)
-                }
-            </Animated.View>
+                    return (
+                        <Animated.View
+                            style={[
+                                {
+                                    flexDirection: 'row',
+                                    alignContent: 'center',
+                                    justifyContent: 'flex-start',
+                                    backgroundColor: row.selected ? theme.colorSelected : backgroundColor,
+                                    paddingHorizontal: spacingReact(theme, 'base'),
+                                    paddingVertical: (row.large || !hasSubtitle) ? spacingSmall : spacingTiny,
+                                    minHeight: TABLE_VIEW_ITEM_MIN_HEIGHT
+                                },
+                                row.style
+                            ]}
+                        >
+                            {
+                                // left
+                                this.renderLeft(row, theme)
+                            }
+
+                            {
+                                // icon
+                                this.renderIcon(row, theme)
+                            }
+
+                            {
+                                // title and subtitle
+                                this.renderTitleSubtitle(row)
+                            }
+
+                            {
+                                // right
+                                this.renderRight(row, theme)
+                            }
+
+                            {
+                                // flag
+                                this.renderFlag(row, theme)
+                            }
+                        </Animated.View>
+                    )
+                }}
+            </Theme>
         );
-    }
+    };
 
-    private renderTitleSubtitle(row: TableViewRow) {
+    private renderTitleSubtitle = (row: TableViewRow) => {
         return (
             <View
                 style={{
@@ -186,12 +194,16 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                 />
             </View>
         );
-    }
+    };
 
-    private renderLeft(row: TableViewRow, theme: Theme) {
-        return (!row.left || row.left === '')
-            ? null
-            : (
+    private renderLeft = (row: TableViewRow, rowTheme: ThemeProps) => {
+        if (!row.left || row.left === '') {
+            return null;
+        }
+
+        const render = () => {
+            let theme = getTheme(rowTheme);
+            return (
                 <View
                     style={{
                         flexDirection: 'column',
@@ -204,8 +216,9 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                             ? (
                                 <SimpleText
                                     text={row.left}
+                                    theme={theme}
                                     color={theme.colorTextSecondary}
-                                    size={theme.fontSizeSubline}
+                                    style={fontStyle(theme.fontSmall)}
                                 />
                             )
                             // JSX.Element
@@ -213,101 +226,112 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                     }
                 </View>
             );
-    }
+        };
+        return (<Theme>{render}</Theme>);
+    };
 
-    private renderIcon(row: TableViewRow, theme: Theme) {
-        const itemIconSize = tableViewGetItemIconSize();
-        const itemIconBigSize = tableViewGetItemIconBigSize();
+    private renderIcon = (row: TableViewRow, theme: ThemeProps) => {
+        if (!row.icon) {
+            return null;
+        }
+        const spacingSmall = spacingReact(theme, 'small');
+        const spacingLarge = spacingReact(theme, 'large');
+        const spacingXLarge = spacingReact(theme, 'x-large');
 
-        return (!row.icon)
-            ? undefined
-            // Ícone é imagem
-            : (
-                (row.icon.hasOwnProperty('source'))
-                    ? ((icon: ImageProps) => (
-                        <Image
-                            {...icon}
-                            style={[
-                                icon.style,
-                                {
-                                    width: row.iconBig ? itemIconBigSize : itemIconSize,
-                                    height: row.iconBig ? itemIconBigSize : itemIconSize,
-                                    resizeMode: 'center',
-                                    borderRadius: theme.paddingSmall,
-                                    marginRight: theme.padding
-                                }
-                            ]}
-                        />
-                    ))(row.icon as any)
-                    // Ícone é JSX.Element
-                    : (
-                        <View
-                            style={{
-                                width: row.iconBig ? itemIconBigSize : itemIconSize,
-                                height: row.iconBig ? itemIconBigSize : itemIconSize,
-                                justifyContent: 'center',
-                                alignContent: 'center',
-                                marginRight: theme.padding
-                            }}
-                        >
-                            {row.icon}
-                        </View>
-                    )
-            );
-    }
-
-    private renderRight(row: TableViewRow, theme: Theme) {
-        return ((row.right && row.right !== '') || row.disclosure)
-            ? (
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        alignContent: 'center',
-                        flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
-                    }}
-                >
+        return (
+            row.icon.hasOwnProperty('source')
+                ? ((icon: ImageProps) => (
+                    <Image
+                        {...icon}
+                        style={[
+                            icon.style,
+                            {
+                                width: row.iconBig ? spacingXLarge : spacingLarge,
+                                height: row.iconBig ? spacingXLarge : spacingLarge,
+                                resizeMode: 'center',
+                                borderRadius: spacingReact(theme, 'tiny'),
+                                marginRight: spacingSmall
+                            }
+                        ]}
+                    />
+                ))(row.icon as any)
+                // Ícone é JSX.Element
+                : (
                     <View
                         style={{
-                            flexDirection: 'column',
+                            width: row.iconBig ? spacingXLarge : spacingLarge,
+                            height: row.iconBig ? spacingXLarge : spacingLarge,
                             justifyContent: 'center',
+                            alignContent: 'center',
+                            marginRight: spacingSmall
+                        }}
+                    >
+                        {row.icon}
+                    </View>
+                )
+        )
+    };
+
+    private renderRight = (row: TableViewRow, rowTheme: ThemeProps) => {
+        if ((row.right && row.right !== '') || row.disclosure) {
+            const render = () => {
+                let theme = getTheme(rowTheme);
+                return (
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'flex-start',
                             alignContent: 'center',
                             flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
                         }}
                     >
-                        {
-                            (!row.right || row.right === '')
-                                ? null
-                                : (typeof row.right === 'string')
-                                ? (
-                                    <SimpleText
-                                        text={row.right}
-                                        color={theme.colorTextSecondary}
-                                        size={theme.fontSizeSubline}
-                                    />
-                                )
-                                // JSX.Element
-                                : row.right
-                        }
-                    </View>
+                        <View
+                            style={{
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
+                            }}
+                        >
+                            {
+                                (!row.right || row.right === '')
+                                    ? null
+                                    : (typeof row.right === 'string')
+                                    ? (
+                                        <SimpleText
+                                            text={row.right}
+                                            theme={theme}
+                                            color={theme.colorTextSecondary}
+                                            style={fontStyle(theme.fontSmall)}
+                                        />
+                                    )
+                                    // JSX.Element
+                                    : row.right
+                            }
+                        </View>
 
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignContent: 'flex-end'
-                        }}
-                    >
-                        {/* // Acessories */}
+                        <View
+                            style={{
+                                justifyContent: 'center',
+                                alignContent: 'flex-end'
+                            }}
+                        >
+                            {/* // Acessories */}
 
-                        {
-                            // Disclosure
-                            row.disclosure ? <DiscloruseIcon/> : null
-                        }
+                            {
+                                // Disclosure
+                                row.disclosure ? <DiscloruseIcon theme={theme}/> : null
+                            }
+                        </View>
                     </View>
-                </View>
-            )
-            : null;
-    }
+                )
+            };
+
+            return (<Theme>{render}</Theme>);
+        }
+
+        return null;
+    };
 
     /**
      * Render flag
@@ -315,7 +339,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
      * @param row
      * @param theme
      */
-    private renderFlag(row: TableViewRow, theme: Theme) {
+    private renderFlag = (row: TableViewRow, theme: ThemeProps) => {
         if (!row.flag) {
             return null;
         }
@@ -404,7 +428,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                 </View>
             </View>
         );
-    }
+    };
 
     /**
      * Renderiza o componente de seleção de item
@@ -414,7 +438,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
      * @param onSelect
      * @param content
      */
-    private renderContentOnSelect(section: TableViewSection, row: TableViewRow, content: JSX.Element, onSelect: TableViewRowSectionCallbackFn) {
+    private renderContentOnSelect = (section: TableViewSection, row: TableViewRow, content: JSX.Element, onSelect: TableViewRowSectionCallbackFn) => {
 
         const onLongPress = row.onLongPress || section.onLongPress || this.props.onLongPress;
 
@@ -442,9 +466,15 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                 {content}
             </TouchableWithoutFeedback>
         );
-    }
+    };
 
-    private renderContentOnPress(section: TableViewSection, row: TableViewRow, content: JSX.Element, onPress?: TableViewRowSectionCallbackFn, onLongPress?: TableViewRowSectionCallbackFn) {
+    private renderContentOnPress = (
+        section: TableViewSection,
+        row: TableViewRow,
+        content: JSX.Element,
+        onPress?: TableViewRowSectionCallbackFn,
+        onLongPress?: TableViewRowSectionCallbackFn
+    ) => {
         return (
             <TouchableWithoutFeedback
                 onPressIn={() => {
@@ -482,12 +512,12 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                         : undefined
                 }
             >
-                {content}
+                <View>{content}</View>
             </TouchableWithoutFeedback>
         );
-    }
+    };
 
-    private renderContentSwipe(section: TableViewSection, row: TableViewRow, content: JSX.Element, swipeActions: TableViewSwipeActions) {
+    private renderContentSwipe = (section: TableViewSection, row: TableViewRow, content: JSX.Element, swipeActions: TableViewSwipeActions) => {
         const theme = getTheme();
         let lastGestureX = 0;
         const panResponder = PanResponder.create({
@@ -554,7 +584,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                         position: 'relative',
                                         backgroundColor: bgColor,
                                         height: '100%',
-                                        padding: theme.padding,
+                                        padding: spacingReact(theme, 'small'),
                                         alignSelf: 'flex-end'
                                     }}
                                     onPress={() => {
@@ -586,7 +616,6 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                 </Animated.View>
             </View>
         );
-    }
-
+    };
 
 }

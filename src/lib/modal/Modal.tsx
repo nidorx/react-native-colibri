@@ -2,6 +2,7 @@ import React, {ReactNode} from "react";
 import {
     Animated,
     BackHandler,
+    Dimensions,
     Image,
     Keyboard,
     ScrollView,
@@ -11,7 +12,8 @@ import {
     View
 } from "react-native";
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {animateGeneric, animateGenericNative, getTheme, Style} from "../Utils";
+import {animateGeneric, animateGenericNative} from "../Utils";
+import {getTheme, spacingReact} from "../Theme";
 import Toast from './../Toast';
 
 
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         position: 'absolute',
         top: 0,
         bottom: 0,
@@ -50,8 +52,6 @@ const styles = StyleSheet.create({
         zIndex: 2
     }
 });
-
-const styleCommon = Style.common();
 
 export type ModalProps = {
     content?: ReactNode;
@@ -87,10 +87,14 @@ export type ModalState = {
 
 export default class Modal extends React.PureComponent<ModalProps, ModalState> {
 
+    private WIDTH = Dimensions.get('window').width;
+
+    private HEIGHT = Dimensions.get('window').height;
+
     state: ModalState = {
         overlayVisible: false,
         contentVisible: false,
-        contentHeight: Style.common().HEIGHT * 0.9,
+        contentHeight: this.HEIGHT * 0.9,
         firstContentHeightAnimation: true,
     };
 
@@ -134,121 +138,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         };
     }
 
-    private onBackButtonPressAndroid = () => {
-        this.hide();
-        return true;
-    };
-
-    /**
-     * Faz redimensionamento do conteúdo quando abrir teclado
-     */
-    private keyboardDidShowHide = (e?: { endCoordinates?: { height: number, screenX: number, screenY: number, width: number } }) => {
-        if (e && e.endCoordinates) {
-            this.keyboardHeight = e.endCoordinates.height;
-        } else {
-            this.keyboardHeight = 0;
-        }
-
-        clearTimeout(this.keyboardTimeout);
-        this.keyboardTimeout = setTimeout(this.animatePosition, 10);
-    };
-
-
-    private onContentSizeChange = (w: number, h: number) => {
-        if (!this.state.overlayVisible) {
-            return;
-        }
-        this.setState({
-            contentHeight: h
-        }, () => {
-            requestAnimationFrame(() => {
-                // Apartir de agora, terá animação no elemento
-                this.setState({
-                    firstContentHeightAnimation: false
-                });
-            })
-        });
-    };
-
-    private animatePosition = () => {
-        if (!this.state.overlayVisible) {
-            return;
-        }
-
-        // Faz animação de posicionamento do elmento
-        let {top, left, width, height} = this.getPositions();
-
-        if (this.state.firstContentHeightAnimation) {
-            if (this.props.options && this.props.options.ver === 'bottom') {
-                top = top - height / 2;
-            } else {
-                top = top + height / 2;
-            }
-            this.animatedTop.setValue(top);
-            this.animatedLeft.setValue(left);
-            this.animatedWidth.setValue(width);
-            this.animatedHeight.setValue(height);
-        } else {
-            Animated
-                .parallel([
-                    animateGenericNative(this.animatedOpacity, 1, undefined, false),
-                    animateGenericNative(this.animatedTop, top, undefined, false),
-                    animateGeneric(this.animatedLeft, left, undefined, false, false),
-                    animateGeneric(this.animatedWidth, width, undefined, false, false),
-                    animateGeneric(this.animatedHeight, height, undefined, false, false),
-                ], {stopTogether: false})
-                .start();
-        }
-    };
-
-    private getPositions = () => {
-        const theme = getTheme();
-        const options = this.props.options || {};
-        const statusBarHeight = getStatusBarHeight();
-
-        const screenWidth = styleCommon.WIDTH;
-        const screenHeight = (styleCommon.HEIGHT * 0.9) - this.keyboardHeight;
-        const verticalPosition = options.ver || 'center';
-        const horizontalPosition = options.hor || 'center';
-        const optWidth = options.width || 'large';
-
-        let width =
-            optWidth === 'medium'
-                ? screenWidth * 0.7
-                : (
-                    optWidth === 'small'
-                        ? screenWidth * 0.4
-                        : screenWidth * 0.9
-                );
-
-        let left =
-            horizontalPosition === 'center'
-                ? (screenWidth * 0.5 - width * 0.5)
-                : horizontalPosition === 'left'
-                ? theme.padding
-                : screenWidth - theme.padding - width;
-
-        // Altura é conteudo ou 90%da tela
-        let height = Math.min(this.state.contentHeight, screenHeight);
-
-        let paddingTop = screenHeight * 0.1;
-        let top =
-            verticalPosition === 'center'
-                ? (screenHeight * 0.5 - height * 0.5) + paddingTop
-                : (
-                    verticalPosition === 'top'
-                        ? paddingTop
-                        : screenHeight - height + paddingTop
-                );
-
-        return {
-            top,
-            left,
-            width,
-            height
-        };
-    };
-
     componentDidMount() {
         Keyboard.addListener('keyboardDidShow', this.keyboardDidShowHide);
         Keyboard.addListener('keyboardDidHide', this.keyboardDidShowHide);
@@ -277,6 +166,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         }
 
         const theme = getTheme();
+        const iconCloseSize = spacingReact(theme, 'large');
+        const borderRadius = spacingReact(theme, 'micro');
         return (
             <View
                 style={styles.container}
@@ -292,7 +183,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                             styles.animatedContainerInner,
                             {
                                 overflow: 'hidden',
-                                borderRadius: theme.borderRadius
+                                borderRadius: borderRadius
                             },
                             this.containerInnerStyle
                         ]}>
@@ -300,8 +191,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         <TouchableOpacity onPress={this.hide} style={styles.closeIconContainer}>
                             <Image
                                 style={{
-                                    width: theme.iconSize,
-                                    height: theme.iconSize,
+                                    width: iconCloseSize,
+                                    height: iconCloseSize,
                                     resizeMode: 'contain',
                                     tintColor: theme.colorTextSecondary
                                 }}
@@ -398,5 +289,122 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                 });
             });
         });
+    };
+
+    private onBackButtonPressAndroid = () => {
+        this.hide();
+        return true;
+    };
+
+    /**
+     * Faz redimensionamento do conteúdo quando abrir teclado
+     */
+    private keyboardDidShowHide = (e?: { endCoordinates?: { height: number, screenX: number, screenY: number, width: number } }) => {
+        if (e && e.endCoordinates) {
+            this.keyboardHeight = e.endCoordinates.height;
+        } else {
+            this.keyboardHeight = 0;
+        }
+
+        clearTimeout(this.keyboardTimeout);
+        this.keyboardTimeout = setTimeout(this.animatePosition, 10);
+    };
+
+    private onContentSizeChange = (w: number, h: number) => {
+        if (!this.state.overlayVisible) {
+            return;
+        }
+        this.setState({
+            contentHeight: h
+        }, () => {
+            requestAnimationFrame(() => {
+                // Apartir de agora, terá animação no elemento
+                this.setState({
+                    firstContentHeightAnimation: false
+                });
+            })
+        });
+    };
+
+    private animatePosition = () => {
+        if (!this.state.overlayVisible) {
+            return;
+        }
+
+        // Faz animação de posicionamento do elmento
+        let {top, left, width, height} = this.getPositions();
+
+        if (this.state.firstContentHeightAnimation) {
+            if (this.props.options && this.props.options.ver === 'bottom') {
+                top = top - height / 2;
+            } else {
+                top = top + height / 2;
+            }
+            this.animatedTop.setValue(top);
+            this.animatedLeft.setValue(left);
+            this.animatedWidth.setValue(width);
+            this.animatedHeight.setValue(height);
+        } else {
+            Animated
+                .parallel([
+                    animateGenericNative(this.animatedOpacity, 1, undefined, false),
+                    animateGenericNative(this.animatedTop, top, undefined, false),
+                    animateGeneric(this.animatedLeft, left, undefined, false, false),
+                    animateGeneric(this.animatedWidth, width, undefined, false, false),
+                    animateGeneric(this.animatedHeight, height, undefined, false, false),
+                ], {stopTogether: false})
+                .start();
+        }
+    };
+
+    private getPositions = () => {
+        const theme = getTheme();
+        const options = this.props.options || {};
+        const statusBarHeight = getStatusBarHeight();
+
+        const screenWidth = this.WIDTH;
+        const screenHeight = (this.HEIGHT * 0.9) - this.keyboardHeight;
+        const verticalPosition = options.ver || 'center';
+        const horizontalPosition = options.hor || 'center';
+        const optWidth = options.width || 'large';
+
+        let width =
+            optWidth === 'medium'
+                ? screenWidth * 0.7
+                : (
+                    optWidth === 'small'
+                        ? screenWidth * 0.4
+                        : screenWidth * 0.9
+                );
+
+        const padding = spacingReact(theme, 'small') as number;
+        let left =
+            horizontalPosition === 'center'
+                ? (screenWidth * 0.5 - width * 0.5)
+                : (
+                    horizontalPosition === 'left'
+                        ? padding
+                        : screenWidth - (padding as number) - width
+                );
+
+        // Altura é conteudo ou 90%da tela
+        let height = Math.min(this.state.contentHeight, screenHeight);
+
+        let paddingTop = screenHeight * 0.1;
+        let top =
+            verticalPosition === 'center'
+                ? (screenHeight * 0.5 - height * 0.5) + paddingTop
+                : (
+                    verticalPosition === 'top'
+                        ? paddingTop
+                        : screenHeight - height + paddingTop
+                );
+
+        return {
+            top: top,
+            left: left,
+            width: width,
+            height: height
+        };
     };
 }

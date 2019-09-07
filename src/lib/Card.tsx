@@ -1,15 +1,6 @@
 import React from 'react'
-import {
-    Animated, Easing,
-    Image,
-    ImageProps,
-    LayoutChangeEvent,
-    TouchableHighlight,
-    TouchableOpacity,
-    View,
-    ViewProps
-} from 'react-native';
-import {getTheme} from "./Utils";
+import {Animated, Easing, Image, ImageProps, LayoutChangeEvent, TouchableOpacity, View, ViewProps} from 'react-native';
+import {getTheme, spacingReact} from "./Theme";
 import SimpleText from "./SimpleText";
 
 export type CardProps = ViewProps & {
@@ -91,24 +82,6 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
 
     state: CardState = {};
 
-    private onLayout = (event: LayoutChangeEvent) => {
-        this.setState({
-            contentHeight: event.nativeEvent.layout.height
-        });
-    };
-
-    private onLayoutInner = (event: LayoutChangeEvent) => {
-        this.setState({
-            contentInnerWidth: event.nativeEvent.layout.width
-        });
-    };
-
-    private onPressMore = () => {
-        if (this.props.onPressMore) {
-            this.props.onPressMore();
-        }
-    };
-
     render() {
         const theme = getTheme();
         const header = (
@@ -118,7 +91,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                     flexDirection: 'row',
                     alignContent: 'center',
                     justifyContent: 'center',
-                    padding: theme.padding
+                    padding: spacingReact(theme, 'small')
                 }}
             >
 
@@ -138,7 +111,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                             ? (
 
                                 <SimpleText
-                                    subline={true}
+                                    small={true}
                                     align={'left'}
                                     color={theme.colorTextSecondary}
                                     text={this.props.subtitle}
@@ -168,6 +141,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
             ? SHADOWS[this.props.shadowPattern || 'A']
             : null;
 
+        const borderRadius = spacingReact(theme, 'micro') as number;
         return (
             <View
                 {...this.props}
@@ -177,7 +151,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                         width: '100%',
                         flexDirection: 'column',
                         padding: 0,
-                        marginBottom: theme.padding * 1.5,
+                        marginBottom: (spacingReact(theme, 'small') as number) * 1.5,
                         zIndex: shadow ? 1 : 0
                     }
                 ]}
@@ -188,8 +162,8 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                         this.props.boxed
                             ? {
                                 overflow: 'hidden',
-                                marginHorizontal: theme.paddingSmall,
-                                borderRadius: theme.borderRadiusSmall,
+                                marginHorizontal: spacingReact(theme, 'tiny'),
+                                borderRadius: borderRadius,
                                 borderWidth: theme.lineWidth,
                                 borderColor: theme.colorLine,
                             }
@@ -264,10 +238,8 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                                 style={{
                                     position: 'absolute',
                                     top: this.state.contentHeight,
-                                    // left:0,
-                                    // right:0,
                                     width: this.state.contentInnerWidth
-                                        ? this.state.contentInnerWidth - (this.props.boxed ? theme.borderRadiusSmall : 0)
+                                        ? this.state.contentInnerWidth - (this.props.boxed ? borderRadius : 0)
                                         : '100%',
                                     alignSelf: 'center',
                                     resizeMode: 'stretch',
@@ -281,5 +253,23 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
             </View>
         );
     }
+
+    private onLayout = (event: LayoutChangeEvent) => {
+        this.setState({
+            contentHeight: event.nativeEvent.layout.height
+        });
+    };
+
+    private onLayoutInner = (event: LayoutChangeEvent) => {
+        this.setState({
+            contentInnerWidth: event.nativeEvent.layout.width
+        });
+    };
+
+    private onPressMore = () => {
+        if (this.props.onPressMore) {
+            this.props.onPressMore();
+        }
+    };
 
 }
