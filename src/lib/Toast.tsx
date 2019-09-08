@@ -4,7 +4,9 @@
  * Blog:http://jiapenghui.com
  */
 import React from 'react';
-import {Animated, Dimensions, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle,} from 'react-native'
+import {Animated, Dimensions, StyleProp, StyleSheet, TextStyle, View, ViewStyle,} from 'react-native'
+import {Caption} from "./SimpleText";
+import {getTheme, spacingReact} from "./Theme";
 
 const styles = StyleSheet.create({
     container: {
@@ -14,14 +16,6 @@ const styles = StyleSheet.create({
         elevation: 999,
         alignItems: 'center',
         zIndex: 10000,
-    },
-    content: {
-        backgroundColor: 'black',
-        borderRadius: 5,
-        padding: 10,
-    },
-    text: {
-        color: 'white'
     }
 });
 
@@ -70,8 +64,7 @@ export const DURATION = {
 
 const DEFAULTS = {
     position: 'bottom',
-    textStyle: styles.text,
-    positionValue: 120,
+    positionValue: 50,
     fadeInDuration: 500,
     fadeOutDuration: 500,
     defaultCloseDelay: 250,
@@ -126,6 +119,13 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
 
     render() {
         let pos;
+        const theme = getTheme();
+        const styleContent = {
+            backgroundColor: theme.colorText,
+            padding: spacingReact(theme, 'tiny'),
+            borderRadius: spacingReact(theme, 'micro'),
+        };
+
         switch (this.props.position || DEFAULTS.position) {
             case 'top':
                 pos = this.props.positionValue || DEFAULTS.positionValue;
@@ -145,21 +145,36 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                     pointerEvents="none"
                 >
                     <Animated.View
-                        style={[styles.content, {opacity: this.state.opacityValue}, this.props.style]}
+                        style={[
+                            styleContent,
+                            {
+                                opacity: this.state.opacityValue
+                            },
+                            this.props.style
+                        ]}
                     >
                         {
                             React.isValidElement(this.state.text)
                                 ? this.state.text
                                 : (
-                                    <Text style={this.props.textStyle || DEFAULTS.textStyle}>
-                                        {this.state.text}
-                                    </Text>
+                                    <Caption
+                                        text={this.state.text}
+                                        style={[
+                                            {
+                                                color: theme.colorContent
+                                            },
+                                            this.props.textStyle
+                                        ]}
+                                    />
                                 )
                         }
                     </Animated.View>
                 </View>
             )
             : null;
+        // {/*<Text style={this.props.textStyle || DEFAULTS.textStyle}>*/}
+        //     {/*{this.state.text}*/}
+        // {/*</Text>*/}
     }
 
     public show(text: string, duration?: number, callback?: () => void) {

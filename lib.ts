@@ -135,5 +135,13 @@ export {
     setTheme,
     ThemeProps,
     FontSpec,
-    Spacing
+    Spacing,
+    spacingReact,
+    fontStyle,
+    scale,
+    scaleVertical,
+    scaleModerate,
+    fontWeight,
+    SpacingDef,
+    ThemeProvider
 } from './src/lib/Theme';

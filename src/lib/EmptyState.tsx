@@ -107,7 +107,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                                 {
                                                                     marginBottom: spacingReact(theme, 'small'),
                                                                 },
-                                                                fontStyle(theme.fontTitle3),
+                                                                fontStyle(theme, theme.fontTitle2),
                                                                 this.props.titleProps ? this.props.titleProps.style : undefined
                                                             ]}
                                                         >
@@ -203,7 +203,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                 {
                                     marginBottom: spacingReact(theme, 'small')
                                 },
-                                fontStyle(theme.fontRegular),
+                                fontStyle(theme, theme.fontRegular),
                                 (this.props.descriptionProps || {}).style
                             ]}
                         />

@@ -1,6 +1,5 @@
 import {Animated, Easing} from "react-native";
 
-
 /**
  * Efeito de animação genérica usada nos componentes
  *

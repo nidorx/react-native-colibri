@@ -43,7 +43,7 @@ export type CardProps = ViewProps & {
     /**
      * Select a pattern for shadow
      */
-    shadowPattern?: 'A' | 'B' | 'C' | 'D';
+    shadowPattern?: 'A' | 'B' | 'C';
     /**
      * Change opacity of shadow
      */
@@ -67,11 +67,7 @@ const SHADOWS = {
     'C': {
         image: require('./../assets/shadow-c.png'),
         margin: 2.5
-    },
-    'D': {
-        image: require('./../assets/shadow-d.png'),
-        margin: 4.0
-    },
+    }
 };
 
 

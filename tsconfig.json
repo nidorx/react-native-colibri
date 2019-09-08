@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "allowJs": true,
+    "isolatedModules": false,
+    "jsx": "react",
+    "lib": [
+      "es6"
+    ],
+    "esModuleInterop": true,
+    "noEmit": true,
+    "target": "esnext",
     "module": "es6",
     "outDir": "./dist",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "jsx": "react-native",
-    "lib": [
-      "es6"
-    ],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "noEmitHelpers": true,
@@ -16,8 +20,6 @@
     "strict": true,
     "noImplicitReturns": true,
     "rootDir": ".",
-    "allowJs": false,
-    "isolatedModules": false,
     "declaration": true,
     "baseUrl": "./",
     "noImplicitAny": true,
@@ -32,9 +34,13 @@
   "exclude": [
     "*.js",
     "node_modules",
+    "__tests__",
     "tests",
     "dist",
     "example",
-    "doc"
+    "doc",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
   ]
 }

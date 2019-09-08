@@ -218,7 +218,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                     text={row.left}
                                     theme={theme}
                                     color={theme.colorTextSecondary}
-                                    style={fontStyle(theme.fontSmall)}
+                                    style={fontStyle(theme, theme.fontSmall)}
                                 />
                             )
                             // JSX.Element
@@ -302,7 +302,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                             text={row.right}
                                             theme={theme}
                                             color={theme.colorTextSecondary}
-                                            style={fontStyle(theme.fontSmall)}
+                                            style={fontStyle(theme, theme.fontSmall)}
                                         />
                                     )
                                     // JSX.Element

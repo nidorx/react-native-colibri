@@ -57,7 +57,7 @@ const TitleExtraComponent = (props: TitleExtraProps) => {
                                 align={props.config.textAlign}
                                 color={props.config.reverse ? theme.colorText : theme.colorTextSecondary}
                                 style={[
-                                    fontStyle(props.config.reverse ? theme.fontSmall : theme.fontRegular)
+                                    fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
                                 ]}
                             />
                         )
@@ -78,7 +78,7 @@ const TitleExtraComponent = (props: TitleExtraProps) => {
                                         alignSelf: 'flex-start',
                                         marginLeft: spacingReact(theme, 'tiny')
                                     },
-                                    fontStyle(props.config.reverse ? theme.fontSmall : theme.fontRegular)
+                                    fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
                                 ]}
                             />
                         )
@@ -121,7 +121,7 @@ export default class Title extends React.PureComponent<TitleProps> {
                                     {
                                         flex: withoutSubtitle ? 1 : undefined
                                     },
-                                    fontStyle(this.props.reverse ? theme.fontSmall : theme.fontRegular)
+                                    fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
                                 ]}
                             />
                         )
@@ -139,7 +139,7 @@ export default class Title extends React.PureComponent<TitleProps> {
                                         align={this.props.textAlign}
                                         color={this.props.reverse ? theme.colorText : theme.colorTextSecondary}
                                         style={[
-                                            fontStyle(this.props.reverse ? theme.fontSmall : theme.fontRegular)
+                                            fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
                                         ]}
                                     />
                                 )
