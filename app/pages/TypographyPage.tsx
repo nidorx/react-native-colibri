@@ -1,7 +1,7 @@
 import React from 'react';
 import {Caption, H1, H2, H3, Large, SimpleText, Small, TableView, TableViewRow, TableViewSection} from "../../lib";
 
-export default class TypographyPage extends React.Component {
+export default class TypographyPage extends React.PureComponent {
 
     render() {
         let SEQ = 1;

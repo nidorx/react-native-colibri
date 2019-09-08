@@ -80,6 +80,10 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
 
     render() {
         const theme = getTheme();
+        const spacingMicro = spacingReact(theme, 'micro') as number;
+        const spacingSmall = spacingReact(theme, 'small') as number;
+        const spacingBase = spacingReact(theme, 'base') as number;
+
         const header = (
             <View
                 style={{
@@ -87,7 +91,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                     flexDirection: 'row',
                     alignContent: 'center',
                     justifyContent: 'center',
-                    padding: spacingReact(theme, 'small')
+                    padding: spacingSmall
                 }}
             >
 
@@ -137,7 +141,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
             ? SHADOWS[this.props.shadowPattern || 'A']
             : null;
 
-        const borderRadius = spacingReact(theme, 'micro') as number;
+
         return (
             <View
                 {...this.props}
@@ -147,7 +151,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                         width: '100%',
                         flexDirection: 'column',
                         padding: 0,
-                        marginBottom: (spacingReact(theme, 'small') as number) * 1.5,
+                        marginBottom: spacingBase,
                         zIndex: shadow ? 1 : 0
                     }
                 ]}
@@ -159,7 +163,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                             ? {
                                 overflow: 'hidden',
                                 marginHorizontal: spacingReact(theme, 'tiny'),
-                                borderRadius: borderRadius,
+                                borderRadius: spacingMicro,
                                 borderWidth: theme.lineWidth,
                                 borderColor: theme.colorLine,
                             }
@@ -225,6 +229,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                     }
 
                     {this.props.children}
+
                 </View>
                 {
                     shadow
@@ -235,7 +240,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                                     position: 'absolute',
                                     top: this.state.contentHeight,
                                     width: this.state.contentInnerWidth
-                                        ? this.state.contentInnerWidth - (this.props.boxed ? borderRadius : 0)
+                                        ? this.state.contentInnerWidth - (this.props.boxed ? spacingMicro : 0)
                                         : '100%',
                                     alignSelf: 'center',
                                     resizeMode: 'stretch',
