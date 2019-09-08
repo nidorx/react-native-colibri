@@ -9,6 +9,7 @@ import {
     ViewProps,
     ViewStyle
 } from 'react-native';
+import Theme, {getTheme, scale} from "./Theme";
 
 export const GAP_DEFAULT = 6;
 
@@ -56,52 +57,59 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
     private childrenWidth: Array<number> = [];
 
     render() {
-        let gap = (this.props.gap || GAP_DEFAULT);
-        let margin = gap / 2;
+
         return (
-            <View style={[styles.container, this.props.style]}>
-                <ScrollView
-                    ref={r => this.scrollView = r}
-                    bounces={true}
-                    horizontal={true}
-                    // decelerationRate={0.9}
-                    overScrollMode={'auto'}
-                    showsHorizontalScrollIndicator={false}
-                    automaticallyAdjustContentInsets={false}
-                    contentContainerStyle={{
-                        paddingLeft: margin,
-                        paddingRight: margin
-                    }}
-                    onScroll={this.props.onScroll}
-                    onScrollBeginDrag={this.onScrollBeginDrag}
-                    onScrollEndDrag={this.onScrollEndDrag}
-                    onMomentumScrollBegin={this.onMomentumScrollBegin}
-                >
-                    {
-                        React.Children.map(this.props.children, (item, index) => {
-                            return (
-                                <View
-                                    key={index}
-                                    style={[
-                                        styles.page,
-                                        {
-                                            marginLeft: margin,
-                                            marginRight: margin
-                                        },
-                                        this.props.pageStyle
-                                    ]}
-                                    onLayout={(evt) => {
-                                        // Salva a largura do elemento, usado para determinar a posição no handleScrollEnd
-                                        this.childrenWidth[index] = evt.nativeEvent.layout.width;
-                                    }}
-                                >
-                                    {item}
-                                </View>
-                            );
-                        })
-                    }
-                </ScrollView>
-            </View>
+            <Theme>
+                {() => {
+                    const theme = getTheme();
+                    let margin = scale(theme, (this.props.gap || GAP_DEFAULT) / 2);
+                    return (
+                        <View style={[styles.container, this.props.style]}>
+                            <ScrollView
+                                ref={r => this.scrollView = r}
+                                bounces={true}
+                                horizontal={true}
+                                // decelerationRate={0.9}
+                                overScrollMode={'auto'}
+                                showsHorizontalScrollIndicator={false}
+                                automaticallyAdjustContentInsets={false}
+                                contentContainerStyle={{
+                                    paddingLeft: margin,
+                                    paddingRight: margin
+                                }}
+                                onScroll={this.props.onScroll}
+                                onScrollBeginDrag={this.onScrollBeginDrag}
+                                onScrollEndDrag={this.onScrollEndDrag}
+                                onMomentumScrollBegin={this.onMomentumScrollBegin}
+                            >
+                                {
+                                    React.Children.map(this.props.children, (item, index) => {
+                                        return (
+                                            <View
+                                                key={index}
+                                                style={[
+                                                    styles.page,
+                                                    {
+                                                        marginLeft: margin,
+                                                        marginRight: margin
+                                                    },
+                                                    this.props.pageStyle
+                                                ]}
+                                                onLayout={(evt) => {
+                                                    // Salva a largura do elemento, usado para determinar a posição no handleScrollEnd
+                                                    this.childrenWidth[index] = evt.nativeEvent.layout.width;
+                                                }}
+                                            >
+                                                {item}
+                                            </View>
+                                        );
+                                    })
+                                }
+                            </ScrollView>
+                        </View>
+                    )
+                }}
+            </Theme>
         );
     }
 

@@ -65,8 +65,15 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                 }
             }
 
+            // Avoid change reference
+            font = {...font};
+
             if (this.props.bold) {
                 font.weight = 'bold';
+            }
+
+            if (this.props.italic) {
+                font.italic = true;
             }
 
             if (this.props.size) {
@@ -76,12 +83,12 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
             return (
                 <Text
                     {...this.props}
+                    allowFontScaling={false}
                     style={[
                         font.style,
-                        fontStyle(font),
+                        fontStyle(theme, font),
                         {
                             textAlignVertical: 'center',
-                            fontStyle: this.props.italic ? 'italic' : 'normal',
                             color:
                                 this.props.color
                                     ? this.props.color

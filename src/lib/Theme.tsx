@@ -1,17 +1,31 @@
-import {DeviceEventEmitter, EmitterSubscription, Platform, StyleProp, StyleSheet, TextStyle} from "react-native";
+import {
+    DeviceEventEmitter,
+    Dimensions,
+    EmitterSubscription,
+    Platform,
+    StyleProp,
+    StyleSheet,
+    TextStyle
+} from "react-native";
 import React from "react";
 
-type fontWeightReact = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+// from https://github.com/nirsky/react-native-size-matters
+const {width, height} = Dimensions.get('window');
+const [shortDimension, longDimension] = width < height ? [width, height] : [height, width];
 
-export type fontWeight = 'thin' | 'light' | 'regular' | 'semibold' | 'bold' ;
+export function scale(theme: ThemeProps, size: number) {
+    return shortDimension / theme.guidelineBaseWidth * size;
+}
 
-const FONT_WEIGHTS = {
-    thin: '100',
-    light: '300',
-    regular: '400',
-    semibold: '600',
-    bold: '700'
-};
+export function scaleVertical(theme: ThemeProps, size: number) {
+    return longDimension / theme.guidelineBaseHeight * size;
+}
+
+export function scaleModerate(theme: ThemeProps, size: number, factor = 0.5) {
+    return size + (scale(theme, size) - size) * factor;
+}
+
+export type fontWeight = 'thin' | 'light' | 'regular' | 'medium' | 'bold' ;
 
 /**
  * Font specification
@@ -19,22 +33,10 @@ const FONT_WEIGHTS = {
 export type FontSpec = {
     size: number;
     lineHeight: number;
-    letterSpacing?: number;
+    letterSpacing: number;
     weight: fontWeight;
-    family: string;
+    italic?: boolean;
     style?: StyleProp<TextStyle>;
-}
-
-/**
- * Get React Native Text fontWeight from definition
- *
- * @param value
- */
-export function fontWeightReact(value?: fontWeight): fontWeightReact {
-    if (!value) {
-        return FONT_WEIGHTS.regular as any;
-    }
-    return FONT_WEIGHTS[value] as any;
 }
 
 /**
@@ -77,47 +79,43 @@ export function spacingReact(theme: ThemeProps, value?: Spacing): number | undef
     if (prop === 'x-large') {
         prop = 'xLarge';
     }
-    return (theme.spacing as any)[prop];
+    return scale(theme, (theme.spacing as any)[prop]);
 }
 
 /**
  * Get React Native Text style from FontSpec
  * @param font
  */
-export function fontStyle(font: Partial<FontSpec>) {
-    let family = font.family;
-    if ((family === 'System' || family === 'system') && Platform.OS === 'android') {
-        // Roboto workaround -> sans serif
-        switch (font.weight) {
-            case 'thin':
-                family = 'sans-serif-thin';
-                break;
-            case 'light':
-                family = 'sans-serif-light';
-                break;
-            case 'regular':
-                family = 'sans-serif';
-                break;
-            case 'semibold':
-                family = 'sans-serif-medium';
-                break;
-            case 'bold':
-                family = 'sans-serif';
-        }
+export function fontStyle(theme: ThemeProps, font: Partial<FontSpec>) {
+    let family = theme.fontFamily.regular;
+    switch (font.weight) {
+        case 'thin':
+            family = font.italic ? theme.fontFamily.thinItalic : theme.fontFamily.thin;
+            break;
+        case 'light':
+            family = font.italic ? theme.fontFamily.lightItalic : theme.fontFamily.light;
+            break;
+        case 'regular':
+            family = font.italic ? theme.fontFamily.regularItalic : theme.fontFamily.regular;
+            break;
+        case 'medium':
+            family = font.italic ? theme.fontFamily.mediumItalic : theme.fontFamily.medium;
+            break;
+        case 'bold':
+            family = font.italic ? theme.fontFamily.boldItalic : theme.fontFamily.bold;
     }
 
     return {
-        fontSize: font.size,
         fontFamily: family,
-        lineHeight: font.lineHeight,
-        letterSpacing: Platform.select({
-            ios: font.letterSpacing,
-            default: undefined
-        }),
-        fontWeight: fontWeightReact(font.weight),
+        fontSize: scale(theme, font.size as number),
+        lineHeight: scaleVertical(theme, font.lineHeight as number),
+        letterSpacing: scale(theme, font.letterSpacing as number)
     };
 }
 
+/**
+ * Propriedades do Tema
+ */
 export type ThemeProps = {
     colorText: string;
     colorTextSecondary: string;
@@ -136,7 +134,23 @@ export type ThemeProps = {
     colorWarning: string;
     colorDanger: string;
     colorButton: string;
-    // Font Specs
+    // Default guideline sizes are based on standard ~5" screen mobile device
+    guidelineBaseWidth: number;
+    guidelineBaseHeight: number;
+    // Definição da fonte usada no sistema
+    fontFamily: {
+        thin: string;
+        thinItalic: string;
+        light: string;
+        lightItalic: string;
+        regular: string;
+        regularItalic: string;
+        medium: string;
+        mediumItalic: string;
+        bold: string;
+        boldItalic: string;
+    },
+    // Especificação das fontes usadas no aplicativo
     fontTitle1: Partial<FontSpec>;
     fontTitle2: Partial<FontSpec>;
     fontTitle3: Partial<FontSpec>;
@@ -173,133 +187,98 @@ const THEME_DEFAULT: ThemeProps = {
     colorWarning: '#FF9500',
     colorDanger: '#D83434',
     colorButton: '#FFFFFF',
+    guidelineBaseWidth: 375,
+    guidelineBaseHeight: 667,
+    fontFamily: Platform.select({
+        ios: {
+            thin: 'HelveticaNeue-Thin',
+            thinItalic: 'HelveticaNeue-ThinItalic',
+            light: 'HelveticaNeue-Light',
+            lightItalic: 'HelveticaNeue-LightItalic',
+            regular: 'Helvetica Neue',
+            regularItalic: 'HelveticaNeue-Italic',
+            medium: 'HelveticaNeue-Medium',
+            mediumItalic: 'HelveticaNeue-MediumItalic',
+            bold: 'HelveticaNeue-Bold',
+            boldItalic: 'HelveticaNeue-BoldItalic',
+        },
+        default: {
+            thin: 'Roboto-Thin',
+            thinItalic: 'Roboto-ThinItalic',
+            light: 'Roboto-Light',
+            lightItalic: 'Roboto-LightItalic',
+            regular: 'Roboto-Regular',
+            regularItalic: 'Roboto-RegularItalic',
+            medium: 'Roboto-Medium',
+            mediumItalic: 'Roboto-MediumItalic',
+            bold: 'Roboto-Bold',
+            boldItalic: 'Roboto-BoldItalic',
+        }
+    }),
     // Font Specs
-    fontTitle1: Platform.select({
-        android: {
-            size: 28,
-            lineHeight: 34,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 28,
-            lineHeight: 34,
-            letterSpacing: 13,
-            weight: 'regular',
-            family: 'System'
+    fontTitle1: {
+        size: 25,
+        lineHeight: 31,
+        letterSpacing: 0.354004,
+        weight: 'regular',
+        style: {
+            // includeFontPadding: false
         }
-    }),
-    fontTitle2: Platform.select({
-        android: {
-            size: 22,
-            lineHeight: 28,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 22,
-            lineHeight: 28,
-            letterSpacing: 16,
-            weight: 'regular',
-            family: 'System'
+    },
+    fontTitle2: {
+        size: 19,
+        lineHeight: 24,
+        letterSpacing: -0.49,
+        weight: 'regular',
+        style: {
+            includeFontPadding: false
         }
-    }),
-    fontTitle3: Platform.select({
-        android: {
-            size: 20,
-            lineHeight: 25,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 20,
-            lineHeight: 25,
-            letterSpacing: 19,
-            weight: 'regular',
-            family: 'System'
+    },
+    fontTitle3: {
+        size: 17,
+        lineHeight: 22,
+        letterSpacing: -0.408,
+        weight: 'light',
+        style: {
+            includeFontPadding: false
         }
-    }),
-    fontLarge: Platform.select({
-        android: {
-            size: 17,
-            lineHeight: 22,
-            weight: 'semibold',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 17,
-            lineHeight: 22,
-            letterSpacing: -24,
-            weight: 'semibold',
-            family: 'System'
+    },
+    fontLarge: {
+        size: 14,
+        lineHeight: 19,
+        letterSpacing: -0.154,
+        weight: 'medium',
+        style: {
+            includeFontPadding: false
         }
-    }),
-    fontRegular: Platform.select({
-        android: {
-            size: 17,
-            lineHeight: 22,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 17,
-            lineHeight: 22,
-            letterSpacing: -24,
-            weight: 'regular',
-            family: 'System'
+    },
+    fontRegular: {
+        size: 14,
+        lineHeight: 19,
+        letterSpacing: -0.154,
+        weight: 'regular',
+        style: {
+            includeFontPadding: false
         }
-    }),
-    fontSmall: Platform.select({
-        android: {
-            size: 14,
-            lineHeight: 18,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 14,
-            lineHeight: 18,
-            letterSpacing: -16,
-            weight: 'regular',
-            family: 'System'
+    },
+    fontSmall: {
+        size: 12,
+        lineHeight: 16,
+        letterSpacing: 0,
+        weight: 'light',
+        style: {
+            includeFontPadding: false
         }
-    }),
-    fontCaption: Platform.select({
-        android: {
-            size: 12,
-            lineHeight: 16,
-            weight: 'regular',
-            family: 'System',
-            style: {
-                includeFontPadding: false
-            }
-        },
-        default: {
-            size: 12,
-            lineHeight: 16,
-            letterSpacing: 0,
-            weight: 'regular',
-            family: 'System'
+    },
+    fontCaption: {
+        size: 11,
+        lineHeight: 13,
+        letterSpacing: 0.06,
+        weight: 'light',
+        style: {
+            includeFontPadding: false
         }
-    }),
+    },
     spacing: {
         micro: 4,
         tiny: 8,

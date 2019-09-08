@@ -30,6 +30,46 @@ yarn add react-native-colibri
 npm i react-native-colibri --save
 ```
 
+Link resources (Fonts on Android)
+
+```bash
+react-native link
+```
+
+
+
+## Guidelines
+
+
+### Typography
+
+
+####  Installing custom fonts
+
+#### Configuring fonts in Theme
+
+Example:
+
+```jsx
+import { setTheme} from 'react-native-colibri';
+
+setTheme({
+    fontFamily:{
+        thin: 'Roboto-Thin',
+        thinItalic: 'Roboto-ThinItalic',
+        light: 'Roboto-Light',
+        lightItalic: 'Roboto-LightItalic',
+        regular: 'Roboto-Regular',
+        regularItalic: 'Roboto-RegularItalic',
+        medium: 'Roboto-Medium',
+        mediumItalic: 'Roboto-MediumItalic',
+        bold: 'Roboto-Bold',
+        boldItalic: 'Roboto-BoldItalic',
+    }
+});
+```
+
+
 
 ## Components
 
