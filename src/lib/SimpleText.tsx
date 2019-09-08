@@ -21,6 +21,7 @@ export type SimpleTextProps = RnTextProps & {
     small?: boolean;
     caption?: boolean;
     reverse?: boolean;
+    secondary?: boolean;
     bold?: boolean;
     italic?: boolean;
     underline?: boolean;
@@ -95,7 +96,11 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                     : (
                                         this.props.reverse
                                             ? theme.colorTextReverse
-                                            : theme.colorText
+                                            : (
+                                                this.props.secondary
+                                                    ? theme.colorTextSecondary
+                                                    : theme.colorText
+                                            )
                                     ),
                             textAlign:
                                 this.props.align === 'center'

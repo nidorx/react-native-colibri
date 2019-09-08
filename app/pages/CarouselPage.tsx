@@ -1,7 +1,7 @@
 import React from 'react';
 import {Carousel, SimpleText, TableView, TableViewSection} from "../../lib";
 
-export default class CarouselPage extends React.Component {
+export default class CarouselPage extends React.PureComponent {
 
     render() {
         let SEQ = 1;

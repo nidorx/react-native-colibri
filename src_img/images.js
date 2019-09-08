@@ -3,5 +3,6 @@
 // const H = 680;
 module.exports = {
     "flag-info.png": 12,
-    "flag-exclamation.png": 12
+    "flag-exclamation.png": 12,
+    "spinner.png": 30,
 };

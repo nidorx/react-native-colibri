@@ -6,14 +6,18 @@ import TypographyPage from "./pages/TypographyPage";
 import CardPage from "./pages/CardPage";
 import EmptyStatePage from "./pages/EmptyStatePage";
 import CarouselPage from "./pages/CarouselPage";
+import CarouselImagePage from "./pages/CarouselImagePage";
+import ButtonPage from "./pages/ButtonPage";
 
 const PAGES: { [key: string]: { [key: string]: any } } = {
     'Base': {
         'Typography': TypographyPage
     },
     'UI Components': {
+        'Button': ButtonPage,
         'Card': CardPage,
         'Carousel': CarouselPage,
+        'CarouselImage': CarouselImagePage,
         'EmptyState': EmptyStatePage,
     }
 };

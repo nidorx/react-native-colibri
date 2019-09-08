@@ -93,11 +93,8 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
 
     state: CardStoryState = {};
 
-    private carouselImage?: CarouselImage;
-
     render() {
-        const theme: any = getTheme();
-        (theme as any).paddingBig = 20;
+        const theme = getTheme();
         let SEQ = 1;
 
         let onPressMore = () => {
@@ -395,65 +392,34 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <View>
-                                        <Card
-                                            title={'Gradient Tribute Posters'}
-                                            subtitle={(
-                                                <SimpleText
-                                                    text={'by Duminda Perera '}
-                                                    small={true}
-                                                />
-                                            )}
-                                            moreText={'View on Behance'}
-                                            image={{
-                                                source: require('../assets/card_background.jpg')
-                                            }}
-                                            onPressMore={() => {
-                                            }}
-                                            style={{backgroundColor: theme.colorContent}}
-                                        >
+                                    <Card
+                                        title={'Gradient Tribute Posters'}
+                                        subtitle={(
                                             <SimpleText
-                                                text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
-                                                style={{
-                                                    height: 150,
-                                                    width: '60%',
-                                                    alignSelf: 'flex-end',
-                                                    paddingRight: spacingReact(theme, 'base')
-                                                }}
-                                                align={'right'}
+                                                text={'by Duminda Perera '}
+                                                small={true}
                                             />
-                                        </Card>
-
-                                        <Card
-                                            title={'Gradient Tribute Posters'}
-                                            subtitle={(
-                                                <SimpleText
-                                                    text={'by Duminda Perera '}
-                                                    small={true}
-                                                />
-                                            )}
-                                            moreText={'View on Behance'}
-                                            image={{
-                                                source: require('../assets/card_background.jpg')
+                                        )}
+                                        moreText={'View on Behance'}
+                                        image={{
+                                            source: require('../assets/card_background.jpg')
+                                        }}
+                                        onPressMore={() => {
+                                        }}
+                                        style={{backgroundColor: theme.colorContent}}
+                                        shadow={true}
+                                    >
+                                        <SimpleText
+                                            text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
+                                            style={{
+                                                height: 150,
+                                                width: '60%',
+                                                alignSelf: 'flex-end',
+                                                paddingRight: spacingReact(theme, 'base')
                                             }}
-                                            onPressMore={() => {
-                                            }}
-                                            style={{backgroundColor: theme.colorContent}}
-                                            boxed={true}
-                                        >
-                                            <SimpleText
-                                                text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
-                                                style={{
-                                                    height: 150,
-                                                    // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                                    width: '60%',
-                                                    alignSelf: 'flex-end',
-                                                    paddingRight: spacingReact(theme, 'base')
-                                                }}
-                                                align={'right'}
-                                            />
-                                        </Card>
-                                    </View>
+                                            align={'right'}
+                                        />
+                                    </Card>
                                 ),
                                 style: {
                                     paddingHorizontal: 0,
@@ -463,67 +429,102 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                             {
                                 key: `row-${SEQ++}`,
                                 title: (
-                                    <View>
-
-                                        <Card
-                                            title={'Recently updated'}
-                                            subtitle={(
-                                                <SimpleText
-                                                    text={'Fresh features & content'}
-                                                    small={true}
-                                                />
-                                            )}
-                                            moreText={'See more'}
-                                            image={{
-                                                source: require('../assets/book-background.png')
-                                            }}
-                                            onPressMore={onPressMore}
-                                            imageTranslateXValue={
-                                                this.state.carouselImage
-                                                    ? this.state.carouselImage.animatedValueScroll
-                                                    : undefined
-                                            }
-                                            style={{
-                                                paddingBottom: spacingReact(theme, 'base'),
-                                            }}
-                                            boxed={true}
-                                            shadowPattern={'C'}
-                                        >
-                                            <CarouselImage
-                                                skip={2}
-                                                numColumns={3}
-                                                ref={(carouselImage) => {
-                                                    this.setState({
-                                                        carouselImage: carouselImage || undefined
-                                                    });
-                                                }}
-                                                data={BOOKS}
-                                                renderContent={item => {
-                                                    return (
-                                                        <View>
-                                                            <SimpleText
-                                                                text={item.name}
-                                                                align={'left'}
-                                                                small={true}
-                                                                numberOfLines={2}
-                                                                inline={true}
-                                                            />
-                                                            <SimpleText
-                                                                text={item.edition}
-                                                                align={'left'}
-                                                                small={true}
-                                                                numberOfLines={1}
-                                                                inline={true}
-                                                            />
-                                                        </View>
-                                                    )
-                                                }}
-                                                onPress={item => {
-                                                    Toast.show(item.name);
-                                                }}
+                                    <Card
+                                        title={'Gradient Tribute Posters'}
+                                        subtitle={(
+                                            <SimpleText
+                                                text={'by Duminda Perera '}
+                                                small={true}
                                             />
-                                        </Card>
-                                    </View>
+                                        )}
+                                        moreText={'View on Behance'}
+                                        image={{
+                                            source: require('../assets/card_background.jpg')
+                                        }}
+                                        onPressMore={() => {
+                                        }}
+                                        style={{backgroundColor: theme.colorContent}}
+                                        boxed={true}
+                                    >
+                                        <SimpleText
+                                            text={'Dumma Branding is licensed under CC BY-NC-ND 4.0'}
+                                            style={{
+                                                height: 150,
+                                                // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                                width: '60%',
+                                                alignSelf: 'flex-end',
+                                                paddingRight: spacingReact(theme, 'base')
+                                            }}
+                                            align={'right'}
+                                        />
+                                    </Card>
+                                ),
+                                style: {
+                                    paddingHorizontal: 0,
+                                    backgroundColor: '#FFC96F'
+                                }
+                            },
+                            {
+                                key: `row-${SEQ++}`,
+                                title: (
+                                    <Card
+                                        title={'Recently updated'}
+                                        subtitle={(
+                                            <SimpleText
+                                                text={'Fresh features & content'}
+                                                small={true}
+                                            />
+                                        )}
+                                        moreText={'See more'}
+                                        image={{
+                                            source: require('../assets/book-background.png')
+                                        }}
+                                        onPressMore={onPressMore}
+                                        imageTranslateXValue={
+                                            this.state.carouselImage
+                                                ? this.state.carouselImage.animatedValueScroll
+                                                : undefined
+                                        }
+                                        style={{
+                                            paddingBottom: spacingReact(theme, 'base'),
+                                        }}
+                                        boxed={true}
+                                        shadowPattern={'C'}
+                                    >
+                                        <CarouselImage
+                                            skip={2}
+                                            numColumns={3}
+                                            ref={(carouselImage) => {
+                                                this.setState({
+                                                    carouselImage: carouselImage || undefined
+                                                });
+                                            }}
+                                            data={BOOKS}
+                                            renderContent={item => {
+                                                return (
+                                                    <View>
+                                                        <SimpleText
+                                                            text={item.name}
+                                                            align={'left'}
+                                                            small={true}
+                                                            numberOfLines={2}
+                                                            inline={true}
+                                                        />
+                                                        <SimpleText
+                                                            text={item.edition}
+                                                            align={'left'}
+                                                            small={true}
+                                                            numberOfLines={1}
+                                                            inline={true}
+                                                        />
+                                                    </View>
+                                                )
+                                            }}
+                                            onPress={item => {
+                                                Toast.show(item.name);
+                                            }}
+                                        />
+                                    </Card>
                                 ),
                                 style: {
                                     paddingHorizontal: 0

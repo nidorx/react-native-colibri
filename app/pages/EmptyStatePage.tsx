@@ -1,7 +1,7 @@
 import React from 'react';
 import {EmptyState, TableView, TableViewRow, TableViewSection, Toast} from "../../lib";
 
-export default class EmptyStatePage extends React.Component {
+export default class EmptyStatePage extends React.PureComponent {
 
     render() {
         let SEQ = 1;
