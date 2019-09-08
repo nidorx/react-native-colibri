@@ -108,6 +108,38 @@ export function renderComponentPropertiesSection(
                             }}
                         />
                     )
+                } else if (prop.type === 'number') {
+                    controlRight = (
+                        <TextInput
+                            keyboardType={'numeric'}
+                            value={instance.state.props['__text' + key]}
+                            onChangeText={text => {
+                                instance.setState({
+                                    props: {
+                                        ...instance.state.props,
+                                        ['__text' + key]: text
+                                    }
+                                });
+                            }}
+                            onBlur={e => {
+                                let value: any = Number.parseFloat(instance.state.props['__text' + key]);
+                                if (Number.isNaN(value)) {
+                                    value = undefined;
+                                }
+                                instance.setState({
+                                    props: {
+                                        ...instance.state.props,
+                                        [key]: value
+                                    }
+                                });
+                            }}
+                            style={{
+                                backgroundColor: '#eee',
+                                width: 50,
+                                flex: 1
+                            }}
+                        />
+                    )
                 } else if (prop.type.indexOf('|') > 0) {
                     const options = (prop.type as string)
                         .split('|')

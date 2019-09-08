@@ -1,15 +1,9 @@
 import React from 'react'
-import {
-    NativeSyntheticEvent,
-    NativeTouchEvent,
-    StyleProp,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    ViewStyle
-} from 'react-native';
+import {NativeSyntheticEvent, NativeTouchEvent, StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import SimpleText from './SimpleText';
 import Theme, {
+    ColorComponent,
+    ColorSystem,
     FontSpec,
     fontStyle,
     getTheme,
@@ -64,6 +58,14 @@ export type ButtonProps = {
      */
     monochrome?: boolean;
     /**
+     * Change border width
+     */
+    borderWidth?: number;
+    /**
+     * Define border radius
+     */
+    borderRadius?: number;
+    /**
      * Provides extra visual weight and identifies the primary action in a set of buttons
      */
     primary?: boolean;
@@ -83,30 +85,22 @@ export type ButtonProps = {
      * Callback when pressed
      */
     onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-    bgColor?: string;
-    fgColor?: string;
-    large?: boolean;
-    color?: string;
-    accessibilityLabel?: string;
 }
 
-const buttonStyles = StyleSheet.create({
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
-    },
-    buttonBig: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
-    }
-});
+type ButtonState = {
+    minWidth: number;
+    minHeight: number;
+}
 
 /**
  * Simple button using TouchableOpacity
  */
-export default class Button extends React.PureComponent<ButtonProps> {
+export default class Button extends React.PureComponent<ButtonProps, ButtonState> {
+
+    state: ButtonState = {
+        minWidth: 0,
+        minHeight: 0
+    };
 
     render() {
 
@@ -137,37 +131,75 @@ export default class Button extends React.PureComponent<ButtonProps> {
                     }
 
 
-                    const spacingH = scale(theme, spacingReact(theme, spacing) as number);
-                    const spacingV = scaleModerate(theme, spacingReact(theme, spacing) as number);
+                    const spacingVertical = scaleModerate(theme, spacingReact(theme, spacing) as number);
+                    const spacingHorizontal = scale(theme, spacingReact(theme, spacing) as number);
                     const spacingTiny = spacingReact(theme, 'tiny');
-                    const spacingSmall = spacingReact(theme, 'small');
+                    const spacingMicro = spacingReact(theme, 'micro') as number;
 
-                    let fgColor = this.props.fgColor || theme.colorButton;
-                    let bgColor = this.props.bgColor || theme.colorPrimary;
+                    let color: ColorComponent = theme.colorBasic;
+
+                    if (this.props.primary) {
+                        color = theme.colorPrimary;
+                    }
+
+                    if (this.props.disabled) {
+                        color = (color as ColorSystem).states.disabled;
+                    }
 
                     const lineHeight = scaleVertical(theme, font.lineHeight as number);
+                    const height = lineHeight + (spacingVertical * 2);
 
                     return (
                         <TouchableOpacity
                             activeOpacity={0.5}
                             onPress={this.props.onPress}
-                            disabled={this.props.disabled}
+                            disabled={this.props.disabled || this.props.loading}
                         >
                             <View
                                 style={[
-                                    this.props.large ? buttonStyles.buttonBig : buttonStyles.button,
                                     {
-                                        backgroundColor: bgColor,
-                                        // padding: spacingTiny,
-                                        paddingVertical: spacingV,
-                                        paddingHorizontal: spacingH,
-                                        borderRadius: this.props.rounded ? this.props.large ? 40 : 30 : 0,
-                                        opacity: this.props.disabled ? 0.5 : this.props.loading ? 0.7 : undefined,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                        backgroundColor: this.props.outline ? undefined : color.background,
+                                        paddingVertical: spacingVertical,
+                                        paddingHorizontal: spacingHorizontal,
+                                        borderRadius: (
+                                            this.props.rounded
+                                                ? (height / 2)
+                                                : (
+                                                    this.props.borderRadius == undefined
+                                                        ? (spacingMicro / 2)
+                                                        : this.props.borderRadius
+                                                )
+                                        ),
                                         alignSelf: 'flex-start',
-                                        width: this.props.fullWidth ? '100%' : undefined
+                                        width: this.props.fullWidth ? '100%' : undefined,
+                                        minWidth: this.props.loading ? this.state.minWidth : 0,
+                                        height: height,
+                                        borderWidth: this.props.borderWidth === undefined ? 1 : this.props.borderWidth,
+                                        borderColor: this.props.monochrome ? color.text : color.border
                                     },
+                                    this.props.plain
+                                        ? {
+                                            paddingVertical: 0,
+                                            paddingHorizontal: 0,
+                                            borderWidth: 0,
+                                            borderRadius: 0,
+                                            height: lineHeight,
+                                            backgroundColor: 'transparent'
+                                        }
+                                        : undefined,
                                     this.props.style
                                 ]}
+                                onLayout={event => {
+                                    if (!this.props.loading) {
+                                        this.setState({
+                                            minWidth: event.nativeEvent.layout.width,
+                                            minHeight: event.nativeEvent.layout.height,
+                                        });
+                                    }
+                                }}
                             >
 
                                 {
@@ -179,38 +211,38 @@ export default class Button extends React.PureComponent<ButtonProps> {
                                                 }}
                                             >
                                                 <Spinner
-                                                    color={fgColor}
+                                                    color={color.text}
                                                     size={lineHeight}
                                                 />
                                             </View>
                                         )
-                                        : null
-                                }
-
-                                {
-                                    this.props.title
-                                        ? (
-                                            <SimpleText
-                                                theme={theme}
-                                                inline={true}
-                                                color={fgColor}
-                                                style={fontStyle(theme, font)}
-                                            >
-                                                {this.props.title}
-                                            </SimpleText>
+                                        : (
+                                            this.props.title
+                                                ? (
+                                                    <SimpleText
+                                                        theme={theme}
+                                                        inline={true}
+                                                        color={color.text}
+                                                        style={fontStyle(theme, font)}
+                                                    >
+                                                        {this.props.title}
+                                                    </SimpleText>
+                                                )
+                                                : (
+                                                    (typeof this.props.children === 'string')
+                                                        ? (
+                                                            <SimpleText
+                                                                theme={theme}
+                                                                inline={true}
+                                                                color={color.text}
+                                                                style={fontStyle(theme, font)}
+                                                            >
+                                                                {this.props.children}
+                                                            </SimpleText>
+                                                        )
+                                                        : this.props.children
+                                                )
                                         )
-                                        : (typeof this.props.children === 'string')
-                                        ? (
-                                            <SimpleText
-                                                theme={theme}
-                                                inline={true}
-                                                color={fgColor}
-                                                style={fontStyle(theme, font)}
-                                            >
-                                                {this.props.children}
-                                            </SimpleText>
-                                        )
-                                        : this.props.children
                                 }
                             </View>
                         </TouchableOpacity>

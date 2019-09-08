@@ -94,6 +94,10 @@ export default class ButtonPage extends React.PureComponent {
                              */
                             rounded?: boolean;
                             /**
+                             * Changes the size of the button, giving it more or less padding
+                             */
+                            size?: 'micro' | 'tiny' | 'medium' | 'large';
+                            /**
                              * Allows the button to grow to the width of its container
                              */
                             fullWidth?: boolean;
@@ -118,6 +122,14 @@ export default class ButtonPage extends React.PureComponent {
                              */
                             monochrome?: boolean;
                             /**
+                             * Change border width
+                             */
+                            borderWidth?: number;
+                            /**
+                             * Define border radius
+                             */
+                            borderRadius?: number;
+                            /**
                              * Provides extra visual weight and identifies the primary action in a set of buttons
                              */
                             primary?: boolean;
@@ -130,18 +142,9 @@ export default class ButtonPage extends React.PureComponent {
                              */
                             style?: StyleProp<ViewStyle>;
                             /**
-                             * Changes the size of the button, giving it more or less padding
-                             */
-                            size?: 'micro' | 'tiny' | 'medium' | 'large';
-                            /**
                              * Callback when pressed
                              */
                             onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-                            bgColor?: string;
-                            fgColor?: string;
-                            large?: boolean;
-                            color?: string;
-                            accessibilityLabel?: string;
                         `
                     ),
 
