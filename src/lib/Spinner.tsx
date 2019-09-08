@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, Easing,} from 'react-native';
+import {Animated, Easing, View,} from 'react-native';
 import Theme, {getTheme, scale, ThemeProps} from "./Theme";
 
 export type TitleProps = {
@@ -42,23 +42,25 @@ export default class Spinner extends React.PureComponent<TitleProps> {
                     const theme = getTheme(this.props.theme);
                     const size = this.props.size || scale(theme, theme.fontRegular.lineHeight as number);
                     return (
-                        <Animated.Image
-                            source={require('../assets/spinner.png')}
-                            style={{
-                                opacity: this.props.opacity || 0.5,
-                                tintColor: this.props.color || '#000',
-                                width: size,
-                                height: size,
-                                transform: [
-                                    {
-                                        rotate: this.animatedValue.interpolate({
-                                            inputRange: [0, 1],
-                                            outputRange: ['-180deg', '180deg']
-                                        })
-                                    }
-                                ]
-                            }}
-                        />
+                        <View>
+                            <Animated.Image
+                                source={require('../assets/spinner.png')}
+                                style={{
+                                    width: size,
+                                    height: size,
+                                    tintColor: this.props.color || '#000',
+                                    opacity: this.props.opacity || 0.5,
+                                    transform: [
+                                        {
+                                            rotate: this.animatedValue.interpolate({
+                                                inputRange: [0, 1],
+                                                outputRange: ['-180deg', '180deg']
+                                            })
+                                        }
+                                    ]
+                                }}
+                            />
+                        </View>
                     )
                 }}
             </Theme>

@@ -113,6 +113,26 @@ export function fontStyle(theme: ThemeProps, font: Partial<FontSpec>) {
     };
 }
 
+export type ColorComponent = {
+    background: string;
+    text: string;
+    border: string;
+}
+
+/**
+ * Definições para cores
+ *
+ * http://contrast-grid.eightshapes.com
+ * https://material.io/resources/color/
+ * https://pinetools.com/change-color-saturation
+ */
+export type ColorSystem = ColorComponent & {
+    states: {
+        active: ColorComponent;
+        disabled: ColorComponent;
+    }
+}
+
 /**
  * Propriedades do Tema
  */
@@ -127,12 +147,13 @@ export type ThemeProps = {
     colorUnderlay: string;
     colorLine: string;
     colorLineSelected: string;
-    colorPrimary: string;
-    colorSelected: string;
+    colorBasic: ColorSystem;
+    colorPrimary: ColorSystem;
     colorInfo: string;
     colorSuccess: string;
     colorWarning: string;
     colorDanger: string;
+    colorSelected: string;
     colorButton: string;
     // Default guideline sizes are based on standard ~5" screen mobile device
     guidelineBaseWidth: number;
@@ -180,7 +201,40 @@ const THEME_DEFAULT: ThemeProps = {
     colorTextSecondary: '#8E8E93',
     colorTextReverse: '#FFF',
     colorLink: '#007AFF',
-    colorPrimary: '#007AFF',
+    colorBasic: {
+        background: '#FFF',
+        text: '#212B36',
+        border: '#DDD',
+        states: {
+            active: {
+                background: '#007AFF',
+                text: '#FFF',
+                border: '#007AFF',
+            },
+            disabled: {
+                background: '#F2F2F2',
+                text: '#8E8E93',
+                border: '#DDD',
+            }
+        }
+    },
+    colorPrimary: {
+        background: '#0C7AF2',
+        text: '#FFF',
+        border: '#007AFF',
+        states: {
+            active: {
+                background: '#007AFF',
+                text: '#FFF',
+                border: '#007AFF',
+            },
+            disabled: {
+                background: '#007AFF',
+                text: '#FFF',
+                border: '#007AFF',
+            }
+        }
+    },
     colorSelected: '#F2F2F2',
     colorInfo: '#007AFF',
     colorSuccess: '#90C053',
