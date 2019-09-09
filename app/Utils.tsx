@@ -85,7 +85,7 @@ export function renderComponentPropertiesSection(
                 } else if (prop.type === 'string') {
                     controlContent = (
                         <TextInput
-                            value={instance.state.props['__text' + key]}
+                            value={instance.state.props['__text' + key] || instance.state.props[key]}
                             onChangeText={text => {
                                 instance.setState({
                                     props: {

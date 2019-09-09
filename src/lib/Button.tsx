@@ -1,8 +1,17 @@
 import React from 'react'
-import {NativeSyntheticEvent, NativeTouchEvent, StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+    Animated,
+    LayoutChangeEvent,
+    NativeSyntheticEvent,
+    NativeTouchEvent,
+    StyleProp,
+    StyleSheet,
+    TouchableWithoutFeedback,
+    View,
+    ViewStyle
+} from 'react-native';
 import SimpleText from './SimpleText';
 import Theme, {
-    ColorComponent,
     ColorSystem,
     FontSpec,
     fontStyle,
@@ -15,6 +24,9 @@ import Theme, {
     ThemeProps
 } from "./Theme";
 import Spinner from "./Spinner";
+import {animateGenericNative} from "./Utils";
+
+const AnimatedSimpleText = Animated.createAnimatedComponent(SimpleText);
 
 export type ButtonProps = {
     /**
@@ -102,6 +114,33 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
         minHeight: 0
     };
 
+    private animatedValue = new Animated.Value(0);
+
+    componentDidMount(): void {
+        if (this.props.loading) {
+            this.animatedValue.setValue(-2);
+        } else if (this.props.disabled) {
+            this.animatedValue.setValue(-1);
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<ButtonProps>, prevState: Readonly<ButtonState>, snapshot?: any): void {
+        if (this.props.loading && !prevProps.loading) {
+            animateGenericNative(this.animatedValue, -2, undefined, true, 500);
+        } else if (this.props.loading) {
+            // still loading
+            return;
+        } else if ((this.props.loading !== prevProps.loading) || (this.props.disabled !== prevProps.disabled)) {
+            if (this.props.disabled) {
+                animateGenericNative(this.animatedValue, -1);
+            } else if (prevProps.loading) {
+                animateGenericNative(this.animatedValue, 0, undefined, true, 500);
+            } else {
+                animateGenericNative(this.animatedValue, 0);
+            }
+        }
+    }
+
     render() {
 
         return (
@@ -136,22 +175,63 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                     const spacingTiny = spacingReact(theme, 'tiny');
                     const spacingMicro = spacingReact(theme, 'micro') as number;
 
-                    let color: ColorComponent = theme.colorBasic;
+                    let color: ColorSystem = theme.colorBase;
 
-                    if (this.props.primary) {
+
+                    if (this.props.danger) {
+                        color = theme.colorDanger;
+                    } else if (this.props.warning) {
+                        color = theme.colorWarning;
+                    } else if (this.props.success) {
+                        color = theme.colorSuccess;
+                    } else if (this.props.info) {
+                        color = theme.colorInfo;
+                    } else if (this.props.primary) {
                         color = theme.colorPrimary;
                     }
 
+                    const isBaseColor = color === theme.colorBase;
+
+                    let colorActive = color.states.active;
+                    let colorDisabled = color.states.disabled;
+
                     if (this.props.disabled) {
-                        color = (color as ColorSystem).states.disabled;
+                        // color = (color as ColorSystem).states.disabled;
                     }
 
                     const lineHeight = scaleVertical(theme, font.lineHeight as number);
                     const height = lineHeight + (spacingVertical * 2);
 
+                    const borderWidth = this.props.borderWidth === undefined ? 1 : this.props.borderWidth;
+                    const borderRadius = (
+                        this.props.rounded
+                            ? (height / 2)
+                            : (
+                                this.props.borderRadius == undefined
+                                    ? (spacingMicro / 2)
+                                    : this.props.borderRadius
+                            )
+                    );
+
+
+                    const opacity = this.animatedValue.interpolate({
+                        inputRange: [-1, 0],
+                        outputRange: [0, 1]
+                    });
+
+                    const opacityActive = this.animatedValue.interpolate({
+                        inputRange: [-1, 0, 1],
+                        outputRange: [0, 0, 1]
+                    });
+
                     return (
-                        <TouchableOpacity
-                            activeOpacity={0.5}
+                        <TouchableWithoutFeedback
+                            onPressIn={event => {
+                                animateGenericNative(this.animatedValue, 1);
+                            }}
+                            onPressOut={event => {
+                                animateGenericNative(this.animatedValue, 0);
+                            }}
                             onPress={this.props.onPress}
                             disabled={this.props.disabled || this.props.loading}
                         >
@@ -161,24 +241,16 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                         flexDirection: 'row',
-                                        backgroundColor: this.props.outline ? undefined : color.background,
                                         paddingVertical: spacingVertical,
                                         paddingHorizontal: spacingHorizontal,
-                                        borderRadius: (
-                                            this.props.rounded
-                                                ? (height / 2)
-                                                : (
-                                                    this.props.borderRadius == undefined
-                                                        ? (spacingMicro / 2)
-                                                        : this.props.borderRadius
-                                                )
-                                        ),
+                                        borderRadius: borderRadius,
                                         alignSelf: 'flex-start',
                                         width: this.props.fullWidth ? '100%' : undefined,
-                                        minWidth: this.props.loading ? this.state.minWidth : 0,
-                                        height: height,
-                                        borderWidth: this.props.borderWidth === undefined ? 1 : this.props.borderWidth,
-                                        borderColor: this.props.monochrome ? color.text : color.border
+                                        // minWidth: this.props.loading ? this.state.minWidth : 0,
+                                        // height: height,
+                                        borderWidth: borderWidth,
+                                        borderColor: 'transparent',
+                                        // overflow: 'hidden'
                                     },
                                     this.props.plain
                                         ? {
@@ -186,13 +258,12 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                             paddingHorizontal: 0,
                                             borderWidth: 0,
                                             borderRadius: 0,
-                                            height: lineHeight,
-                                            backgroundColor: 'transparent'
+                                            // height: lineHeight,
                                         }
                                         : undefined,
                                     this.props.style
                                 ]}
-                                onLayout={event => {
+                                onLayout={(event: LayoutChangeEvent) => {
                                     if (!this.props.loading) {
                                         this.setState({
                                             minWidth: event.nativeEvent.layout.width,
@@ -201,51 +272,162 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                     }
                                 }}
                             >
+                                {
+                                    // Background and borders as native animated element
+                                    (this.props.plain)
+                                        ? null
+                                        : (
+                                            <View style={StyleSheet.absoluteFill}>
+                                                <Animated.View
+                                                    style={[
+                                                        StyleSheet.absoluteFill,
+                                                        {
+                                                            borderWidth: borderWidth,
+                                                            borderRadius: borderRadius,
+                                                            backgroundColor: (this.props.outline || this.props.monochrome) ? undefined : color.background,
+                                                            borderColor: color.border,
+                                                            opacity: opacity
+                                                        }
+                                                    ]}
+                                                />
+                                                <Animated.View
+                                                    style={[
+                                                        StyleSheet.absoluteFill,
+                                                        {
+                                                            borderWidth: borderWidth,
+                                                            borderRadius: borderRadius,
+                                                            backgroundColor: (this.props.outline || this.props.monochrome) ? undefined : colorActive.background,
+                                                            borderColor: colorActive.border,
+                                                            opacity: opacityActive
+                                                        }
+                                                    ]}
+                                                />
+                                                <Animated.View
+                                                    style={[
+                                                        StyleSheet.absoluteFill,
+                                                        {
+                                                            borderWidth: borderWidth,
+                                                            borderRadius: borderRadius,
+                                                            backgroundColor: (this.props.outline || this.props.monochrome) ? undefined : colorDisabled.background,
+                                                            borderColor: colorDisabled.border,
+                                                            opacity: this.animatedValue.interpolate({
+                                                                inputRange: [-1, 0, 1],
+                                                                outputRange: [1, 0, 0]
+                                                            })
+                                                        }
+                                                    ]}
+                                                />
+                                            </View>
+                                        )
+                                }
+
+                                <View>
+                                    <AnimatedSimpleText
+                                        theme={theme}
+                                        inline={true}
+                                        color={
+                                            this.props.plain
+                                                ? (
+                                                    isBaseColor
+                                                        ? color.text
+                                                        : color.background
+                                                )
+                                                : (
+                                                    this.props.monochrome
+                                                        ? color.border
+                                                        : color.text
+                                                )
+                                        }
+                                        style={[
+                                            fontStyle(theme, font),
+                                            {
+                                                opacity: opacity
+                                            }
+                                        ]}
+                                    >
+                                        {this.props.title}
+                                    </AnimatedSimpleText>
+                                    <AnimatedSimpleText
+                                        theme={theme}
+                                        inline={true}
+                                        color={
+                                            this.props.plain
+                                                ? (
+                                                    isBaseColor
+                                                        ? colorActive.text
+                                                        : colorActive.background
+                                                )
+                                                : (
+                                                    this.props.monochrome
+                                                        ? colorActive.border
+                                                        : colorActive.text
+                                                )
+                                        }
+                                        style={[
+                                            fontStyle(theme, font),
+                                            {
+                                                position: 'absolute',
+                                                opacity: opacityActive
+                                            }
+                                        ]}
+                                    >
+                                        {this.props.title}
+                                    </AnimatedSimpleText>
+                                    <AnimatedSimpleText
+                                        theme={theme}
+                                        inline={true}
+                                        color={
+                                            this.props.plain
+                                                ? (
+                                                    isBaseColor
+                                                        ? colorDisabled.text
+                                                        : colorDisabled.background
+                                                )
+                                                : (
+                                                    this.props.monochrome
+                                                        ? colorDisabled.border
+                                                        : colorDisabled.text
+                                                )
+                                        }
+                                        style={[
+                                            fontStyle(theme, font),
+                                            {
+                                                position: 'absolute',
+                                                opacity: this.animatedValue.interpolate({
+                                                    inputRange: [-2, -1, 0],
+                                                    outputRange: [0, 1, 0]
+                                                })
+                                            }
+                                        ]}
+                                    >
+                                        {this.props.title}
+                                    </AnimatedSimpleText>
+                                </View>
 
                                 {
                                     this.props.loading
                                         ? (
-                                            <View
+                                            <Animated.View
                                                 style={{
-                                                    marginRight: spacingTiny,
+                                                    position: 'absolute',
+                                                    alignSelf: 'center',
+                                                    opacity: this.animatedValue.interpolate({
+                                                        inputRange: [-2, -1],
+                                                        outputRange: [1, 0]
+                                                    })
                                                 }}
                                             >
                                                 <Spinner
-                                                    color={color.text}
+                                                    color={colorDisabled.border}
                                                     size={lineHeight}
+                                                    opacity={1}
                                                 />
-                                            </View>
+                                            </Animated.View>
                                         )
-                                        : (
-                                            this.props.title
-                                                ? (
-                                                    <SimpleText
-                                                        theme={theme}
-                                                        inline={true}
-                                                        color={color.text}
-                                                        style={fontStyle(theme, font)}
-                                                    >
-                                                        {this.props.title}
-                                                    </SimpleText>
-                                                )
-                                                : (
-                                                    (typeof this.props.children === 'string')
-                                                        ? (
-                                                            <SimpleText
-                                                                theme={theme}
-                                                                inline={true}
-                                                                color={color.text}
-                                                                style={fontStyle(theme, font)}
-                                                            >
-                                                                {this.props.children}
-                                                            </SimpleText>
-                                                        )
-                                                        : this.props.children
-                                                )
-                                        )
+                                        : null
                                 }
                             </View>
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                     )
                 }}
             </Theme>

@@ -54,19 +54,19 @@ export default class OkCancelView extends React.PureComponent <OkCancelViewProps
                 >
                     <View style={[styles.button, {paddingRight: padding}]}>
                         <Button
-                            block={true}
+                            danger={true}
                             rounded={true}
-                            title={this.props.cancelText || 'Cancel'}
-                            bgColor={theme.colorDanger}
+                            fullWidth={true}
                             onPress={this.props.onCancel}
+                            title={this.props.cancelText || 'Cancel'}
                         />
                     </View>
                     <View style={[styles.button, {paddingLeft: padding}]}>
                         <Button
-                            block={true}
                             rounded={true}
-                            title={this.props.okText || 'Ok'}
+                            fullWidth={true}
                             onPress={this.props.onOk}
+                            title={this.props.okText || 'Ok'}
                         />
                     </View>
                 </View>

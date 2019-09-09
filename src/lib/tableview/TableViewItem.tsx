@@ -355,16 +355,16 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
         let flagIcon: any;
 
         if (row.flag === 'danger') {
-            color = theme.colorDanger;
+            color = theme.colorDanger.background;
             imageSource = require('./../../assets/flag-exclamation.png');
         } else if (row.flag === 'warning') {
-            color = theme.colorWarning;
+            color = theme.colorWarning.background;
             imageSource = require('./../../assets/flag-exclamation.png');
         } else if (row.flag === 'info') {
-            color = theme.colorInfo;
+            color = theme.colorInfo.background;
             imageSource = require('./../../assets/flag-info.png');
         } else {
-            color = row.flag.color || theme.colorDanger;
+            color = row.flag.color || theme.colorDanger.background;
             flagIcon = (row.flag.icon || {});
             if (flagIcon === 'info') {
                 imageSource = require('./../../assets/flag-info.png');
@@ -561,12 +561,12 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                     {
                         swipeActions.map((action, index) => {
                             let bgColor = action.color === 'primary'
-                                ? theme.colorPrimary
+                                ? theme.colorPrimary.background
                                 : action.color === 'success'
-                                    ? theme.colorSuccess
+                                    ? theme.colorSuccess.background
                                     : action.color === 'warning'
-                                        ? theme.colorWarning
-                                        : theme.colorDanger;
+                                        ? theme.colorWarning.background
+                                        : theme.colorDanger.background;
                             return (
                                 <TouchableHighlight
                                     key={`${index}`}

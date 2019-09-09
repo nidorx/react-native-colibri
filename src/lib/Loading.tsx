@@ -145,7 +145,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                                 <AnimatedActivityIndicator
                                     animating={this.state.visible}
                                     size={'small'}
-                                    color={theme.colorPrimary}
+                                    color={theme.colorPrimary.background}
                                     style={{
                                         transform: [
                                             {
