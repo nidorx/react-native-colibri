@@ -155,7 +155,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                                     return (
                                                                         <View key={`action-${i}`} style={[styles.button, style]}>
                                                                             <Button
-                                                                                block={true}
+                                                                                fullWidth={true}
                                                                                 rounded={true}
                                                                                 {...props}
                                                                             />
@@ -166,7 +166,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                                     <View
                                                                         style={[styles.button, {marginTop: spacingReact(theme, 'small')}]}>
                                                                         <Button
-                                                                            block={true}
+                                                                            fullWidth={true}
                                                                             rounded={true}
                                                                             {...action}
                                                                         />
