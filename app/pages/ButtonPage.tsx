@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, TableView, TableViewSection, Toast} from "../../lib";
+import {Button, ButtonProps, TableView, TableViewSection, Toast} from "../../lib";
 import {View} from "react-native";
 import {renderComponentPropertiesSection} from "../Utils";
 
@@ -7,7 +7,9 @@ import {renderComponentPropertiesSection} from "../Utils";
 export default class ButtonPage extends React.PureComponent {
 
     state = {
-        props: {}
+        props: {
+            title: 'Add product'
+        } as ButtonProps
     };
 
     render() {
@@ -68,7 +70,6 @@ export default class ButtonPage extends React.PureComponent {
                         (
                             <View>
                                 <Button
-                                    title={'Add product'}
                                     onPress={() => {
                                         Toast.show('onPress button');
                                     }}
@@ -129,14 +130,14 @@ export default class ButtonPage extends React.PureComponent {
                              * Define border radius
                              */
                             borderRadius?: number;
+                            danger?: boolean;
+                            warning?: boolean;
+                            success?: boolean;
+                            info?: boolean;
                             /**
                              * Provides extra visual weight and identifies the primary action in a set of buttons
                              */
                             primary?: boolean;
-                            info?: boolean;
-                            danger?: boolean;
-                            warning?: boolean;
-                            success?: boolean;
                             /**
                              * Add custom style to button
                              */

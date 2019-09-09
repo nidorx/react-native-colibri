@@ -147,12 +147,12 @@ export type ThemeProps = {
     colorUnderlay: string;
     colorLine: string;
     colorLineSelected: string;
-    colorBasic: ColorSystem;
+    colorBase: ColorSystem;
     colorPrimary: ColorSystem;
-    colorInfo: string;
-    colorSuccess: string;
-    colorWarning: string;
-    colorDanger: string;
+    colorInfo: ColorSystem;
+    colorSuccess: ColorSystem;
+    colorWarning: ColorSystem;
+    colorDanger: ColorSystem;
     colorSelected: string;
     colorButton: string;
     // Default guideline sizes are based on standard ~5" screen mobile device
@@ -197,49 +197,113 @@ const THEME_DEFAULT: ThemeProps = {
     colorLine: 'rgba(0, 0, 0, 0.08)',
     colorLineSelected: '#CECED2',
     colorUnderlay: '#CECED2',
-    colorText: '#000000',
+    colorText: '#404040',
     colorTextSecondary: '#8E8E93',
     colorTextReverse: '#FFF',
     colorLink: '#007AFF',
-    colorBasic: {
-        background: '#FFF',
-        text: '#212B36',
-        border: '#DDD',
+    colorSelected: '#F2F2F2',
+    colorBase: {
+        background: '#FFFFFF',
+        text: '#404040',
+        border: '#DDDDDD',
         states: {
             active: {
-                background: '#007AFF',
-                text: '#FFF',
-                border: '#007AFF',
+                background: '#F2F2F2',
+                text: '#000000',
+                border: '#8E8E93',
             },
             disabled: {
                 background: '#F2F2F2',
                 text: '#8E8E93',
-                border: '#DDD',
+                border: '#DDDDDD',
             }
         }
     },
     colorPrimary: {
-        background: '#0C7AF2',
+        background: '#007AFF',
         text: '#FFF',
-        border: '#007AFF',
+        border: '#0071eb',
         states: {
             active: {
-                background: '#007AFF',
-                text: '#FFF',
+                background: '#008fff',
+                text: '#e0f0f6',
                 border: '#007AFF',
             },
             disabled: {
-                background: '#007AFF',
-                text: '#FFF',
-                border: '#007AFF',
+                background: '#e6ebf2',
+                text: '#c4d0e1',
+                border: '#c4d0e1',
             }
         }
     },
-    colorSelected: '#F2F2F2',
-    colorInfo: '#007AFF',
-    colorSuccess: '#90C053',
-    colorWarning: '#FF9500',
-    colorDanger: '#D83434',
+    colorInfo: {
+        background: '#007AFF',
+        text: '#FFF',
+        border: '#0071eb',
+        states: {
+            active: {
+                background: '#008fff',
+                text: '#e0f0f6',
+                border: '#007AFF',
+            },
+            disabled: {
+                background: '#e6ebf2',
+                text: '#76b7ff',
+                border: '#76b7ff',
+            }
+        }
+    },
+    colorSuccess: {
+        background: '#90C053',
+        text: '#FFF',
+        border: '#689035',
+        states: {
+            active: {
+                background: '#a3cb70',
+                text: '#404040',
+                border: '#90C053',
+            },
+            disabled: {
+                background: '#f6faf1',
+                text: '#b5d58c',
+                border: '#b5d58c',
+            }
+        }
+    },
+    colorWarning: {
+        background: '#FF9500',
+        text: '#FFF',
+        border: '#eb8a00',
+        states: {
+            active: {
+                background: '#ffa527',
+                text: '#FFEFD8',
+                border: '#FF9500',
+            },
+            disabled: {
+                background: '#FFEFD8',
+                text: '#ffc676',
+                border: '#ffc676',
+            }
+        }
+    },
+    colorDanger: {
+        background: '#D83434',
+        text: '#FFFFFF',
+        border: '#af2222',
+        states: {
+            active: {
+                background: '#db4444',
+                text: '#FBE9E9',
+                border: '#D83434',
+            },
+            disabled: {
+                background: '#FBE9E9',
+                text: '#e88686',
+                border: '#e88686',
+            }
+        }
+    },
     colorButton: '#FFFFFF',
     guidelineBaseWidth: 375,
     guidelineBaseHeight: 667,
