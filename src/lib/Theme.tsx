@@ -410,49 +410,70 @@ const THEME_DEFAULT: ThemeProps = {
 
 let theme: ThemeProps = THEME_DEFAULT;
 
+const THEME_REF_CACHE: Array<any> = [];
+const THEME_REF_CACHE_VALUE: Array<any> = [];
+
 /**
  * Get the default theme of components
  *
  * @param extra
  */
 export function getTheme(extra?: Partial<ThemeProps>): ThemeProps {
-    if (extra) {
-        return {
-            ...theme,
-            ...extra,
-            fontTitle1: {
-                ...theme.fontTitle1,
-                ...(extra.fontTitle1 || {}),
-            },
-            fontTitle2: {
-                ...theme.fontTitle2,
-                ...(extra.fontTitle2 || {}),
-            },
-            fontTitle3: {
-                ...theme.fontTitle3,
-                ...(extra.fontTitle3 || {}),
-            },
-            fontLarge: {
-                ...theme.fontLarge,
-                ...(extra.fontLarge || {}),
-            },
-            fontRegular: {
-                ...theme.fontRegular,
-                ...(extra.fontRegular || {}),
-            },
-            fontSmall: {
-                ...theme.fontSmall,
-                ...(extra.fontSmall || {}),
-            },
-            fontCaption: {
-                ...theme.fontCaption,
-                ...(extra.fontCaption || {}),
-            },
-            spacing: {
-                ...theme.spacing,
-                ...(extra.spacing || {}),
-            }
-        };
+    if (extra && extra !== theme) {
+        // avoid processing
+        let idx = THEME_REF_CACHE.indexOf(extra);
+        if (idx < 0) {
+            let newValue = {
+                ...theme,
+                ...extra,
+                fontTitle1: {
+                    ...theme.fontTitle1,
+                    ...(extra.fontTitle1 || {}),
+                },
+                fontTitle2: {
+                    ...theme.fontTitle2,
+                    ...(extra.fontTitle2 || {}),
+                },
+                fontTitle3: {
+                    ...theme.fontTitle3,
+                    ...(extra.fontTitle3 || {}),
+                },
+                fontLarge: {
+                    ...theme.fontLarge,
+                    ...(extra.fontLarge || {}),
+                },
+                fontRegular: {
+                    ...theme.fontRegular,
+                    ...(extra.fontRegular || {}),
+                },
+                fontSmall: {
+                    ...theme.fontSmall,
+                    ...(extra.fontSmall || {}),
+                },
+                fontCaption: {
+                    ...theme.fontCaption,
+                    ...(extra.fontCaption || {}),
+                },
+                spacing: {
+                    ...theme.spacing,
+                    ...(extra.spacing || {}),
+                }
+            };
+
+            THEME_REF_CACHE.push(extra);
+            THEME_REF_CACHE_VALUE.push(newValue);
+            idx = THEME_REF_CACHE.length - 1;
+
+            setTimeout(() => {
+                let idx = THEME_REF_CACHE.indexOf(extra);
+                if (idx >= 0) {
+                    THEME_REF_CACHE.splice(idx, 1);
+                    THEME_REF_CACHE_VALUE.splice(idx, 1);
+                }
+            }, 5 * 60 * 1000);
+        }
+
+        return THEME_REF_CACHE_VALUE[idx];
     }
     return theme;
 }
