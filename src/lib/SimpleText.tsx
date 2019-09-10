@@ -2,7 +2,7 @@ import React, {ReactNode} from 'react'
 import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
 import Theme, {FontSpec, fontStyle, getTheme, Spacing, spacingReact, ThemeProps} from "./Theme";
 
-export type TextAlign = 'left' | 'right' | 'center' | 'justify';
+export type TextAlign = 'left' | 'right' | 'center';
 
 export type SimpleTextProps = RnTextProps & {
     /**
@@ -102,18 +102,7 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                                     : theme.colorText
                                             )
                                     ),
-                            textAlign:
-                                this.props.align === 'center'
-                                    ? 'center'
-                                    : (
-                                        this.props.align === 'right'
-                                            ? 'right'
-                                            : (
-                                                this.props.align === 'justify'
-                                                    ? 'justify'
-                                                    : 'left'
-                                            )
-                                    ),
+                            textAlign: this.props.align || 'left',
                             marginVertical: spacingReact(theme, this.props.margin),
                             width: this.props.inline ? undefined : '100%',
                             textDecorationLine:

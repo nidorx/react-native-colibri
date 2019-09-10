@@ -10,7 +10,7 @@ import {
     View,
     ViewStyle
 } from 'react-native';
-import SimpleText from './SimpleText';
+import SimpleText, {TextAlign} from './SimpleText';
 import Theme, {
     ColorSystem,
     FontSpec,
@@ -25,6 +25,7 @@ import Theme, {
 } from "./Theme";
 import Spinner from "./Spinner";
 import {animateGenericNative} from "./Utils";
+import DiscloruseIcon from "./DisclosureIcon";
 
 const AnimatedSimpleText = Animated.createAnimatedComponent(SimpleText);
 
@@ -66,6 +67,10 @@ export type ButtonProps = {
      */
     disclosure?: boolean;
     /**
+     * Defines direction of disclosure
+     */
+    disclosureDirection?: 'up' | 'right' | 'down' | 'left';
+    /**
      * Makes `plain` and `outline` Button colors (text, borders, icons) the same as the current text color. Also adds an underline to `plain` Buttons
      */
     monochrome?: boolean;
@@ -81,9 +86,21 @@ export type ButtonProps = {
      * Provides extra visual weight and identifies the primary action in a set of buttons
      */
     primary?: boolean;
+    /**
+     * Indicates a informational action
+     */
     info?: boolean;
+    /**
+     * Indicates a dangerous or potentially negative action
+     */
     danger?: boolean;
+    /**
+     * Indicates a warning or negative action
+     */
     warning?: boolean;
+    /**
+     * Indicates a success or positive action
+     */
     success?: boolean;
     /**
      * Add custom style to button
@@ -92,7 +109,11 @@ export type ButtonProps = {
     /**
      * Changes the size of the button, giving it more or less padding
      */
-    size?: 'micro' | 'tiny' | 'medium' | 'large';
+    size?: 'small' | 'regular' | 'medium' | 'large';
+    /**
+     * Changes the inner text alignment of the button. Only applicable when setting the fullWidth property or entering a width in styles
+     */
+    align?: 'left' | 'right' | 'center';
     /**
      * Callback when pressed
      */
@@ -102,6 +123,7 @@ export type ButtonProps = {
 type ButtonState = {
     minWidth: number;
     minHeight: number;
+    disclosureSize: number;
 }
 
 /**
@@ -111,7 +133,8 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
 
     state: ButtonState = {
         minWidth: 0,
-        minHeight: 0
+        minHeight: 0,
+        disclosureSize: 0
     };
 
     private animatedValue = new Animated.Value(0);
@@ -151,7 +174,7 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                     let font: Partial<FontSpec>;
                     let spacing: Spacing;
 
-                    switch (this.props.size || 'tiny') {
+                    switch (this.props.size || 'regular') {
                         case 'large':
                             spacing = 'base';
                             font = theme.fontTitle3;
@@ -160,7 +183,7 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                             spacing = 'small';
                             font = theme.fontLarge;
                             break;
-                        case 'tiny':
+                        case 'regular':
                             spacing = 'tiny';
                             font = theme.fontRegular;
                             break;
@@ -169,14 +192,12 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                             font = theme.fontCaption;
                     }
 
-
                     const spacingVertical = scaleModerate(theme, spacingReact(theme, spacing) as number);
                     const spacingHorizontal = scale(theme, spacingReact(theme, spacing) as number);
-                    const spacingTiny = spacingReact(theme, 'tiny');
+                    const spacingTiny = spacingReact(theme, 'tiny') as number;
                     const spacingMicro = spacingReact(theme, 'micro') as number;
 
                     let color: ColorSystem = theme.colorBase;
-
 
                     if (this.props.danger) {
                         color = theme.colorDanger;
@@ -194,10 +215,6 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
 
                     let colorActive = color.states.active;
                     let colorDisabled = color.states.disabled;
-
-                    if (this.props.disabled) {
-                        // color = (color as ColorSystem).states.disabled;
-                    }
 
                     const lineHeight = scaleVertical(theme, font.lineHeight as number);
                     const height = lineHeight + (spacingVertical * 2);
@@ -224,6 +241,51 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                         outputRange: [0, 0, 1]
                     });
 
+                    const styleFlatten = StyleSheet.flatten([
+                        {
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            paddingVertical: spacingVertical,
+                            paddingHorizontal: spacingHorizontal,
+                            borderRadius: borderRadius,
+                            alignSelf: 'flex-start',
+                            width: this.props.fullWidth ? '100%' : undefined,
+                            height: height,
+                            borderWidth: borderWidth,
+                            borderColor: 'transparent'
+                        },
+                        this.props.plain
+                            ? {
+                                paddingVertical: 0,
+                                paddingHorizontal: 0,
+                                paddingRight: this.props.disclosure ? spacingHorizontal : undefined,
+                                borderWidth: 0,
+                                borderRadius: 0,
+                                height: lineHeight,
+                            }
+                            : undefined,
+                        this.props.style
+                    ]);
+
+                    let colorText = color.text;
+                    let colorTextActive = colorActive.text;
+                    let colorTextDisabled = colorDisabled.text;
+
+                    if (this.props.plain && !isBaseColor) {
+                        colorText = color.background;
+                        colorTextActive = colorActive.background;
+                        colorTextDisabled = colorDisabled.background;
+                    } else if (this.props.monochrome) {
+                        colorText = color.border;
+                        colorTextActive = colorActive.border;
+                        colorTextDisabled = colorDisabled.border;
+                    }
+
+
+                    let disclosureTranslate = this.props.disclosure ? (spacingHorizontal) : 0;
+                    let disclosurePaddingRight = this.props.disclosure ? (this.state.disclosureSize + spacingHorizontal) : 0;
+
                     return (
                         <TouchableWithoutFeedback
                             onPressIn={event => {
@@ -236,33 +298,7 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                             disabled={this.props.disabled || this.props.loading}
                         >
                             <View
-                                style={[
-                                    {
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        flexDirection: 'row',
-                                        paddingVertical: spacingVertical,
-                                        paddingHorizontal: spacingHorizontal,
-                                        borderRadius: borderRadius,
-                                        alignSelf: 'flex-start',
-                                        width: this.props.fullWidth ? '100%' : undefined,
-                                        // minWidth: this.props.loading ? this.state.minWidth : 0,
-                                        // height: height,
-                                        borderWidth: borderWidth,
-                                        borderColor: 'transparent',
-                                        // overflow: 'hidden'
-                                    },
-                                    this.props.plain
-                                        ? {
-                                            paddingVertical: 0,
-                                            paddingHorizontal: 0,
-                                            borderWidth: 0,
-                                            borderRadius: 0,
-                                            // height: lineHeight,
-                                        }
-                                        : undefined,
-                                    this.props.style
-                                ]}
+                                style={styleFlatten as any}
                                 onLayout={(event: LayoutChangeEvent) => {
                                     if (!this.props.loading) {
                                         this.setState({
@@ -321,27 +357,31 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                         )
                                 }
 
-                                <View>
+                                <View
+                                    style={{
+                                        // justifyContent: 'center',
+                                        alignContent: 'center',
+                                        alignItems: 'center',
+                                        flex: (this.props.fullWidth || styleFlatten.width !== undefined)
+                                            ? 1
+                                            : undefined,
+                                        transform: [
+                                            // {
+                                            //     translateX: disclosureTranslate
+                                            // }
+                                        ]
+                                    }}
+                                >
                                     <AnimatedSimpleText
                                         theme={theme}
-                                        inline={true}
-                                        color={
-                                            this.props.plain
-                                                ? (
-                                                    isBaseColor
-                                                        ? color.text
-                                                        : color.background
-                                                )
-                                                : (
-                                                    this.props.monochrome
-                                                        ? color.border
-                                                        : color.text
-                                                )
-                                        }
+                                        align={this.props.align || 'left'}
+                                        color={colorText}
                                         style={[
                                             fontStyle(theme, font),
                                             {
-                                                opacity: opacity
+                                                opacity: opacity,
+                                                paddingRight: disclosurePaddingRight,
+
                                             }
                                         ]}
                                     >
@@ -349,25 +389,14 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                     </AnimatedSimpleText>
                                     <AnimatedSimpleText
                                         theme={theme}
-                                        inline={true}
-                                        color={
-                                            this.props.plain
-                                                ? (
-                                                    isBaseColor
-                                                        ? colorActive.text
-                                                        : colorActive.background
-                                                )
-                                                : (
-                                                    this.props.monochrome
-                                                        ? colorActive.border
-                                                        : colorActive.text
-                                                )
-                                        }
+                                        align={this.props.align || 'left'}
+                                        color={colorTextActive}
                                         style={[
                                             fontStyle(theme, font),
                                             {
                                                 position: 'absolute',
-                                                opacity: opacityActive
+                                                opacity: opacityActive,
+                                                paddingRight: disclosurePaddingRight
                                             }
                                         ]}
                                     >
@@ -375,20 +404,8 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                     </AnimatedSimpleText>
                                     <AnimatedSimpleText
                                         theme={theme}
-                                        inline={true}
-                                        color={
-                                            this.props.plain
-                                                ? (
-                                                    isBaseColor
-                                                        ? colorDisabled.text
-                                                        : colorDisabled.background
-                                                )
-                                                : (
-                                                    this.props.monochrome
-                                                        ? colorDisabled.border
-                                                        : colorDisabled.text
-                                                )
-                                        }
+                                        align={this.props.align || 'center'}
+                                        color={colorTextDisabled}
                                         style={[
                                             fontStyle(theme, font),
                                             {
@@ -396,13 +413,62 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                                 opacity: this.animatedValue.interpolate({
                                                     inputRange: [-2, -1, 0],
                                                     outputRange: [0, 1, 0]
-                                                })
+                                                }),
+                                                paddingRight: disclosurePaddingRight
                                             }
                                         ]}
                                     >
                                         {this.props.title}
                                     </AnimatedSimpleText>
                                 </View>
+
+                                {
+                                    this.props.disclosure
+                                        ? (
+                                            <View style={{position: 'absolute', right: spacingHorizontal}}>
+                                                <DiscloruseIcon
+                                                    theme={theme}
+                                                    size={this.props.size}
+                                                    direction={this.props.disclosureDirection || 'down'}
+                                                    color={colorText}
+                                                    style={{
+                                                        opacity: opacity
+                                                    }}
+                                                    ref={(disclosure: DiscloruseIcon) => {
+                                                        if (disclosure) {
+                                                            this.setState({
+                                                                disclosureSize: disclosure.size
+                                                            });
+                                                        }
+                                                    }}
+                                                />
+                                                <DiscloruseIcon
+                                                    theme={theme}
+                                                    size={this.props.size}
+                                                    direction={this.props.disclosureDirection || 'down'}
+                                                    color={colorTextActive}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        opacity: opacityActive
+                                                    }}
+                                                />
+                                                <DiscloruseIcon
+                                                    theme={theme}
+                                                    size={this.props.size}
+                                                    direction={this.props.disclosureDirection || 'down'}
+                                                    color={colorTextDisabled}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        opacity: this.animatedValue.interpolate({
+                                                            inputRange: [-2, -1, 0],
+                                                            outputRange: [0, 1, 0]
+                                                        })
+                                                    }}
+                                                />
+                                            </View>
+                                        )
+                                        : null
+                                }
 
                                 {
                                     this.props.loading

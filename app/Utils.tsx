@@ -9,7 +9,7 @@ import React from "react";
  * @param content
  * @param docs
  */
-export function renderComponentPropertiesSection(
+export function componentPropertiesPlayground(
     instance: { state: { props: any }, setState: (s: any) => void },
     content: JSX.Element,
     docs: string

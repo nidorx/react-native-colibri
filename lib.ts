@@ -29,6 +29,11 @@ export {
 
 
 export {
+    default as DiscloruseIcon,
+    DiscloruseIconProps
+} from './src/lib/DisclosureIcon';
+
+export {
     default as DatePicker,
     DatePickerProps
 } from './src/lib/DatePicker';
@@ -117,9 +122,7 @@ export {
     TableViewSwipeAction,
     TableViewSwipeActions,
     TableViewSectionListRenderItemInfo,
-    TableViewRowSectionCallbackFn,
-    DiscloruseIcon,
-    DiscloruseIconProps
+    TableViewRowSectionCallbackFn
 } from './src/lib/tableview/TableViewConstants';
 
 
