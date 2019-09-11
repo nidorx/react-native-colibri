@@ -166,7 +166,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         }
 
         const theme = getTheme();
-        const iconCloseSize = spacingReact(theme, 'large');
+        const iconCloseSize = spacingReact(theme, 'base');
         const borderRadius = spacingReact(theme, 'micro');
         return (
             <View
