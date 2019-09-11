@@ -78,7 +78,7 @@ export default class Separator extends React.PureComponent<SeparatorProps> {
                                     }
                                     reverse={this.props.reverse}
                                     small={this.props.small}
-                                    align={'justify'}
+                                    align={'center'}
                                 >
                                     {this.props.title}
                                 </SimpleText>
