@@ -374,7 +374,7 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                 >
                                     <AnimatedSimpleText
                                         theme={theme}
-                                        align={this.props.align || 'left'}
+                                        align={this.props.align || 'center'}
                                         color={colorText}
                                         style={[
                                             fontStyle(theme, font),
@@ -389,7 +389,7 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                                     </AnimatedSimpleText>
                                     <AnimatedSimpleText
                                         theme={theme}
-                                        align={this.props.align || 'left'}
+                                        align={this.props.align || 'center'}
                                         color={colorTextActive}
                                         style={[
                                             fontStyle(theme, font),
