@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated, Easing, StyleProp, View, ViewStyle,} from 'react-native';
-import Theme, {ColorSystem, FontSpec, getTheme, scale, SpacingNames, spacing, ThemeProps} from "./Theme";
+import Theme, {ColorSystem, FontProps, getTheme, scale, SpacingName, spacing, ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 
 
@@ -81,7 +81,7 @@ export default class DiscloruseIcon extends React.PureComponent<DiscloruseIconPr
         const render = () => {
             const theme = getTheme(this.props.theme);
 
-            let font: Partial<FontSpec>;
+            let font: Partial<FontProps>;
 
             switch (this.props.size || 'regular') {
                 case 'large':

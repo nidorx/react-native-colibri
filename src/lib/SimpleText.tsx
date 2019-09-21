@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react'
 import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
-import Theme, {FontSpec, fontStyle, getTheme, SpacingNames, spacing, ThemeProps} from "./Theme";
+import Theme, {FontProps, fontStyle, getTheme, SpacingName, spacing, ThemeProps} from "./Theme";
 
 export type TextAlign = 'left' | 'right' | 'center';
 
@@ -12,7 +12,7 @@ export type SimpleTextProps = RnTextProps & {
     /**
      *
      */
-    font?: Partial<FontSpec>;
+    font?: Partial<FontProps>;
     text?: string | ReactNode;
     h1?: boolean;
     h2?: boolean;
@@ -26,7 +26,7 @@ export type SimpleTextProps = RnTextProps & {
     italic?: boolean;
     underline?: boolean;
     lineThrough?: boolean;
-    margin?: SpacingNames;
+    margin?: SpacingName;
     align?: TextAlign;
     inline?: boolean;
     size?: number;
