@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, TouchableHighlight, View} from 'react-native';
-import Theme, {getTheme, spacingReact, ThemeProps} from "./Theme";
+import Theme, {getTheme, spacing, ThemeProps} from "./Theme";
 import {Caption} from "./SimpleText";
 
 
@@ -70,12 +70,12 @@ export default class Segment extends React.PureComponent<SegmentProps> {
             <Theme>
                 {() => {
                     const theme = getTheme(this.props.theme);
-                    const spacingMicro = spacingReact(theme, 'micro');
+                    const spacingMicro = spacing(theme, 'micro');
 
                     const COLOR = theme.colorLink;
                     const BORDER_WIDTH = 1;
                     const FONT_SIZE = theme.fontCaption.size as number;
-                    const PADDING_TEXT = spacingReact(theme, 'tiny') as number;
+                    const PADDING_TEXT = spacing(theme, 'tiny') as number;
                     const PADDING_CONTAINER = PADDING_TEXT;
                     const HEIGHT = PADDING_CONTAINER * 2 + PADDING_TEXT * 2 + FONT_SIZE + BORDER_WIDTH * 2;
 

@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react'
 import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
-import Theme, {FontSpec, fontStyle, getTheme, Spacing, spacingReact, ThemeProps} from "./Theme";
+import Theme, {FontSpec, fontStyle, getTheme, SpacingNames, spacing, ThemeProps} from "./Theme";
 
 export type TextAlign = 'left' | 'right' | 'center';
 
@@ -26,7 +26,7 @@ export type SimpleTextProps = RnTextProps & {
     italic?: boolean;
     underline?: boolean;
     lineThrough?: boolean;
-    margin?: Spacing;
+    margin?: SpacingNames;
     align?: TextAlign;
     inline?: boolean;
     size?: number;
@@ -103,7 +103,7 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                             )
                                     ),
                             textAlign: this.props.align || 'left',
-                            marginVertical: spacingReact(theme, this.props.margin),
+                            marginVertical: spacing(theme, this.props.margin),
                             width: this.props.inline ? undefined : '100%',
                             textDecorationLine:
                                 (this.props.underline && this.props.lineThrough)

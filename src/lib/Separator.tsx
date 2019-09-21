@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import SimpleText from './SimpleText';
-import {getTheme, spacingReact} from "./Theme";
+import {getTheme, spacing} from "./Theme";
 
 const styles = StyleSheet.create({
     container: {
@@ -30,8 +30,8 @@ export default class Separator extends React.PureComponent<SeparatorProps> {
 
     render() {
         const theme = getTheme();
-        const spacingMicro = spacingReact(theme, 'micro');
-        const spacingSmall = spacingReact(theme, 'small');
+        const spacingMicro = spacing(theme, 'micro');
+        const spacingSmall = spacing(theme, 'small');
 
         const line = (
             <View style={[styles.lineContainer, {paddingTop: this.props.small ? 1 : spacingMicro}]}>

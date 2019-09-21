@@ -52,7 +52,7 @@ export type FontSpec = {
  * large    = 48
  * x-large  = 64
  */
-export type Spacing = 'micro' | 'tiny' | 'small' | 'base' | 'large' | 'x-large';
+export type SpacingNames = 'micro' | 'tiny' | 'small' | 'base' | 'large' | 'x-large';
 
 /**
  * Theme definition for space
@@ -70,7 +70,7 @@ export type SpacingDef = {
  *
  * @param value
  */
-export function spacingReact(theme: ThemeProps, value?: Spacing): number | undefined {
+export function spacing(theme: ThemeProps, value?: SpacingNames): number | undefined {
     if (!value) {
         return;
     }

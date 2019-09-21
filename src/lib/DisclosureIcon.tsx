@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated, Easing, StyleProp, View, ViewStyle,} from 'react-native';
-import Theme, {ColorSystem, FontSpec, getTheme, scale, Spacing, spacingReact, ThemeProps} from "./Theme";
+import Theme, {ColorSystem, FontSpec, getTheme, scale, SpacingNames, spacing, ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 
 
@@ -116,7 +116,7 @@ export default class DiscloruseIcon extends React.PureComponent<DiscloruseIconPr
                             justifyContent: 'center',
                             width: height,
                             height: height,
-                            marginLeft: spacingReact(theme, 'tiny'),
+                            marginLeft: spacing(theme, 'tiny'),
                             transform: [
                                 {
                                     rotate: this.animatedValue.interpolate({

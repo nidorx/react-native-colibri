@@ -19,8 +19,8 @@ import Theme, {
     scale,
     scaleModerate,
     scaleVertical,
-    Spacing,
-    spacingReact,
+    SpacingNames,
+    spacing,
     ThemeProps
 } from "./Theme";
 import Spinner from "./Spinner";
@@ -172,30 +172,30 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                     const theme = getTheme(this.props.theme);
 
                     let font: Partial<FontSpec>;
-                    let spacing: Spacing;
+                    let spacingName: SpacingNames;
 
                     switch (this.props.size || 'regular') {
                         case 'large':
-                            spacing = 'base';
+                            spacingName = 'base';
                             font = theme.fontTitle3;
                             break;
                         case 'medium':
-                            spacing = 'small';
+                            spacingName = 'small';
                             font = theme.fontLarge;
                             break;
                         case 'regular':
-                            spacing = 'tiny';
+                            spacingName = 'tiny';
                             font = theme.fontRegular;
                             break;
                         default:
-                            spacing = 'micro';
+                            spacingName = 'micro';
                             font = theme.fontCaption;
                     }
 
-                    const spacingVertical = scaleModerate(theme, spacingReact(theme, spacing) as number);
-                    const spacingHorizontal = scale(theme, spacingReact(theme, spacing) as number);
-                    const spacingTiny = spacingReact(theme, 'tiny') as number;
-                    const spacingMicro = spacingReact(theme, 'micro') as number;
+                    const spacingVertical = scaleModerate(theme, spacing(theme, spacingName) as number);
+                    const spacingHorizontal = scale(theme, spacing(theme, spacingName) as number);
+                    const spacingTiny = spacing(theme, 'tiny') as number;
+                    const spacingMicro = spacing(theme, 'micro') as number;
 
                     let color: ColorSystem = theme.colorBase;
 

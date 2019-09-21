@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleProp, View, ViewStyle,} from 'react-native';
 import SimpleText, {TextAlign} from './SimpleText';
-import Theme, {fontStyle, getTheme, spacingReact, ThemeProps} from "./Theme";
+import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "./Theme";
 
 /**
  * Permite a um elemento receber texto e dados extras
@@ -76,14 +76,14 @@ const TitleExtraComponent = (props: TitleExtraProps) => {
                                 style={[
                                     {
                                         alignSelf: 'flex-start',
-                                        marginLeft: spacingReact(theme, 'tiny')
+                                        marginLeft: spacing(theme, 'tiny')
                                     },
                                     fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
                                 ]}
                             />
                         )
                         : (
-                            <View style={{marginLeft: spacingReact(theme, 'tiny')}}>
+                            <View style={{marginLeft: spacing(theme, 'tiny')}}>
                                 {props.item.extra}
                             </View>
                         )

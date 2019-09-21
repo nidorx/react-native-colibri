@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {animateGeneric, animateGenericNative} from "../Utils";
-import {getTheme, spacingReact} from "../Theme";
+import {getTheme, spacing} from "../Theme";
 import Toast from './../Toast';
 
 
@@ -166,8 +166,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         }
 
         const theme = getTheme();
-        const iconCloseSize = spacingReact(theme, 'base');
-        const borderRadius = spacingReact(theme, 'micro');
+        const iconCloseSize = spacing(theme, 'base');
+        const borderRadius = spacing(theme, 'micro');
         return (
             <View
                 style={styles.container}
@@ -377,7 +377,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         : screenWidth * 0.9
                 );
 
-        const padding = spacingReact(theme, 'small') as number;
+        const padding = spacing(theme, 'small') as number;
         let left =
             horizontalPosition === 'center'
                 ? (screenWidth * 0.5 - width * 0.5)

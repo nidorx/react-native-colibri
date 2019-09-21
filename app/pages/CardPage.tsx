@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, spacingReact, TableView, Toast} from "../../lib";
+import {Card, CarouselImage, CarouselImageItem, getTheme, SimpleText, spacing, TableView, Toast} from "../../lib";
 import {View} from "react-native";
 
 
@@ -117,7 +117,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'the content of card here...'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -138,7 +138,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'the content of card here...'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -160,7 +160,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadow={true}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -183,7 +183,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadowPattern={\'B\'}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -206,7 +206,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadowPattern={\'C\'}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -231,7 +231,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadowOpacity={0.3} \n shadowColor={\'#AE367E\'}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -256,7 +256,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadowOpacity={0.4} \n shadowColor={\'#C8ACFF\'}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -281,7 +281,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'shadowOpacity={0.6} \n shadowColor={\'#7198FF\'}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -304,7 +304,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'boxed={true}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -329,7 +329,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'boxed={true} \n shadowPattern={"B"}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -354,7 +354,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'boxed={true} \n shadowPattern={"C"}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -379,7 +379,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                             text={'boxed={true} \n shadow={false}'}
                                             align={'center'}
                                             style={{
-                                                padding: spacingReact(theme, 'large')
+                                                padding: spacing(theme, 'large')
                                             }}
                                         />
                                     </Card>
@@ -415,7 +415,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                                 height: 150,
                                                 width: '60%',
                                                 alignSelf: 'flex-end',
-                                                paddingRight: spacingReact(theme, 'base')
+                                                paddingRight: spacing(theme, 'base')
                                             }}
                                             align={'right'}
                                         />
@@ -453,7 +453,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                                 // backgroundColor: 'rgba(0, 0, 0, 0.3)',
                                                 width: '60%',
                                                 alignSelf: 'flex-end',
-                                                paddingRight: spacingReact(theme, 'base')
+                                                paddingRight: spacing(theme, 'base')
                                             }}
                                             align={'right'}
                                         />
@@ -486,7 +486,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                                 : undefined
                                         }
                                         style={{
-                                            paddingBottom: spacingReact(theme, 'base'),
+                                            paddingBottom: spacing(theme, 'base'),
                                         }}
                                         boxed={true}
                                         shadowPattern={'C'}

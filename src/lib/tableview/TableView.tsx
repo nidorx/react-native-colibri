@@ -12,7 +12,7 @@ import {
 import TableViewItem from './TableViewItem';
 import SimpleText, {Large, Small} from './../SimpleText';
 import EmptyState, {EmptyStateProps} from "../EmptyState";
-import Theme, {getTheme, spacingReact, ThemeProps} from "../Theme";
+import Theme, {getTheme, spacing, ThemeProps} from "../Theme";
 
 const EMPTY_STATE_KEY = '__EMPTY_STATE_SPECIAL_KEY__';
 
@@ -183,13 +183,13 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                 {() => {
                     const theme = getTheme(this.props.theme);
                     const section = info.section as TableViewSection;
-                    const padding = spacingReact(theme, 'tiny') as number;
+                    const padding = spacing(theme, 'tiny') as number;
 
                     if (section.header === undefined) {
                         return null;
                     }
 
-                    const spacingSmall = spacingReact(theme, 'small');
+                    const spacingSmall = spacing(theme, 'small');
 
                     const styleContainer: ViewStyle = {
                         width: '100%',
@@ -258,7 +258,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                             ? (
                                                                                 <View
                                                                                     style={{
-                                                                                        paddingTop: spacingReact(theme, 'micro')
+                                                                                        paddingTop: spacing(theme, 'micro')
                                                                                     }}
                                                                                 >
                                                                                     {
@@ -316,7 +316,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                                     width: ICON_HEIGHT,
                                                                                     height: ICON_HEIGHT,
                                                                                     resizeMode: 'contain',
-                                                                                    margin: spacingReact(theme, 'micro'),
+                                                                                    margin: spacing(theme, 'micro'),
                                                                                     marginLeft: padding
                                                                                 },
                                                                                 img.style
@@ -380,10 +380,10 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                             ? 0
                             : hasIcon
                                 ? (
-                                    ((spacingReact(theme, 'small') as number) * 2) + (
+                                    ((spacing(theme, 'small') as number) * 2) + (
                                         leadingItem.iconBig
-                                            ? spacingReact(theme, 'x-large') as number
-                                            : spacingReact(theme, 'large') as number
+                                            ? spacing(theme, 'x-large') as number
+                                            : spacing(theme, 'large') as number
                                     )
                                 )
                                 : 0,
@@ -413,8 +413,8 @@ export default class TableView extends React.PureComponent<TableViewProps> {
 
         // Sempre exibe o footer (ultimo item tem marcação, conforme modelo no zeplin)
         if (section.footer && section.footer !== '') {
-            style.padding = spacingReact(theme, 'small');
-            style.paddingTop = spacingReact(theme, 'tiny');
+            style.padding = spacing(theme, 'small');
+            style.paddingTop = spacing(theme, 'tiny');
         }
 
         return (

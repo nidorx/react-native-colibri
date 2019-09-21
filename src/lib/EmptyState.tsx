@@ -2,7 +2,7 @@ import React from 'react'
 import {Image, ImageProps, StyleSheet, View, ViewStyle} from 'react-native';
 import SimpleText, {SimpleTextProps} from './SimpleText';
 import Button, {ButtonProps} from "./Button";
-import Theme, {fontStyle, getTheme, spacingReact, ThemeProps} from "./Theme";
+import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "./Theme";
 
 
 /**
@@ -68,7 +68,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                     }
 
                     return (
-                        <View style={[styles.container, {padding: spacingReact(theme, 'small')}]}>
+                        <View style={[styles.container, {padding: spacing(theme, 'small')}]}>
                             {
                                 component
                                     ? component
@@ -86,7 +86,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                                         ? (image.style as any).width
                                                                         : '50%',
                                                                     resizeMode: 'contain',
-                                                                    marginBottom: spacingReact(theme, 'small'),
+                                                                    marginBottom: spacing(theme, 'small'),
                                                                     alignSelf: 'center',
                                                                     tintColor: tint
                                                                         ? theme.colorTextSecondary
@@ -105,7 +105,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                             style={[
                                                                 styles.title,
                                                                 {
-                                                                    marginBottom: spacingReact(theme, 'small'),
+                                                                    marginBottom: spacing(theme, 'small'),
                                                                 },
                                                                 fontStyle(theme, theme.fontTitle2),
                                                                 this.props.titleProps ? this.props.titleProps.style : undefined
@@ -140,9 +140,9 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                         ? (
                                                             Array.isArray(action)
                                                                 ? action.map((props, i, all) => {
-                                                                    const padding = spacingReact(theme, 'micro');
+                                                                    const padding = spacing(theme, 'micro');
                                                                     let style: ViewStyle = {
-                                                                        marginTop: spacingReact(theme, 'small'),
+                                                                        marginTop: spacing(theme, 'small'),
                                                                         paddingLeft: padding,
                                                                         paddingRight: padding
                                                                     };
@@ -164,7 +164,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                                                 })
                                                                 : (
                                                                     <View
-                                                                        style={[styles.button, {marginTop: spacingReact(theme, 'small')}]}>
+                                                                        style={[styles.button, {marginTop: spacing(theme, 'small')}]}>
                                                                         <Button
                                                                             fullWidth={true}
                                                                             rounded={true}
@@ -201,7 +201,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                             style={[
                                 styles.description,
                                 {
-                                    marginBottom: spacingReact(theme, 'small')
+                                    marginBottom: spacing(theme, 'small')
                                 },
                                 fontStyle(theme, theme.fontRegular),
                                 (this.props.descriptionProps || {}).style

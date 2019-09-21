@@ -6,7 +6,7 @@
 import React from 'react';
 import {Animated, Dimensions, StyleProp, StyleSheet, TextStyle, View, ViewStyle,} from 'react-native'
 import {Caption} from "./SimpleText";
-import {getTheme, spacingReact} from "./Theme";
+import {getTheme, spacing} from "./Theme";
 
 const styles = StyleSheet.create({
     container: {
@@ -122,8 +122,8 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
         const theme = getTheme();
         const styleContent = {
             backgroundColor: theme.colorText,
-            padding: spacingReact(theme, 'tiny'),
-            borderRadius: spacingReact(theme, 'micro'),
+            padding: spacing(theme, 'tiny'),
+            borderRadius: spacing(theme, 'micro'),
         };
 
         switch (this.props.position || DEFAULTS.position) {

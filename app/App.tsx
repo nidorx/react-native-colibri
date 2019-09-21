@@ -8,7 +8,6 @@ import EmptyStatePage from "./pages/EmptyStatePage";
 import CarouselPage from "./pages/CarouselPage";
 import CarouselImagePage from "./pages/CarouselImagePage";
 import ButtonPage from "./pages/ButtonPage";
-import Guide from "../src/lib/Guide";
 
 const PAGES: { [key: string]: { [key: string]: any } } = {
     'Base': {
@@ -108,7 +107,6 @@ export default class App extends React.PureComponent {
                     <StatusBar backgroundColor={'#FFF'} barStyle="dark-content"/>
                     <AppContainer/>
                     <Toast opacity={0.9}/>
-                    <Guide/>
                 </AnimatedModal>
             </ThemeProvider>
         );
