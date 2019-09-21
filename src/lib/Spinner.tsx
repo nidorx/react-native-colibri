@@ -43,7 +43,7 @@ export default class Spinner extends React.PureComponent<SpinnerProps> {
                     const theme = getTheme(this.props.theme);
                     const size = this.props.size || scale(theme, theme.fontRegular.lineHeight as number);
                     return (
-                        <View>
+                        <View style={this.props.style}>
                             <Animated.Image
                                 source={require('../assets/spinner.png')}
                                 style={{
