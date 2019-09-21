@@ -185,6 +185,124 @@ export type ThemeProps = {
     lineWidth: number;
 }
 
+let theme: Partial<ThemeProps> = {};
+
+const THEME_REF_CACHE: Array<any> = [];
+const THEME_REF_CACHE_VALUE: Array<any> = [];
+
+/**
+ * Get the default theme of components
+ *
+ * @param extra
+ */
+export function getTheme(extra?: Partial<ThemeProps>): ThemeProps {
+    if (extra && extra !== theme) {
+        // avoid processing
+        let idx = THEME_REF_CACHE.indexOf(extra);
+        if (idx < 0) {
+            let newValue = {
+                ...theme,
+                ...extra,
+                fontTitle1: {
+                    ...theme.fontTitle1,
+                    ...(extra.fontTitle1 || {}),
+                },
+                fontTitle2: {
+                    ...theme.fontTitle2,
+                    ...(extra.fontTitle2 || {}),
+                },
+                fontTitle3: {
+                    ...theme.fontTitle3,
+                    ...(extra.fontTitle3 || {}),
+                },
+                fontLarge: {
+                    ...theme.fontLarge,
+                    ...(extra.fontLarge || {}),
+                },
+                fontRegular: {
+                    ...theme.fontRegular,
+                    ...(extra.fontRegular || {}),
+                },
+                fontSmall: {
+                    ...theme.fontSmall,
+                    ...(extra.fontSmall || {}),
+                },
+                fontCaption: {
+                    ...theme.fontCaption,
+                    ...(extra.fontCaption || {}),
+                },
+                spacing: {
+                    ...theme.spacing,
+                    ...(extra.spacing || {}),
+                }
+            };
+
+            THEME_REF_CACHE.push(extra);
+            THEME_REF_CACHE_VALUE.push(newValue);
+            idx = THEME_REF_CACHE.length - 1;
+
+            setTimeout(() => {
+                let idx = THEME_REF_CACHE.indexOf(extra);
+                if (idx >= 0) {
+                    THEME_REF_CACHE.splice(idx, 1);
+                    THEME_REF_CACHE_VALUE.splice(idx, 1);
+                }
+            }, 5 * 60 * 1000);
+        }
+
+        return THEME_REF_CACHE_VALUE[idx];
+    }
+    return theme as ThemeProps;
+}
+
+
+/**
+ * Allows you to change global component settings
+ *
+ * @param newTheme
+ */
+export function setTheme(newTheme: Partial<ThemeProps>) {
+    theme = getTheme(newTheme);
+    DeviceEventEmitter.emit('colibri:changeTheme', theme);
+}
+
+const ThemeContext = React.createContext<ThemeProps>(theme as ThemeProps);
+
+/**
+ * Encapsulate your application with ThemeProvider
+ */
+export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps }> {
+
+    state = {
+        theme: getTheme()
+    };
+
+    private subscription?: EmitterSubscription;
+
+    componentDidMount(): void {
+        this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
+            this.setState({
+                theme: theme
+            })
+        })
+    }
+
+    componentWillUnmount(): void {
+        if (this.subscription) {
+            this.subscription.remove();
+        }
+    }
+
+    render() {
+        return (
+            <ThemeContext.Provider value={this.state.theme}>
+                {this.props.children}
+            </ThemeContext.Provider>
+        );
+    }
+}
+
+
 /**
  * Segue
  *    https://v1.designcode.io/iosdesign-guidelines (quando possível)
@@ -408,122 +526,8 @@ export const THEME_DEFAULT: ThemeProps = {
     lineWidth: StyleSheet.hairlineWidth
 };
 
-let theme: ThemeProps = THEME_DEFAULT;
-
-const THEME_REF_CACHE: Array<any> = [];
-const THEME_REF_CACHE_VALUE: Array<any> = [];
-
-/**
- * Get the default theme of components
- *
- * @param extra
- */
-export function getTheme(extra?: Partial<ThemeProps>): ThemeProps {
-    if (extra && extra !== theme) {
-        // avoid processing
-        let idx = THEME_REF_CACHE.indexOf(extra);
-        if (idx < 0) {
-            let newValue = {
-                ...theme,
-                ...extra,
-                fontTitle1: {
-                    ...theme.fontTitle1,
-                    ...(extra.fontTitle1 || {}),
-                },
-                fontTitle2: {
-                    ...theme.fontTitle2,
-                    ...(extra.fontTitle2 || {}),
-                },
-                fontTitle3: {
-                    ...theme.fontTitle3,
-                    ...(extra.fontTitle3 || {}),
-                },
-                fontLarge: {
-                    ...theme.fontLarge,
-                    ...(extra.fontLarge || {}),
-                },
-                fontRegular: {
-                    ...theme.fontRegular,
-                    ...(extra.fontRegular || {}),
-                },
-                fontSmall: {
-                    ...theme.fontSmall,
-                    ...(extra.fontSmall || {}),
-                },
-                fontCaption: {
-                    ...theme.fontCaption,
-                    ...(extra.fontCaption || {}),
-                },
-                spacing: {
-                    ...theme.spacing,
-                    ...(extra.spacing || {}),
-                }
-            };
-
-            THEME_REF_CACHE.push(extra);
-            THEME_REF_CACHE_VALUE.push(newValue);
-            idx = THEME_REF_CACHE.length - 1;
-
-            setTimeout(() => {
-                let idx = THEME_REF_CACHE.indexOf(extra);
-                if (idx >= 0) {
-                    THEME_REF_CACHE.splice(idx, 1);
-                    THEME_REF_CACHE_VALUE.splice(idx, 1);
-                }
-            }, 5 * 60 * 1000);
-        }
-
-        return THEME_REF_CACHE_VALUE[idx];
-    }
-    return theme;
-}
-
-
-/**
- * Allows you to change global component settings
- *
- * @param newTheme
- */
-export function setTheme(newTheme: Partial<ThemeProps>) {
-    theme = getTheme(newTheme);
-    DeviceEventEmitter.emit('colibri:changeTheme', theme);
-}
-
-const ThemeContext = React.createContext<ThemeProps>(theme);
-
-/**
- * Encapsulate your application with ThemeProvider
- */
-export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps }> {
-
-    state = {
-        theme: getTheme()
-    };
-
-    private subscription?: EmitterSubscription;
-
-    componentDidMount(): void {
-        this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
-            this.setState({
-                theme: theme
-            })
-        })
-    }
-
-    componentWillUnmount(): void {
-        if (this.subscription) {
-            this.subscription.remove();
-        }
-    }
-
-    render() {
-        return (
-            <ThemeContext.Provider value={this.state.theme}>
-                {this.props.children}
-            </ThemeContext.Provider>
-        );
-    }
-}
+// Set default theme
+setTheme(THEME_DEFAULT);
 
 /**
  * Theme consumer
