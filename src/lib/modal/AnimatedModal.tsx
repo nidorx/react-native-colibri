@@ -1,6 +1,6 @@
 import React, {Consumer} from "react";
 import {Animated, StyleSheet, View, ViewStyle} from "react-native";
-import Modal from "./Modal";
+import Modal, {ModalOptions} from "./Modal";
 import {animateGenericNative} from "../Utils";
 
 const styles = StyleSheet.create({
@@ -12,7 +12,7 @@ export type AnimatedModalAPI = {
     /**
      * Exibe a Modal
      */
-    show: (content: JSX.Element, options?: AnimatedModalOptions, onClose?: () => void) => void;
+    show: (content: JSX.Element, options?: ModalOptions, onClose?: () => void) => void;
     /**
      * Permite exibir uma mensagem de erro na modal
      */
@@ -21,25 +21,6 @@ export type AnimatedModalAPI = {
      * Oculta a modal
      */
     hide: () => void;
-}
-
-export type AnimatedModalOptions = {
-    /**
-     * Posicionamento vertical da modal, default CENTER
-     */
-    ver?: 'top' | 'center' | 'bottom';
-
-    /**
-     * Posicionamento horizontal da modal, default CENTER
-     */
-    hor?: 'left' | 'center' | 'right';
-
-    /**
-     * Largura da modal, default MEDIUM
-     *
-     * Larguras são percentual da largura da tela,  'small' | 'medium' | 'large' = 40, 70, 90
-     */
-    width?: 'small' | 'medium' | 'large';
 }
 
 const DEFAULT_API: AnimatedModalAPI = {
@@ -61,7 +42,7 @@ export type AnimatedModalProps = {
 type AnimatedModalState = {
     content?: any;
     onClose?: () => void;
-    options?: AnimatedModalOptions;
+    options?: ModalOptions;
 }
 
 /**
@@ -70,10 +51,15 @@ type AnimatedModalState = {
 export default class AnimatedModal extends React.PureComponent<AnimatedModalProps, AnimatedModalState> {
 
     public static Consumer: Consumer<AnimatedModalAPI> = Context.Consumer;
+
     state: AnimatedModalState = {};
+
     private modal: Modal | null = null;
+
     private containerStyle: any;
+
     private animatedContentValue = new Animated.Value(1);
+
     private api: AnimatedModalAPI = {
         error: (message: string) => {
             if (this.modal) {
@@ -130,7 +116,11 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
                 <Context.Provider value={this.api}>
                     <View style={[styles.flex, this.props.backgroundStyle || {backgroundColor: '#000000'}]}>
                         <Animated.View
-                            style={[styles.flex, this.containerStyle, this.props.contentStyle || {backgroundColor: '#FFF'}]}
+                            style={[
+                                styles.flex,
+                                this.containerStyle,
+                                this.props.contentStyle || {backgroundColor: '#FFF'}
+                            ]}
                         >
                             {this.props.children}
                         </Animated.View>

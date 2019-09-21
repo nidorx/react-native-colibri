@@ -99,9 +99,12 @@ export {
 export {
     default as AnimatedModal,
     AnimatedModalAPI,
-    AnimatedModalOptions,
     AnimatedModalProps
 } from './src/lib/modal/AnimatedModal';
+
+export {
+   ModalOptions
+} from './src/lib/modal/Modal';
 
 export {
     default as TableView,

@@ -247,7 +247,7 @@ export function getTheme(extra?: Partial<ThemeProps>): ThemeProps {
                     THEME_REF_CACHE.splice(idx, 1);
                     THEME_REF_CACHE_VALUE.splice(idx, 1);
                 }
-            }, 5 * 60 * 1000);
+            }, 50 * 1000);
         }
 
         return THEME_REF_CACHE_VALUE[idx];

@@ -53,28 +53,40 @@ const styles = StyleSheet.create({
     }
 });
 
+export type ModalOptions = {
+    /**
+     * Posicionamento vertical da modal, default CENTER
+     */
+    ver?: 'top' | 'center' | 'bottom';
+
+    /**
+     * Posicionamento horizontal da modal, default CENTER
+     */
+    hor?: 'left' | 'center' | 'right';
+
+    /**
+     * Largura da modal, default MEDIUM
+     *
+     * Larguras são percentual da largura da tela,  'small' | 'medium' | 'large' = 40, 70, 90
+     */
+    width?: 'small' | 'medium' | 'large';
+
+    /**
+     * Includes a modal-backdrop element. Default true
+     */
+    backdrop?: boolean;
+
+    /**
+     * Includes a close button element. Default true
+     */
+    close?: boolean;
+}
+
 export type ModalProps = {
     content?: ReactNode;
     onClose?: () => void;
     onBeforeClose?: () => void;
-    options?: {
-        /**
-         * Posicionamento vertical da modal, default CENTER
-         */
-        ver?: 'top' | 'center' | 'bottom';
-
-        /**
-         * Posicionamento horizontal da modal, default CENTER
-         */
-        hor?: 'left' | 'center' | 'right';
-
-        /**
-         * Largura da modal, default MEDIUM
-         *
-         * Larguras são percentual da largura da tela, 'small' | 'medium' | 'large' = 40, 70, 90
-         */
-        width?: 'small' | 'medium' | 'large';
-    };
+    options?: ModalOptions;
 }
 
 export type ModalState = {
@@ -168,12 +180,14 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         const theme = getTheme();
         const iconCloseSize = spacing(theme, 'base');
         const borderRadius = spacing(theme, 'micro');
+        const options = this.props.options || {};
         return (
             <View
                 style={styles.container}
                 onLayout={this.animatePosition}
             >
-                <TouchableWithoutFeedback onPress={this.hide}>
+
+                <TouchableWithoutFeedback onPress={this.hide} disabled={options.backdrop === false}>
                     <Animated.View style={[styles.overlay, {opacity: this.animatedOpacity}]}/>
                 </TouchableWithoutFeedback>
 
@@ -188,17 +202,23 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                             this.containerInnerStyle
                         ]}>
 
-                        <TouchableOpacity onPress={this.hide} style={styles.closeIconContainer}>
-                            <Image
-                                style={{
-                                    width: iconCloseSize,
-                                    height: iconCloseSize,
-                                    resizeMode: 'contain',
-                                    tintColor: theme.colorTextSecondary
-                                }}
-                                source={require('./../../assets/close.png')}
-                            />
-                        </TouchableOpacity>
+                        {
+                            (options.close !== false)
+                                ? (
+                                    <TouchableOpacity onPress={this.hide} style={styles.closeIconContainer}>
+                                        <Image
+                                            style={{
+                                                width: iconCloseSize,
+                                                height: iconCloseSize,
+                                                resizeMode: 'contain',
+                                                tintColor: theme.colorTextSecondary
+                                            }}
+                                            source={require('./../../assets/close.png')}
+                                        />
+                                    </TouchableOpacity>
+                                )
+                                : null
+                        }
 
                         {
                             this.state.contentVisible
