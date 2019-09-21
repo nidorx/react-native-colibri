@@ -81,6 +81,10 @@ export {
     SimpleTextProps
 } from './src/lib/SimpleText';
 
+export {
+    default as Spinner,
+    SpinnerProps
+} from './src/lib/Spinner';
 
 export {
     default as Title,

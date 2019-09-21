@@ -1,15 +1,16 @@
 import React from 'react';
-import {Animated, Easing, View,} from 'react-native';
+import {Animated, Easing, View, ViewStyle,} from 'react-native';
 import Theme, {getTheme, scale, ThemeProps} from "./Theme";
 
-export type TitleProps = {
+export type SpinnerProps = {
     theme?: Partial<ThemeProps>;
     color?: string;
     opacity?: number;
     size?: number;
+    style?: ViewStyle;
 }
 
-export default class Spinner extends React.PureComponent<TitleProps> {
+export default class Spinner extends React.PureComponent<SpinnerProps> {
 
     private animatedValue = new Animated.Value(0);
 
