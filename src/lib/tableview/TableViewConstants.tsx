@@ -2,7 +2,7 @@ import React from 'react';
 import {ImageProps, ListRenderItemInfo, SectionListData, View, ViewStyle} from 'react-native';
 import {TitleExtra} from '../Title';
 import {EmptyStateProps} from "../EmptyState";
-import Theme, {getTheme, spacingReact, ThemeProps} from "../Theme";
+import Theme, {getTheme, spacing, ThemeProps} from "../Theme";
 
 export type TableViewSectionListRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT> & {
     section: SectionListData<ItemT>;
@@ -202,7 +202,7 @@ export class DiscloruseIcon extends React.PureComponent<DiscloruseIconProps> {
                         justifyContent: 'center',
                         width: height,
                         height: height,
-                        marginLeft: spacingReact(theme, 'tiny')
+                        marginLeft: spacing(theme, 'tiny')
                     }}
                 >
                     <View

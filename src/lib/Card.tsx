@@ -1,6 +1,6 @@
 import React from 'react'
 import {Animated, Easing, Image, ImageProps, LayoutChangeEvent, TouchableOpacity, View, ViewProps} from 'react-native';
-import {getTheme, spacingReact} from "./Theme";
+import {getTheme, spacing} from "./Theme";
 import SimpleText from "./SimpleText";
 
 export type CardProps = ViewProps & {
@@ -80,9 +80,9 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
 
     render() {
         const theme = getTheme();
-        const spacingMicro = spacingReact(theme, 'micro') as number;
-        const spacingSmall = spacingReact(theme, 'small') as number;
-        const spacingBase = spacingReact(theme, 'base') as number;
+        const spacingMicro = spacing(theme, 'micro') as number;
+        const spacingSmall = spacing(theme, 'small') as number;
+        const spacingBase = spacing(theme, 'base') as number;
 
         const header = (
             <View
@@ -162,7 +162,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                         this.props.boxed
                             ? {
                                 overflow: 'hidden',
-                                marginHorizontal: spacingReact(theme, 'tiny'),
+                                marginHorizontal: spacing(theme, 'tiny'),
                                 borderRadius: spacingMicro,
                                 borderWidth: theme.lineWidth,
                                 borderColor: theme.colorLine,

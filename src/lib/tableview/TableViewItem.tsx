@@ -19,7 +19,7 @@ import {
 import Title from '../Title';
 import SimpleText from './../SimpleText';
 import {animateGeneric} from "../Utils";
-import Theme, {fontStyle, getTheme, spacingReact, ThemeProps} from "../Theme";
+import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "../Theme";
 
 
 export type TableViewItemProps = {
@@ -113,8 +113,8 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
             <Theme>
                 {() => {
                     const theme = getTheme(this.props.theme);
-                    const spacingTiny = spacingReact(theme, 'tiny') as number;
-                    const spacingSmall = spacingReact(theme, 'small');
+                    const spacingTiny = spacing(theme, 'tiny') as number;
+                    const spacingSmall = spacing(theme, 'small');
 
                     const hasSubtitle = (row.subtitle && row.subtitle !== '');
 
@@ -136,7 +136,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                     alignContent: 'center',
                                     justifyContent: 'flex-start',
                                     backgroundColor: row.selected ? theme.colorSelected : backgroundColor,
-                                    paddingHorizontal: spacingReact(theme, 'base'),
+                                    paddingHorizontal: spacing(theme, 'base'),
                                     paddingVertical: (row.large || !hasSubtitle) ? spacingSmall : spacingTiny,
                                     minHeight: TABLE_VIEW_ITEM_MIN_HEIGHT
                                 },
@@ -234,9 +234,9 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
         if (!row.icon) {
             return null;
         }
-        const spacingSmall = spacingReact(theme, 'small');
-        const spacingLarge = spacingReact(theme, 'large');
-        const spacingXLarge = spacingReact(theme, 'x-large');
+        const spacingSmall = spacing(theme, 'small');
+        const spacingLarge = spacing(theme, 'large');
+        const spacingXLarge = spacing(theme, 'x-large');
 
         return (
             row.icon.hasOwnProperty('source')
@@ -249,7 +249,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                 width: row.iconBig ? spacingXLarge : spacingLarge,
                                 height: row.iconBig ? spacingXLarge : spacingLarge,
                                 resizeMode: 'center',
-                                borderRadius: spacingReact(theme, 'tiny'),
+                                borderRadius: spacing(theme, 'tiny'),
                                 marginRight: spacingSmall
                             }
                         ]}
@@ -584,7 +584,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                         position: 'relative',
                                         backgroundColor: bgColor,
                                         height: '100%',
-                                        padding: spacingReact(theme, 'small'),
+                                        padding: spacing(theme, 'small'),
                                         alignSelf: 'flex-end'
                                     }}
                                     onPress={() => {

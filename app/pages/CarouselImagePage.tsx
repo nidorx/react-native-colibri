@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CarouselImage, getTheme, SimpleText, spacingReact, TableView, TableViewSection, Toast} from "../../lib";
+import {Card, CarouselImage, getTheme, SimpleText, spacing, TableView, TableViewSection, Toast} from "../../lib";
 import {CarouselImageItem} from "../../dist/lib";
 import {View} from "react-native";
 
@@ -270,7 +270,7 @@ export default class CarouselImagePage extends React.PureComponent<any, Carousel
                                                 : undefined
                                         }
                                         style={{
-                                            paddingBottom: spacingReact(theme, 'base'),
+                                            paddingBottom: spacing(theme, 'base'),
                                         }}
                                         boxed={true}
                                         shadowPattern={'C'}

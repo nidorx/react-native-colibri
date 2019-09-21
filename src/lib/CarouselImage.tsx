@@ -11,7 +11,7 @@ import {
     ViewProps
 } from 'react-native';
 import Carousel from './Carousel';
-import {getTheme, spacingReact} from "./Theme";
+import {getTheme, spacing} from "./Theme";
 
 const GAP_DEFAULT = 6;
 
@@ -149,7 +149,7 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
                                                             {
                                                                 width: this.state.itemWidth,
                                                                 height: this.state.itemWidth,
-                                                                marginBottom: spacingReact(theme, 'tiny')
+                                                                marginBottom: spacing(theme, 'tiny')
                                                             },
                                                             this.props.rounded
                                                                 ? {
