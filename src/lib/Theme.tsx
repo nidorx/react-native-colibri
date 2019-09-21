@@ -25,16 +25,16 @@ export function scaleModerate(theme: ThemeProps, size: number, factor = 0.5) {
     return size + (scale(theme, size) - size) * factor;
 }
 
-export type fontWeight = 'thin' | 'light' | 'regular' | 'medium' | 'bold' ;
+export type FontWeightName = 'thin' | 'light' | 'regular' | 'medium' | 'bold' ;
 
 /**
  * Font specification
  */
-export type FontSpec = {
+export type FontProps = {
     size: number;
     lineHeight: number;
     letterSpacing: number;
-    weight: fontWeight;
+    weight: FontWeightName;
     italic?: boolean;
     style?: StyleProp<TextStyle>;
 }
@@ -52,12 +52,12 @@ export type FontSpec = {
  * large    = 48
  * x-large  = 64
  */
-export type SpacingNames = 'micro' | 'tiny' | 'small' | 'base' | 'large' | 'x-large';
+export type SpacingName = 'micro' | 'tiny' | 'small' | 'base' | 'large' | 'x-large';
 
 /**
  * Theme definition for space
  */
-export type SpacingDef = {
+export type SpacingValues = {
     micro: number;
     tiny: number;
     small: number;
@@ -70,7 +70,7 @@ export type SpacingDef = {
  *
  * @param value
  */
-export function spacing(theme: ThemeProps, value?: SpacingNames): number | undefined {
+export function spacing(theme: ThemeProps, value?: SpacingName): number | undefined {
     if (!value) {
         return;
     }
@@ -83,10 +83,10 @@ export function spacing(theme: ThemeProps, value?: SpacingNames): number | undef
 }
 
 /**
- * Get React Native Text style from FontSpec
+ * Get React Native Text style from FontProps
  * @param font
  */
-export function fontStyle(theme: ThemeProps, font: Partial<FontSpec>) {
+export function fontStyle(theme: ThemeProps, font: Partial<FontProps>) {
     let family = theme.fontFamily.regular;
     switch (font.weight) {
         case 'thin':
@@ -172,15 +172,15 @@ export type ThemeProps = {
         boldItalic: string;
     },
     // Especificação das fontes usadas no aplicativo
-    fontTitle1: Partial<FontSpec>;
-    fontTitle2: Partial<FontSpec>;
-    fontTitle3: Partial<FontSpec>;
-    fontLarge: Partial<FontSpec>;
-    fontRegular: Partial<FontSpec>;
-    fontSmall: Partial<FontSpec>;
-    fontCaption: Partial<FontSpec>;
+    fontTitle1: Partial<FontProps>;
+    fontTitle2: Partial<FontProps>;
+    fontTitle3: Partial<FontProps>;
+    fontLarge: Partial<FontProps>;
+    fontRegular: Partial<FontProps>;
+    fontSmall: Partial<FontProps>;
+    fontCaption: Partial<FontProps>;
     // Spacing (icon size, padding, margin, borderRadius)
-    spacing: Partial<SpacingDef>;
+    spacing: Partial<SpacingValues>;
     // OLD FONT SIZE
     lineWidth: number;
 }
@@ -190,7 +190,7 @@ export type ThemeProps = {
  *    https://v1.designcode.io/iosdesign-guidelines (quando possível)
  *    https://ivomynttinen.com/blog/ios-design-guidelines
  */
-const THEME_DEFAULT: ThemeProps = {
+export const THEME_DEFAULT: ThemeProps = {
     colorSkeleton: '#D2D2D2',
     colorBackground: '#F2F2F2',
     colorContent: '#FFFFFF',

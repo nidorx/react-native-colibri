@@ -13,13 +13,13 @@ import {
 import SimpleText, {TextAlign} from './SimpleText';
 import Theme, {
     ColorSystem,
-    FontSpec,
+    FontProps,
     fontStyle,
     getTheme,
     scale,
     scaleModerate,
     scaleVertical,
-    SpacingNames,
+    SpacingName,
     spacing,
     ThemeProps
 } from "./Theme";
@@ -171,8 +171,8 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
                 {() => {
                     const theme = getTheme(this.props.theme);
 
-                    let font: Partial<FontSpec>;
-                    let spacingName: SpacingNames;
+                    let font: Partial<FontProps>;
+                    let spacingName: SpacingName;
 
                     switch (this.props.size || 'regular') {
                         case 'large':

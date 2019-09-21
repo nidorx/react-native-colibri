@@ -91,8 +91,8 @@ export {
 
 export {
     default as Toast,
-    DURATION,
-    ToastProps
+    ToastProps,
+    TOAST_DURATION
 } from './src/lib/Toast';
 
 
@@ -132,19 +132,22 @@ export {
     QuinticEaseOut
 } from './src/lib/Utils';
 
-
 export {
+    default as Theme,
+    ThemeProvider,
     getTheme,
     setTheme,
-    ThemeProps,
-    FontSpec,
-    SpacingNames,
     spacing,
     fontStyle,
     scale,
-    scaleVertical,
     scaleModerate,
-    fontWeight,
-    SpacingDef,
-    ThemeProvider
+    scaleVertical,
+    ThemeProps,
+    FontProps,
+    SpacingName,
+    FontWeightName,
+    SpacingValues,
+    ColorComponent,
+    ColorSystem,
+    THEME_DEFAULT
 } from './src/lib/Theme';

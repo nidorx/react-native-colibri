@@ -57,7 +57,7 @@ type ToastState = {
     opacityValue: Animated.Value;
 }
 
-export const DURATION = {
+export const TOAST_DURATION = {
     LENGTH_SHORT: 500,
     FOREVER: 0,
 };
@@ -178,7 +178,7 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
     }
 
     public show(text: string, duration?: number, callback?: () => void) {
-        this.duration = typeof duration === 'number' ? duration : DURATION.LENGTH_SHORT;
+        this.duration = typeof duration === 'number' ? duration : TOAST_DURATION.LENGTH_SHORT;
         this.callback = callback;
         this.setState({
             isShow: true,
@@ -195,14 +195,14 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
 
         this.animation.start(() => {
             this.isShow = true;
-            if (duration !== DURATION.FOREVER) this.close();
+            if (duration !== TOAST_DURATION.FOREVER) this.close();
         });
     }
 
     public close(duration?: number) {
         let delay = typeof duration === 'undefined' ? this.duration : duration;
 
-        if (delay === DURATION.FOREVER) {
+        if (delay === TOAST_DURATION.FOREVER) {
             delay = this.props.defaultCloseDelay || DEFAULTS.defaultCloseDelay
         }
 
