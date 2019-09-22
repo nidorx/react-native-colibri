@@ -298,7 +298,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         title={'Recently updated'}
                                         subtitle={'Fresh features & content'}
                                         onPressMore={onPressMore}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                     >
                                         <SimpleText
                                             text={'boxed={true}'}
@@ -323,7 +323,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         onPressMore={onPressMore}
                                         boxed={true}
                                         shadowPattern={'B'}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                     >
                                         <SimpleText
                                             text={'boxed={true} \n shadowPattern={"B"}'}
@@ -348,7 +348,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         onPressMore={onPressMore}
                                         boxed={true}
                                         shadowPattern={'C'}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                     >
                                         <SimpleText
                                             text={'boxed={true} \n shadowPattern={"C"}'}
@@ -373,7 +373,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         onPressMore={onPressMore}
                                         boxed={true}
                                         shadow={false}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                     >
                                         <SimpleText
                                             text={'boxed={true} \n shadow={false}'}
@@ -406,7 +406,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         }}
                                         onPressMore={() => {
                                         }}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                         shadow={true}
                                     >
                                         <SimpleText
@@ -443,7 +443,7 @@ export default class CardPage extends React.PureComponent<CardStoryProps, CardSt
                                         }}
                                         onPressMore={() => {
                                         }}
-                                        style={{backgroundColor: theme.colorContent}}
+                                        style={{backgroundColor: theme.colorBackground}}
                                         boxed={true}
                                     >
                                         <SimpleText

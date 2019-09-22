@@ -72,7 +72,7 @@ export default class Segment extends React.PureComponent<SegmentProps> {
                     const theme = getTheme(this.props.theme);
                     const spacingMicro = spacing(theme, 'micro');
 
-                    const COLOR = theme.colorLink;
+                    const COLOR = theme.colorPrimary.background;
                     const BORDER_WIDTH = 1;
                     const FONT_SIZE = theme.fontCaption.size as number;
                     const PADDING_TEXT = spacing(theme, 'tiny') as number;
@@ -107,7 +107,7 @@ export default class Segment extends React.PureComponent<SegmentProps> {
                                             style={[
                                                 styles.text,
                                                 {
-                                                    color: isActive ? theme.colorContent : COLOR,
+                                                    color: isActive ? theme.colorBackground : COLOR,
                                                     paddingVertical: PADDING_TEXT,
                                                     paddingHorizontal: spacingMicro
                                                 }
@@ -125,7 +125,7 @@ export default class Segment extends React.PureComponent<SegmentProps> {
                                                     width: option.width,
                                                     flex: block ? 1 : undefined,
                                                     borderWidth: BORDER_WIDTH,
-                                                    backgroundColor: isActive ? COLOR : theme.colorContent,
+                                                    backgroundColor: isActive ? COLOR : theme.colorBackground,
                                                     borderColor: COLOR
                                                 },
                                                 index === 0
@@ -152,7 +152,7 @@ export default class Segment extends React.PureComponent<SegmentProps> {
                                                             onPress={() => {
                                                                 this.props.onChange(option.key);
                                                             }}
-                                                            underlayColor={theme.colorUnderlay}
+                                                            underlayColor={theme.colorFocus}
                                                             style={{flex: 1}}
                                                         >
                                                             {text}

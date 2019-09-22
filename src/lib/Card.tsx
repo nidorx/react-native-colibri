@@ -127,7 +127,7 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
                                 <SimpleText
                                     text={this.props.moreText || 'More'}
                                     align={'right'}
-                                    color={theme.colorLink}
+                                    color={theme.colorPrimary.background}
                                 />
                             </View>
                         )

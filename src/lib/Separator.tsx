@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 export type SeparatorProps = {
     title?: string;
     color?: string;
-    reverse?: boolean;
     small?: boolean;
     style?: StyleProp<ViewStyle>;
 }
@@ -39,9 +38,7 @@ export default class Separator extends React.PureComponent<SeparatorProps> {
                     style={{
                         borderBottomColor: this.props.color
                             ? this.props.color
-                            : this.props.reverse
-                                ? theme.colorTextReverse
-                                : theme.colorLineSelected,
+                            : theme.colorLineSelected,
                         borderBottomWidth: theme.lineWidth,
                     }}
                 />
@@ -70,13 +67,8 @@ export default class Separator extends React.PureComponent<SeparatorProps> {
                                     color={
                                         this.props.color
                                             ? this.props.color
-                                            : (
-                                                this.props.reverse
-                                                    ? theme.colorTextReverse
-                                                    : theme.colorTextSecondary
-                                            )
+                                            : theme.colorTextSecondary
                                     }
-                                    reverse={this.props.reverse}
                                     small={this.props.small}
                                     align={'center'}
                                 >
