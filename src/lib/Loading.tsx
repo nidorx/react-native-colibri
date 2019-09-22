@@ -1,12 +1,17 @@
 import React from 'react';
-import {ActivityIndicator, Animated, LayoutChangeEvent, StyleSheet, View} from 'react-native';
-import {getTheme} from "./Theme";
+import {ActivityIndicator, Animated, LayoutChangeEvent, StyleSheet, View, ViewStyle} from 'react-native';
+import Theme, {getTheme, ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 import SimpleText from "./SimpleText";
 
 const AnimatedActivityIndicator = Animated.createAnimatedComponent(ActivityIndicator);
 
 export type LoadingProps = {
+    /**
+     * Permite definir um tema personalizado para este componente
+     */
+    theme?: Partial<ThemeProps>;
+
     /**
      * Informs if spinner should be displayed
      */
@@ -16,18 +21,20 @@ export type LoadingProps = {
      * Lets you display an informational message while loading
      */
     message?: string;
+
+    overlayStyle?: ViewStyle;
 }
 
 type LoadingState = {
     visible: boolean;
     isLoading: boolean;
     height: number;
+
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
         position: 'absolute',
         top: 0,
         bottom: 0,
@@ -110,79 +117,87 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
     }
 
     render() {
-        const theme = getTheme();
-        const {visible} = this.state;
-
-        const trasnlateIndicator = this.animatedIndicatorValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [-200, this.state.height / 4]
-        });
-
-        const opacityOverlay = this.animatedOpacityValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 1]
-        });
-
-        const opacityContent = this.animatedOpacityValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 0.90]
-        });
-
         return (
-            <View style={{flex: 1}}>
-                {
-                    visible ?
-                        (
-                            <Animated.View
-                                onLayout={this.onLayout}
-                                style={[
-                                    styles.container,
-                                    {
-                                        opacity: opacityOverlay
-                                    }
-                                ]}
-                            >
-                                <AnimatedActivityIndicator
-                                    animating={this.state.visible}
-                                    size={'small'}
-                                    color={theme.colorPrimary.background}
-                                    style={{
-                                        transform: [
-                                            {
-                                                translateY: trasnlateIndicator
-                                            }
-                                        ]
-                                    }}
-                                />
-                                {
-                                    this.props.message
-                                        ? (
-                                            <SimpleText
-                                                text={this.props.message}
-                                                small={true}
-                                                align={'center'}
+            <Theme theme={this.props.theme}>
+                {(theme) => {
+                    const {visible} = this.state;
+
+                    const trasnlateIndicator = this.animatedIndicatorValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [-200, this.state.height / 4]
+                    });
+
+                    const opacityOverlay = this.animatedOpacityValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0, 0.9]
+                    });
+
+                    const opacityContent = this.animatedOpacityValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [1, 0.9]
+                    });
+
+                    return (
+                        <View style={{flex: 1}}>
+                            {
+                                visible
+                                    ? (
+                                        <Animated.View
+                                            onLayout={this.onLayout}
+                                            style={[
+                                                styles.container,
+                                                {
+                                                    backgroundColor: theme.colorBackground,
+                                                    opacity: opacityOverlay
+                                                },
+                                                this.props.overlayStyle
+                                            ]}
+                                        >
+                                            <AnimatedActivityIndicator
+                                                animating={this.state.visible}
+                                                size={'small'}
+                                                color={theme.colorPrimary.background}
                                                 style={{
-                                                    marginTop: this.state.height / 3,
+                                                    transform: [
+                                                        {
+                                                            translateY: trasnlateIndicator
+                                                        }
+                                                    ]
                                                 }}
-                                                inline={true}
                                             />
-                                        )
-                                        : null
-                                }
+                                            {
+                                                this.props.message
+                                                    ? (
+                                                        <SimpleText
+                                                            text={this.props.message}
+                                                            small={true}
+                                                            align={'center'}
+                                                            style={{
+                                                                marginTop: this.state.height / 3,
+                                                            }}
+                                                            inline={true}
+                                                        />
+                                                    )
+                                                    : null
+                                            }
+                                        </Animated.View>
+                                    )
+                                    : null
+                            }
+                            <Animated.View
+                                style={{
+                                    opacity: opacityContent,
+                                    flex: 1
+                                }}
+                            >
+                                {this.props.children ? this.props.children : <View/>}
                             </Animated.View>
-                        )
-                        : null
-                }
-                <Animated.View
-                    style={{
-                        opacity: opacityContent,
-                        flex: 1
-                    }}
-                >
-                    {this.props.children ? this.props.children : <View/>}
-                </Animated.View>
-            </View>
+                        </View>
+                    );
+                }}
+            </Theme>
         );
+
     }
 
     private onLayout = (event: LayoutChangeEvent) => {
