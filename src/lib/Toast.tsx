@@ -161,7 +161,7 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                                         text={this.state.text}
                                         style={[
                                             {
-                                                color: theme.colorContent
+                                                color: theme.colorBackground
                                             },
                                             this.props.textStyle
                                         ]}

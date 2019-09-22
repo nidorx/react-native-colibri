@@ -137,24 +137,68 @@ export type ColorSystem = ColorComponent & {
  * Propriedades do Tema
  */
 export type ThemeProps = {
+    /**
+     * Largura padrão das linhas dos elementos visuais
+     */
+    lineWidth: number;
+    /**
+     * Cor de texto principal do conteúdo
+     */
     colorText: string;
+    /**
+     * Cor de texto secundádio do conteúdo
+     */
     colorTextSecondary: string;
-    colorTextReverse: string;
-    colorContent: string;
-    colorSkeleton: string;
+    /**
+     * Cor de fundo das telas e dos conteúdos
+     */
     colorBackground: string;
-    colorLink: string;
-    colorUnderlay: string;
+    /**
+     * Cor de fundo dos painéis
+     */
+    colorPanel: string;
+    /**
+     * Cor das linhas separadores dos componentes e painéis
+     */
     colorLine: string;
+    /**
+     * Em alguns elementos, a cor da linha é modificada quando o item está selecionado.
+     *
+     * Ex. bordas de menus, bordas de TableView
+     */
     colorLineSelected: string;
-    colorBase: ColorSystem;
-    colorPrimary: ColorSystem;
-    colorInfo: ColorSystem;
-    colorSuccess: ColorSystem;
-    colorWarning: ColorSystem;
-    colorDanger: ColorSystem;
+    /**
+     * Cor de apresentação quando alguns elementos recebe o foco. Ex. itens selecionáveis de menu
+     */
+    colorFocus: string;
+    /**
+     * Permite destacar um elemento que recebe a seleção, como itens de menu ou listas
+     */
     colorSelected: string;
-    colorButton: string;
+    /**
+     * Cor base para elementos visuais como botões e inputs
+     */
+    colorBase: ColorSystem;
+    /**
+     * Cor para elementos de execução primária, como botões e links
+     */
+    colorPrimary: ColorSystem;
+    /**
+     * Cores para elementos informativos
+     */
+    colorInfo: ColorSystem;
+    /**
+     * Cores para elementos que representam sucesso ou fluxo seguro
+     */
+    colorSuccess: ColorSystem;
+    /**
+     * Cores que destacam ações que requerem atenção do usuário
+     */
+    colorWarning: ColorSystem;
+    /**
+     * Cores para elementos que representam ações que podem resultar em perdas de dados.
+     */
+    colorDanger: ColorSystem;
     // Default guideline sizes are based on standard ~5" screen mobile device
     guidelineBaseWidth: number;
     guidelineBaseHeight: number;
@@ -181,8 +225,6 @@ export type ThemeProps = {
     fontCaption: Partial<FontProps>;
     // Spacing (icon size, padding, margin, borderRadius)
     spacing: Partial<SpacingValues>;
-    // OLD FONT SIZE
-    lineWidth: number;
 }
 
 let theme: Partial<ThemeProps> = {};
@@ -309,17 +351,14 @@ export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps 
  *    https://ivomynttinen.com/blog/ios-design-guidelines
  */
 export const THEME_DEFAULT: ThemeProps = {
-    colorSkeleton: '#D2D2D2',
-    colorBackground: '#F2F2F2',
-    colorContent: '#FFFFFF',
-    colorLine: 'rgba(0, 0, 0, 0.08)',
+    colorBackground: '#FFFFFF',
+    colorPanel: '#F5F5F5',
+    colorLine: '#E5E5E5',
     colorLineSelected: '#CECED2',
-    colorUnderlay: '#CECED2',
+    colorFocus: '#CECED2',
     colorText: '#404040',
     colorTextSecondary: '#8E8E93',
-    colorTextReverse: '#FFF',
-    colorLink: '#007AFF',
-    colorSelected: '#F2F2F2',
+    colorSelected: '#F5F5F5',
     colorBase: {
         background: '#FFFFFF',
         text: '#404040',
@@ -422,7 +461,6 @@ export const THEME_DEFAULT: ThemeProps = {
             }
         }
     },
-    colorButton: '#FFFFFF',
     guidelineBaseWidth: 375,
     guidelineBaseHeight: 667,
     fontFamily: Platform.select({

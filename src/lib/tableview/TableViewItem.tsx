@@ -120,7 +120,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
                     const backgroundColor = this.animateColorValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [theme.colorContent, theme.colorUnderlay]
+                        outputRange: [theme.colorBackground, theme.colorFocus]
                     });
 
                     /**
@@ -555,7 +555,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                         left: 0,
                         flexDirection: 'row',
                         justifyContent: 'flex-end',
-                        backgroundColor: theme.colorBackground
+                        backgroundColor: theme.colorPanel
                     }}
                 >
                     {
@@ -590,10 +590,10 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                     onPress={() => {
                                         action.onPress(row, section);
                                     }}
-                                    underlayColor={theme.colorUnderlay}
+                                    underlayColor={theme.colorFocus}
                                 >
                                     <View>
-                                        <SimpleText text={action.title} color={theme.colorContent}/>
+                                        <SimpleText text={action.title} color={theme.colorBackground}/>
                                     </View>
                                 </TouchableHighlight>
                             )

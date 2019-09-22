@@ -20,7 +20,6 @@ export type SimpleTextProps = RnTextProps & {
     large?: boolean;
     small?: boolean;
     caption?: boolean;
-    reverse?: boolean;
     secondary?: boolean;
     bold?: boolean;
     italic?: boolean;
@@ -94,13 +93,9 @@ export default class SimpleText extends React.PureComponent<SimpleTextProps> {
                                 this.props.color
                                     ? this.props.color
                                     : (
-                                        this.props.reverse
-                                            ? theme.colorTextReverse
-                                            : (
-                                                this.props.secondary
-                                                    ? theme.colorTextSecondary
-                                                    : theme.colorText
-                                            )
+                                        this.props.secondary
+                                            ? theme.colorTextSecondary
+                                            : theme.colorText
                                     ),
                             textAlign: this.props.align || 'left',
                             marginVertical: spacing(theme, this.props.margin),

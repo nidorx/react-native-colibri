@@ -138,7 +138,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                 contentContainerStyle={[
                     {
                         // flexGrow: 1,
-                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorContent,
+                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground,
                     },
                     // ListEmptyComponent
                     sections.length
@@ -146,7 +146,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                         : {
                             justifyContent: 'center',
                             alignContent: 'center',
-                            backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground
+                            backgroundColor: this.props.transparent ? 'transparent' : theme.colorPanel
                         }
                 ]}
                 // https://github.com/facebook/react-native/issues/16411#issuecomment-367106427
@@ -164,7 +164,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                 style={[
                     {
                         flex: 1,
-                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorContent
+                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground
                     },
                     this.props.style
                 ]}
@@ -194,7 +194,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                     const styleContainer: ViewStyle = {
                         width: '100%',
                         flexDirection: 'row',
-                        backgroundColor: theme.colorBackground,
+                        backgroundColor: theme.colorPanel,
                         borderBottomColor: theme.colorLine,
                         borderBottomWidth: theme.lineWidth,
                         paddingHorizontal: spacingSmall
@@ -373,7 +373,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         const selected = leadingItem.selected || trailingItem.selected;
         const hasIcon = !!leadingItem.icon;
         return (
-            <View style={{backgroundColor: theme.colorContent}}>
+            <View style={{backgroundColor: theme.colorBackground}}>
                 <View
                     style={{
                         marginLeft: (info.highlighted || selected)
@@ -406,7 +406,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
 
         const style: ViewStyle = {
             width: '100%',
-            backgroundColor: theme.colorBackground,
+            backgroundColor: theme.colorPanel,
             borderTopColor: theme.colorLine,
             borderTopWidth: theme.lineWidth
         };
