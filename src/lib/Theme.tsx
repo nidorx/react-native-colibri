@@ -309,7 +309,6 @@ export function setTheme(newTheme: Partial<ThemeProps>) {
 }
 
 
-
 /**
  * Segue
  *    https://v1.designcode.io/iosdesign-guidelines (quando possível)
@@ -569,12 +568,12 @@ export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps 
     }
 }
 
-export default function Theme(props: { children: (theme: ThemeProps) => React.ReactNode }) {
-    const {children} = props;
+export default function Theme(props: { theme?: Partial<ThemeProps>, children: (theme: ThemeProps) => React.ReactNode }) {
+    const {children, theme} = props;
 
     return (
         <ThemeContext.Consumer>
-            {() => children(getTheme())}
+            {() => children(getTheme(theme))}
         </ThemeContext.Consumer>
     )
 }
