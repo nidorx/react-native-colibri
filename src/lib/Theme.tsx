@@ -308,41 +308,6 @@ export function setTheme(newTheme: Partial<ThemeProps>) {
     DeviceEventEmitter.emit('colibri:changeTheme', theme);
 }
 
-const ThemeContext = React.createContext<ThemeProps>(theme as ThemeProps);
-
-/**
- * Encapsulate your application with ThemeProvider
- */
-export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps }> {
-
-    state = {
-        theme: getTheme()
-    };
-
-    private subscription?: EmitterSubscription;
-
-    componentDidMount(): void {
-        this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
-            this.setState({
-                theme: theme
-            })
-        })
-    }
-
-    componentWillUnmount(): void {
-        if (this.subscription) {
-            this.subscription.remove();
-        }
-    }
-
-    render() {
-        return (
-            <ThemeContext.Provider value={this.state.theme}>
-                {this.props.children}
-            </ThemeContext.Provider>
-        );
-    }
-}
 
 
 /**
@@ -567,12 +532,49 @@ export const THEME_DEFAULT: ThemeProps = {
 // Set default theme
 setTheme(THEME_DEFAULT);
 
-/**
- * Theme consumer
- */
-const Theme = ThemeContext.Consumer;
+
+const ThemeContext = React.createContext<ThemeProps>(theme as ThemeProps);
 
 /**
- *
+ * Encapsulate your application with ThemeProvider
  */
-export default Theme;
+export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps }> {
+
+    state = {
+        theme: getTheme()
+    };
+
+    private subscription?: EmitterSubscription;
+
+    componentDidMount(): void {
+        this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
+            this.setState({
+                theme: theme
+            })
+        })
+    }
+
+    componentWillUnmount(): void {
+        if (this.subscription) {
+            this.subscription.remove();
+        }
+    }
+
+    render() {
+        return (
+            <ThemeContext.Provider value={this.state.theme}>
+                {this.props.children}
+            </ThemeContext.Provider>
+        );
+    }
+}
+
+export default function Theme(props: { children: (theme: ThemeProps) => React.ReactNode }) {
+    const {children} = props;
+
+    return (
+        <ThemeContext.Consumer>
+            {() => children(getTheme())}
+        </ThemeContext.Consumer>
+    )
+}

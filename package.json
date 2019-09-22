@@ -2,7 +2,7 @@
     "name": "react-native-colibri",
     "version": "0.1.0-pre.13",
     "description": "React Native Colibri",
-    "main": "lib",
+    "main": "index",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nidorx/react-native-colibri.git"
