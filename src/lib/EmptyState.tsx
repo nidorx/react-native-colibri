@@ -13,7 +13,7 @@ const EMPTY_STATE_FONT_SIZE_FACTOR = 1.2;
 export type EmptyStateProps = {
     theme?: Partial<ThemeProps>;
     component?: JSX.Element;
-    title?: string | boolean;
+    title?: string | boolean | JSX.Element;
     titleProps?: SimpleTextProps;
     description?: string | string[] | JSX.Element;
     descriptionProps?: SimpleTextProps;
@@ -98,23 +98,39 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                             }
 
                                             {
-                                                title
-                                                    ? (
-                                                        <SimpleText
-                                                            {...(this.props.titleProps || {})}
-                                                            style={[
-                                                                styles.title,
-                                                                {
-                                                                    marginBottom: spacing(theme, 'small'),
-                                                                },
-                                                                fontStyle(theme, theme.fontTitle2),
-                                                                this.props.titleProps ? this.props.titleProps.style : undefined
-                                                            ]}
-                                                        >
-                                                            {title}
-                                                        </SimpleText>
+                                                title === false
+                                                    ? null
+                                                    : (
+                                                        typeof title === 'string'
+                                                            ? (
+                                                                <SimpleText
+                                                                    {...(this.props.titleProps || {})}
+                                                                    style={[
+                                                                        styles.title,
+                                                                        {
+                                                                            marginBottom: spacing(theme, 'small'),
+                                                                        },
+                                                                        fontStyle(theme, theme.fontTitle2),
+                                                                        this.props.titleProps ? this.props.titleProps.style : undefined
+                                                                    ]}
+                                                                >
+                                                                    {title}
+                                                                </SimpleText>
+                                                            )
+                                                            : (
+                                                                <View
+                                                                    style={[
+                                                                        styles.title,
+                                                                        {
+                                                                            marginBottom: spacing(theme, 'small'),
+                                                                        },
+                                                                        this.props.titleProps ? this.props.titleProps.style : undefined
+                                                                    ]}
+                                                                >
+                                                                    {title}
+                                                                </View>
+                                                            )
                                                     )
-                                                    : null
                                             }
 
 
