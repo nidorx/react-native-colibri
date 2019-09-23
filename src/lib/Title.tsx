@@ -43,56 +43,57 @@ export type TitleExtraProps = {
 }
 
 const TitleExtraComponent = (props: TitleExtraProps) => {
-    const render = () => {
-        const theme = getTheme(props.theme);
 
-        return (
-            <View style={{flexDirection: 'row'}}>
-                {
-                    (typeof props.item.text === 'string')
-                        ? (
-                            <SimpleText
-                                theme={theme}
-                                text={props.item.text}
-                                align={props.config.textAlign}
-                                color={props.config.reverse ? theme.colorText : theme.colorTextSecondary}
-                                style={[
-                                    fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
-                                ]}
-                            />
-                        )
-                        : props.item.text
-                }
-                {
-                    (!props.item.extra || props.item.extra === '')
-                        ? undefined
-                        : (typeof props.item.extra === 'string')
-                        ? (
-                            <SimpleText
-                                theme={theme}
-                                text={props.item.extra}
-                                align={props.config.textAlign}
-                                color={props.config.reverse ? theme.colorText : theme.colorTextSecondary}
-                                style={[
-                                    {
-                                        alignSelf: 'flex-start',
-                                        marginLeft: spacing(theme, 'tiny')
-                                    },
-                                    fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
-                                ]}
-                            />
-                        )
-                        : (
-                            <View style={{marginLeft: spacing(theme, 'tiny')}}>
-                                {props.item.extra}
-                            </View>
-                        )
-                }
-            </View>
-        )
-    };
-
-    return (<Theme>{render}</Theme>);
+    return (
+        <Theme theme={props.theme}>
+            {(theme) => {
+                return (
+                    <View style={{flexDirection: 'row'}}>
+                        {
+                            (typeof props.item.text === 'string')
+                                ? (
+                                    <SimpleText
+                                        theme={theme}
+                                        text={props.item.text}
+                                        align={props.config.textAlign}
+                                        color={props.config.reverse ? theme.colorText : theme.colorTextSecondary}
+                                        style={[
+                                            fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
+                                        ]}
+                                    />
+                                )
+                                : props.item.text
+                        }
+                        {
+                            (!props.item.extra || props.item.extra === '')
+                                ? undefined
+                                : (typeof props.item.extra === 'string')
+                                ? (
+                                    <SimpleText
+                                        theme={theme}
+                                        text={props.item.extra}
+                                        align={props.config.textAlign}
+                                        color={props.config.reverse ? theme.colorText : theme.colorTextSecondary}
+                                        style={[
+                                            {
+                                                alignSelf: 'flex-start',
+                                                marginLeft: spacing(theme, 'tiny')
+                                            },
+                                            fontStyle(theme, props.config.reverse ? theme.fontSmall : theme.fontRegular)
+                                        ]}
+                                    />
+                                )
+                                : (
+                                    <View style={{marginLeft: spacing(theme, 'tiny')}}>
+                                        {props.item.extra}
+                                    </View>
+                                )
+                        }
+                    </View>
+                )
+            }}
+        </Theme>
+    );
 };
 
 export default class Title extends React.PureComponent<TitleProps> {

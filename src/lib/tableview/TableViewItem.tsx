@@ -110,9 +110,8 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
     private renderContent = (row: TableViewRow) => {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
                     const spacingTiny = spacing(theme, 'tiny') as number;
                     const spacingSmall = spacing(theme, 'small');
 
@@ -201,33 +200,35 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
             return null;
         }
 
-        const render = () => {
-            let theme = getTheme(rowTheme);
-            return (
-                <View
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignContent: 'flex-start'
-                    }}
-                >
-                    {
-                        (typeof row.left === 'string')
-                            ? (
-                                <SimpleText
-                                    text={row.left}
-                                    theme={theme}
-                                    color={theme.colorTextSecondary}
-                                    style={fontStyle(theme, theme.fontSmall)}
-                                />
-                            )
-                            // JSX.Element
-                            : row.left
-                    }
-                </View>
-            );
-        };
-        return (<Theme>{render}</Theme>);
+        return (
+            <Theme theme={rowTheme}>
+                {(theme) => {
+                    return (
+                        <View
+                            style={{
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignContent: 'flex-start'
+                            }}
+                        >
+                            {
+                                (typeof row.left === 'string')
+                                    ? (
+                                        <SimpleText
+                                            text={row.left}
+                                            theme={theme}
+                                            color={theme.colorTextSecondary}
+                                            style={fontStyle(theme, theme.fontSmall)}
+                                        />
+                                    )
+                                    // JSX.Element
+                                    : row.left
+                            }
+                        </View>
+                    );
+                }}
+            </Theme>
+        );
     };
 
     private renderIcon = (row: TableViewRow, theme: ThemeProps) => {
@@ -274,60 +275,61 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
     private renderRight = (row: TableViewRow, rowTheme: ThemeProps) => {
         if ((row.right && row.right !== '') || row.disclosure) {
-            const render = () => {
-                let theme = getTheme(rowTheme);
-                return (
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            alignContent: 'center',
-                            flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
-                        }}
-                    >
-                        <View
-                            style={{
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignContent: 'center',
-                                flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
-                            }}
-                        >
-                            {
-                                (!row.right || row.right === '')
-                                    ? null
-                                    : (typeof row.right === 'string')
-                                    ? (
-                                        <SimpleText
-                                            text={row.right}
-                                            theme={theme}
-                                            color={theme.colorTextSecondary}
-                                            style={fontStyle(theme, theme.fontSmall)}
-                                        />
-                                    )
-                                    // JSX.Element
-                                    : row.right
-                            }
-                        </View>
 
-                        <View
-                            style={{
-                                justifyContent: 'center',
-                                alignContent: 'flex-end'
-                            }}
-                        >
-                            {/* // Acessories */}
+            return (
+                <Theme theme={rowTheme}>
+                    {(theme) => {
+                        return (
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                    alignContent: 'center',
+                                    flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                        flex: (row.right && row.right !== '' && row.rightFlex) ? 1 : undefined
+                                    }}
+                                >
+                                    {
+                                        (!row.right || row.right === '')
+                                            ? null
+                                            : (typeof row.right === 'string')
+                                            ? (
+                                                <SimpleText
+                                                    text={row.right}
+                                                    theme={theme}
+                                                    color={theme.colorTextSecondary}
+                                                    style={fontStyle(theme, theme.fontSmall)}
+                                                />
+                                            )
+                                            // JSX.Element
+                                            : row.right
+                                    }
+                                </View>
 
-                            {
-                                // Disclosure
-                                row.disclosure ? <DiscloruseIcon theme={theme}/> : null
-                            }
-                        </View>
-                    </View>
-                )
-            };
+                                <View
+                                    style={{
+                                        justifyContent: 'center',
+                                        alignContent: 'flex-end'
+                                    }}
+                                >
+                                    {/* // Acessories */}
 
-            return (<Theme>{render}</Theme>);
+                                    {
+                                        // Disclosure
+                                        row.disclosure ? <DiscloruseIcon theme={theme}/> : null
+                                    }
+                                </View>
+                            </View>
+                        )
+                    }}
+                </Theme>);
         }
 
         return null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Caption, H1, H2, H3, Large, SimpleText, Small, TableView, TableViewRow, TableViewSection} from "../../lib";
+import {Caption, H1, H2, H3, Large, SimpleText, Small, TableView, TableViewRow, TableViewSection} from "../../index";
 
 export default class TypographyPage extends React.PureComponent {
 

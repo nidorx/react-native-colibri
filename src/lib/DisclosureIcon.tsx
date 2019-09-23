@@ -1,6 +1,6 @@
 import React from 'react';
-import {Animated, Easing, StyleProp, View, ViewStyle,} from 'react-native';
-import Theme, {ColorSystem, FontProps, getTheme, scale, SpacingName, spacing, ThemeProps} from "./Theme";
+import {Animated, StyleProp, View, ViewStyle,} from 'react-native';
+import Theme, {FontProps, getTheme, spacing, ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 
 
@@ -78,76 +78,78 @@ export default class DiscloruseIcon extends React.PureComponent<DiscloruseIconPr
     }
 
     render() {
-        const render = () => {
-            const theme = getTheme(this.props.theme);
+        return (
+            <Theme theme={this.props.theme}>
+                {(theme) => {
 
-            let font: Partial<FontProps>;
+                    let font: Partial<FontProps>;
 
-            switch (this.props.size || 'regular') {
-                case 'large':
-                    font = theme.fontTitle3;
-                    break;
-                case 'medium':
-                    font = theme.fontLarge;
-                    break;
-                case 'regular':
-                    font = theme.fontRegular;
-                    break;
-                default:
-                    font = theme.fontCaption;
-            }
+                    switch (this.props.size || 'regular') {
+                        case 'large':
+                            font = theme.fontTitle3;
+                            break;
+                        case 'medium':
+                            font = theme.fontLarge;
+                            break;
+                        case 'regular':
+                            font = theme.fontRegular;
+                            break;
+                        default:
+                            font = theme.fontCaption;
+                    }
 
-            // const size = 8;
-            // d=V2a
-            // a = V2(d/2)
-            // Calcula a largura a partir da diagonal
-            const height = font.size as number;
-            const size = Math.sqrt(2) * (height / 2);
+                    // const size = 8;
+                    // d=V2a
+                    // a = V2(d/2)
+                    // Calcula a largura a partir da diagonal
+                    const height = font.size as number;
+                    const size = Math.sqrt(2) * (height / 2);
 
-            this.size = size;
+                    this.size = size;
 
 
-            return (
-                <Animated.View
-                    style={[
-                        {
-                            position: 'relative',
-                            alignContent: 'flex-end',
-                            justifyContent: 'center',
-                            width: height,
-                            height: height,
-                            marginLeft: spacing(theme, 'tiny'),
-                            transform: [
+                    return (
+                        <Animated.View
+                            style={[
                                 {
-                                    rotate: this.animatedValue.interpolate({
-                                        inputRange: [-180, 180],
-                                        outputRange: ['-180deg', '180deg']
-                                    })
+                                    position: 'relative',
+                                    alignContent: 'flex-end',
+                                    justifyContent: 'center',
+                                    width: height,
+                                    height: height,
+                                    marginLeft: spacing(theme, 'tiny'),
+                                    transform: [
+                                        {
+                                            rotate: this.animatedValue.interpolate({
+                                                inputRange: [-180, 180],
+                                                outputRange: ['-180deg', '180deg']
+                                            })
+                                        },
+                                    ],
+                                    backgrondColor: 'cyan'
                                 },
-                            ],
-                            backgrondColor: 'cyan'
-                        },
-                        this.props.style
-                    ]}
-                >
-                    <View
-                        style={{
-                            position: 'relative',
-                            width: size,
-                            height: size,
-                            borderTopWidth: 1,
-                            borderRightWidth: 1,
-                            borderColor: this.props.color || theme.colorBase.text,
-                            transform: [
-                                {
-                                    rotate: '45deg',
-                                },
-                            ],
-                        }}
-                    />
-                </Animated.View>
-            )
-        };
-        return (<Theme>{render}</Theme>);
+                                this.props.style
+                            ]}
+                        >
+                            <View
+                                style={{
+                                    position: 'relative',
+                                    width: size,
+                                    height: size,
+                                    borderTopWidth: 1,
+                                    borderRightWidth: 1,
+                                    borderColor: this.props.color || theme.colorBase.text,
+                                    transform: [
+                                        {
+                                            rotate: '45deg',
+                                        },
+                                    ],
+                                }}
+                            />
+                        </Animated.View>
+                    )
+                }}
+            </Theme>
+        );
     }
 }

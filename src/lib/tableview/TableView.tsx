@@ -179,9 +179,8 @@ export default class TableView extends React.PureComponent<TableViewProps> {
      */
     private renderSectionHeader = (info: any) => {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
                     const section = info.section as TableViewSection;
                     const padding = spacing(theme, 'tiny') as number;
 

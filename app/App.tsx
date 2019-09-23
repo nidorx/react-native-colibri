@@ -1,7 +1,7 @@
 import React from 'react';
 import {StatusBar,} from 'react-native';
 import {createAppContainer, createStackNavigator, NavigationRouteConfigMap} from "react-navigation";
-import {AnimatedModal, TableView, TableViewSection, ThemeProvider, Toast} from "../lib";
+import {AnimatedModal, TableView, TableViewSection, ThemeProvider, Toast} from "../index";
 import TypographyPage from "./pages/TypographyPage";
 import CardPage from "./pages/CardPage";
 import EmptyStatePage from "./pages/EmptyStatePage";

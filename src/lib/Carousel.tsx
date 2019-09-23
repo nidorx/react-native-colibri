@@ -9,7 +9,7 @@ import {
     ViewProps,
     ViewStyle
 } from 'react-native';
-import Theme, {getTheme, scale} from "./Theme";
+import Theme, {scale} from "./Theme";
 
 export const GAP_DEFAULT = 6;
 
@@ -60,8 +60,7 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
 
         return (
             <Theme>
-                {() => {
-                    const theme = getTheme();
+                {(theme) => {
                     let margin = scale(theme, (this.props.gap || GAP_DEFAULT) / 2);
                     return (
                         <View style={[styles.container, this.props.style]}>
