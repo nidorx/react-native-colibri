@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react'
 import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
-import Theme, {FontProps, fontStyle, getTheme, SpacingName, spacing, ThemeProps} from "./Theme";
+import Theme, {FontProps, fontStyle, getTheme, spacing, SpacingName, ThemeProps} from "./Theme";
 
 export type TextAlign = 'left' | 'right' | 'center';
 
@@ -39,89 +39,91 @@ export type SimpleTextProps = RnTextProps & {
 export default class SimpleText extends React.PureComponent<SimpleTextProps> {
 
     render() {
-        let render = () => {
-            const theme = getTheme(this.props.theme);
-            let font = theme.fontRegular;
 
-            if (this.props.h1) {
-                font = theme.fontTitle1;
-            } else if (this.props.h2) {
-                font = theme.fontTitle2;
-            } else if (this.props.h3) {
-                font = theme.fontTitle3;
-            } else if (this.props.large) {
-                font = theme.fontLarge;
-            } else if (this.props.small) {
-                font = theme.fontSmall;
-            } else if (this.props.caption) {
-                font = theme.fontCaption;
-            }
+        return (
+            <Theme theme={this.props.theme}>
+                {(theme) => {
+                    let font = theme.fontRegular;
 
-            // Override font
-            if (this.props.font) {
-                font = {
-                    ...font,
-                    ...this.props.font
-                }
-            }
+                    if (this.props.h1) {
+                        font = theme.fontTitle1;
+                    } else if (this.props.h2) {
+                        font = theme.fontTitle2;
+                    } else if (this.props.h3) {
+                        font = theme.fontTitle3;
+                    } else if (this.props.large) {
+                        font = theme.fontLarge;
+                    } else if (this.props.small) {
+                        font = theme.fontSmall;
+                    } else if (this.props.caption) {
+                        font = theme.fontCaption;
+                    }
 
-            // Avoid change reference
-            font = {...font};
+                    // Override font
+                    if (this.props.font) {
+                        font = {
+                            ...font,
+                            ...this.props.font
+                        }
+                    }
 
-            if (this.props.bold) {
-                font.weight = 'bold';
-            }
+                    // Avoid change reference
+                    font = {...font};
 
-            if (this.props.italic) {
-                font.italic = true;
-            }
+                    if (this.props.bold) {
+                        font.weight = 'bold';
+                    }
 
-            if (this.props.size) {
-                font.size = this.props.size;
-            }
+                    if (this.props.italic) {
+                        font.italic = true;
+                    }
 
-            return (
-                <Text
-                    {...this.props}
-                    allowFontScaling={false}
-                    style={[
-                        font.style,
-                        fontStyle(theme, font),
-                        {
-                            textAlignVertical: 'center',
-                            color:
-                                this.props.color
-                                    ? this.props.color
-                                    : (
-                                        this.props.secondary
-                                            ? theme.colorTextSecondary
-                                            : theme.colorText
-                                    ),
-                            textAlign: this.props.align || 'left',
-                            marginVertical: spacing(theme, this.props.margin),
-                            width: this.props.inline ? undefined : '100%',
-                            textDecorationLine:
-                                (this.props.underline && this.props.lineThrough)
-                                    ? "underline line-through"
-                                    : (
-                                        this.props.underline
-                                            ? 'underline'
+                    if (this.props.size) {
+                        font.size = this.props.size;
+                    }
+
+                    return (
+                        <Text
+                            {...this.props}
+                            allowFontScaling={false}
+                            style={[
+                                font.style,
+                                fontStyle(theme, font),
+                                {
+                                    textAlignVertical: 'center',
+                                    color:
+                                        this.props.color
+                                            ? this.props.color
                                             : (
-                                                this.props.lineThrough
-                                                    ? 'line-through'
-                                                    : 'none'
+                                                this.props.secondary
+                                                    ? theme.colorTextSecondary
+                                                    : theme.colorText
+                                            ),
+                                    textAlign: this.props.align || 'left',
+                                    marginVertical: spacing(theme, this.props.margin),
+                                    width: this.props.inline ? undefined : '100%',
+                                    textDecorationLine:
+                                        (this.props.underline && this.props.lineThrough)
+                                            ? "underline line-through"
+                                            : (
+                                                this.props.underline
+                                                    ? 'underline'
+                                                    : (
+                                                        this.props.lineThrough
+                                                            ? 'line-through'
+                                                            : 'none'
+                                                    )
                                             )
-                                    )
-                        } as StyleProp<TextStyle>,
-                        this.props.style
-                    ] as any}
-                >
-                    {this.props.text || this.props.children}
-                </Text>
-            )
-        };
-
-        return (<Theme>{render}</Theme>);
+                                } as StyleProp<TextStyle>,
+                                this.props.style
+                            ] as any}
+                        >
+                            {this.props.text || this.props.children}
+                        </Text>
+                    )
+                }}
+            </Theme>
+        );
     }
 }
 

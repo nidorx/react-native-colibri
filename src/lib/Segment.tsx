@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, TouchableHighlight, View} from 'react-native';
-import Theme, {getTheme, spacing, ThemeProps} from "./Theme";
+import Theme, {spacing, ThemeProps} from "./Theme";
 import {Caption} from "./SimpleText";
 
 
@@ -64,9 +64,8 @@ export default class Segment extends React.PureComponent<SegmentProps> {
 
     render() {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
                     const spacingMicro = spacing(theme, 'micro');
 
                     const COLOR = theme.colorPrimary.background;

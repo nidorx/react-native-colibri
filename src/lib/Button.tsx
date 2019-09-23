@@ -10,17 +10,16 @@ import {
     View,
     ViewStyle
 } from 'react-native';
-import SimpleText, {TextAlign} from './SimpleText';
+import SimpleText from './SimpleText';
 import Theme, {
     ColorSystem,
     FontProps,
     fontStyle,
-    getTheme,
     scale,
     scaleModerate,
     scaleVertical,
-    SpacingName,
     spacing,
+    SpacingName,
     ThemeProps
 } from "./Theme";
 import Spinner from "./Spinner";
@@ -167,9 +166,8 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
     render() {
 
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
 
                     let font: Partial<FontProps>;
                     let spacingName: SpacingName;

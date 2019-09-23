@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated, Easing, View, ViewStyle,} from 'react-native';
-import Theme, {getTheme, scale, ThemeProps} from "./Theme";
+import Theme, {scale, ThemeProps} from "./Theme";
 
 export type SpinnerProps = {
     theme?: Partial<ThemeProps>;
@@ -38,9 +38,8 @@ export default class Spinner extends React.PureComponent<SpinnerProps> {
 
     render() {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
                     const size = this.props.size || scale(theme, theme.fontRegular.lineHeight as number);
                     return (
                         <View style={this.props.style}>

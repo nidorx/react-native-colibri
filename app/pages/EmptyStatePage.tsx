@@ -1,5 +1,5 @@
 import React from 'react';
-import {EmptyState, TableView, TableViewRow, TableViewSection, Toast} from "../../lib";
+import {EmptyState, TableView, TableViewRow, TableViewSection, Toast} from "../../index";
 
 export default class EmptyStatePage extends React.PureComponent {
 

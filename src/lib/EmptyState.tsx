@@ -2,7 +2,7 @@ import React from 'react'
 import {Image, ImageProps, StyleSheet, View, ViewStyle} from 'react-native';
 import SimpleText, {SimpleTextProps} from './SimpleText';
 import Button, {ButtonProps} from "./Button";
-import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "./Theme";
+import Theme, {fontStyle, spacing, ThemeProps} from "./Theme";
 
 
 /**
@@ -59,9 +59,8 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
 
     render() {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme theme={this.props.theme}>
+                {(theme) => {
                     let {title, component, description, image, tint, action} = this.props;
                     if ((!title && title !== false) || title === true) {
                         title = EmptyState.titleDefault;
@@ -204,12 +203,10 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
 
     private renderDescription(key: string, description: string) {
         return (
-            <Theme>
-                {() => {
-                    const theme = getTheme(this.props.theme);
+            <Theme key={key} theme={this.props.theme}>
+                {(theme) => {
                     return (
                         <SimpleText
-                            key={key}
                             theme={theme}
                             text={description}
                             color={theme.colorTextSecondary}
