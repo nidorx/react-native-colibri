@@ -15,9 +15,6 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderLeftWidth: 0
     },
-    first: {
-        borderLeftWidth: 1
-    },
     text: {
         flex: 1,
         textAlign: 'center',
@@ -130,6 +127,7 @@ export default class Segment extends React.PureComponent<SegmentProps> {
                                                 },
                                                 index === 0
                                                     ? {
+                                                        borderLeftWidth: 1,
                                                         borderTopLeftRadius: spacingMicro,
                                                         borderBottomLeftRadius: spacingMicro,
                                                     }
