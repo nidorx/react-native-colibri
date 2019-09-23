@@ -144,9 +144,9 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                     sections.length
                         ? null
                         : {
+                            flex: 1,
                             justifyContent: 'center',
-                            alignContent: 'center',
-                            backgroundColor: this.props.transparent ? 'transparent' : theme.colorPanel
+                            alignContent: 'center'
                         }
                 ]}
                 // https://github.com/facebook/react-native/issues/16411#issuecomment-367106427
