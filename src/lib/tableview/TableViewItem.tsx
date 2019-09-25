@@ -446,6 +446,18 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
         return (
             <TouchableWithoutFeedback
+                onPressIn={() => {
+                    if (Math.abs(this.swipeTranslateXValue) > 0) {
+                        // Swipe ativo, ignora press
+                        return;
+                    }
+                    this.props.info.separators.highlight();
+                    animateGeneric(this.animateColorValue, 1);
+                }}
+                onPressOut={() => {
+                    this.props.info.separators.unhighlight();
+                    animateGeneric(this.animateColorValue, 0);
+                }}
                 onPress={() => {
                     // Marca o item como selecionado, re-renderiza o componente e informa ao interessado
                     row.selected = !row.selected;
@@ -462,10 +474,8 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                         }
                         : undefined
                 }
-                onPressIn={this.props.info.separators.highlight}
-                onPressOut={this.props.info.separators.unhighlight}
             >
-                {content}
+                <View>{content}</View>
             </TouchableWithoutFeedback>
         );
     };
