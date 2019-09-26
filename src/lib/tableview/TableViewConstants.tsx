@@ -80,7 +80,7 @@ export type TableViewRow = {
     /**
      * Informa que deve exibir a seta á direita (indicador de navegacao)
      */
-    disclosure?: DiscloruseIconProps;
+    disclosure?: boolean | DiscloruseIconProps;
     /**
      * Informa que o item está selecionado
      */
