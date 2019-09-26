@@ -326,7 +326,9 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                         row.disclosure
                                             ? <DiscloruseIcon
                                                 theme={theme}
+                                                size={'small'}
                                                 direction={'right'}
+                                                color={theme.colorTextSecondary}
                                                 {...(row.disclosure === true ? {} : row.disclosure)}
                                             />
                                             : null
