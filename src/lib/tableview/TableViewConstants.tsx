@@ -1,8 +1,8 @@
 import React from 'react';
-import {ImageProps, ListRenderItemInfo, SectionListData, View, ViewStyle} from 'react-native';
+import {ImageProps, ListRenderItemInfo, SectionListData, ViewStyle} from 'react-native';
 import {TitleExtra} from '../Title';
 import {EmptyStateProps} from "../EmptyState";
-import Theme, {spacing, ThemeProps} from "../Theme";
+import {DiscloruseIconProps} from "../DisclosureIcon";
 
 export type TableViewSectionListRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT> & {
     section: SectionListData<ItemT>;
@@ -80,7 +80,7 @@ export type TableViewRow = {
     /**
      * Informa que deve exibir a seta á direita (indicador de navegacao)
      */
-    disclosure?: boolean;
+    disclosure?: DiscloruseIconProps;
     /**
      * Informa que o item está selecionado
      */
@@ -170,63 +170,4 @@ export type TableViewSection = {
     swipeActions?: TableViewSwipeActions;
 
     [key: string]: any;
-}
-
-export type DiscloruseIconProps = {
-    theme?: Partial<ThemeProps>;
-}
-
-/**
- * Ícone chevron
- *
- * @constructor
- */
-export class DiscloruseIcon extends React.PureComponent<DiscloruseIconProps> {
-    render() {
-
-
-        return (
-            <Theme theme={this.props.theme}>
-                {(theme) => {
-
-                    // const size = 8;
-                    // d=V2a
-                    // a = V2(d/2)
-                    // Calcula a largura a partir da diagonal
-                    const height = theme.fontSmall.size as number;
-                    const size = Math.sqrt(2) * (height / 2);
-
-                    return (
-                        <View
-                            style={{
-                                alignSelf: 'center',
-                                position: 'relative',
-                                alignContent: 'flex-end',
-                                justifyContent: 'center',
-                                width: height,
-                                height: height,
-                                marginLeft: spacing(theme, 'tiny')
-                            }}
-                        >
-                            <View
-                                style={{
-                                    position: 'relative',
-                                    width: size,
-                                    height: size,
-                                    borderTopWidth: 1,
-                                    borderRightWidth: 1,
-                                    borderColor: theme.colorTextSecondary,
-                                    opacity: 0.5,
-                                    transform: [
-                                        {
-                                            rotate: '45deg',
-                                        },
-                                    ],
-                                }}
-                            />
-                        </View>
-                    )
-                }}
-            </Theme>);
-    }
 }

@@ -9,7 +9,6 @@ import {
     View
 } from 'react-native';
 import {
-    DiscloruseIcon,
     TableViewRow,
     TableViewRowSectionCallbackFn,
     TableViewSection,
@@ -20,6 +19,7 @@ import Title from '../Title';
 import SimpleText from './../SimpleText';
 import {animateGeneric} from "../Utils";
 import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "../Theme";
+import DiscloruseIcon from "../DisclosureIcon";
 
 
 export type TableViewItemProps = {
@@ -323,7 +323,12 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
 
                                     {
                                         // Disclosure
-                                        row.disclosure ? <DiscloruseIcon theme={theme}/> : null
+                                        row.disclosure
+                                            ? <DiscloruseIcon
+                                                theme={theme}
+                                                {...row.disclosure}
+                                            />
+                                            : null
                                     }
                                 </View>
                             </View>
