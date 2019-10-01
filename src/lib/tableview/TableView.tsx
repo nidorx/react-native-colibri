@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {LegacyRef} from 'react';
 import {Image, ImageProps, SectionList, SectionListProps, TouchableOpacity, View, ViewStyle} from 'react-native';
 import memoize from 'memoize-one';
 import {
@@ -56,6 +56,10 @@ export type TableViewProps = SectionListProps<any> & {
      * Permite deixar o fundo do tableview transparente. Util para a aplicação de algum efeito especial
      */
     transparent?: boolean;
+    /**
+     * Lets you create reference to internal section list
+     */
+    refSectionList?: LegacyRef<SectionList<any>>;
 }
 
 /**
@@ -135,6 +139,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         return (
             <SectionList
                 {...this.props}
+                ref={this.props.refSectionList as any}
                 contentContainerStyle={[
                     {
                         // flexGrow: 1,
