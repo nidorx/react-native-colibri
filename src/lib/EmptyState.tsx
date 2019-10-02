@@ -17,7 +17,7 @@ export type EmptyStateProps = {
     titleProps?: SimpleTextProps;
     description?: string | string[] | JSX.Element;
     descriptionProps?: SimpleTextProps;
-    image?: ImageProps;
+    image?: ImageProps | JSX.Element;
     tint?: boolean;
     action?: ButtonProps | ButtonProps[]
 }
@@ -66,6 +66,30 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                         title = EmptyState.titleDefault;
                     }
 
+                    let imageComponent = image;
+                    if (image && (image as ImageProps).source) {
+                        image = image as ImageProps;
+                        imageComponent = (
+                            <Image
+                                {...image}
+                                style={[
+                                    image.style,
+                                    {
+                                        width: (image.style && (image.style as any).width)
+                                            ? (image.style as any).width
+                                            : '50%',
+                                        resizeMode: 'contain',
+                                        marginBottom: spacing(theme, 'small'),
+                                        alignSelf: 'center',
+                                        tintColor: tint
+                                            ? theme.colorTextSecondary
+                                            : image.style ? (image.style as any).tintColor : undefined
+                                    }
+                                ]}
+                            />
+                        )
+                    }
+
                     return (
                         <View style={[styles.container, {padding: spacing(theme, 'small')}]}>
                             {
@@ -74,26 +98,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                                     : (
                                         <View>
                                             {
-                                                image
-                                                    ? (
-                                                        <Image
-                                                            {...image}
-                                                            style={[
-                                                                image.style,
-                                                                {
-                                                                    width: (image.style && (image.style as any).width)
-                                                                        ? (image.style as any).width
-                                                                        : '50%',
-                                                                    resizeMode: 'contain',
-                                                                    marginBottom: spacing(theme, 'small'),
-                                                                    alignSelf: 'center',
-                                                                    tintColor: tint
-                                                                        ? theme.colorTextSecondary
-                                                                        : image.style ? (image.style as any).tintColor : undefined
-                                                                }
-                                                            ]}
-                                                        />
-                                                    ) : null
+                                                imageComponent
                                             }
 
                                             {
