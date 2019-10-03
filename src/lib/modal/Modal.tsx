@@ -14,7 +14,6 @@ import {
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {animateGeneric, animateGenericNative} from "../Utils";
 import {getTheme, spacing} from "../Theme";
-import Toast from './../Toast';
 
 
 const styles = StyleSheet.create({
@@ -120,8 +119,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
     private containerInnerStyle: any;
     private keyboardHeight = 0;
     private keyboardTimeout: any;
-
-    private toastRef?: Toast;
 
     constructor(props: ModalProps) {
         super(props);
@@ -237,37 +234,30 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
 
                     </Animated.View>
                 </Animated.View>
-                <Toast
-                    ref={(toast: Toast) => this.toastRef = toast}
-                    opacity={0.8}
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.7)'}}
-                    textStyle={{color: '#FFF'}}
-                    position="center"
-                />
             </View>
         );
     }
 
     error(message: string) {
         // @TODO: Analisar o comportamento do error, só permitir ser usado em modais
-        this.show(() => {
-
-            setTimeout(() => {
-                if (this.toastRef) {
-                    this.toastRef.show(message);
-                }
-            }, 400);
-
-            // Animação
-            this.animatedShake.setValue(0);
-            Animated.timing(this.animatedShake, {
-                toValue: 1,
-                duration: 800,
-                useNativeDriver: true
-            }).start(() => {
-                this.animatedShake.setValue(0);
-            });
-        });
+        // this.show(() => {
+        //
+        //     setTimeout(() => {
+        //         if (this.toastRef) {
+        //             this.toastRef.show(message);
+        //         }
+        //     }, 400);
+        //
+        //     // Animação
+        //     this.animatedShake.setValue(0);
+        //     Animated.timing(this.animatedShake, {
+        //         toValue: 1,
+        //         duration: 800,
+        //         useNativeDriver: true
+        //     }).start(() => {
+        //         this.animatedShake.setValue(0);
+        //     });
+        // });
     };
 
     show(callback?: () => void) {
