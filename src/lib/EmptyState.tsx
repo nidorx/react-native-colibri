@@ -19,7 +19,8 @@ export type EmptyStateProps = {
     descriptionProps?: SimpleTextProps;
     image?: ImageProps | JSX.Element;
     tint?: boolean;
-    action?: ButtonProps | ButtonProps[]
+    action?: ButtonProps | ButtonProps[],
+    style?: ViewStyle;
 }
 
 const styles = StyleSheet.create({
@@ -91,7 +92,7 @@ export default class EmptyState extends React.PureComponent<EmptyStateProps> {
                     }
 
                     return (
-                        <View style={[styles.container, {padding: spacing(theme, 'small')}]}>
+                        <View style={[styles.container, {padding: spacing(theme, 'small')}, this.props.style]}>
                             {
                                 component
                                     ? component
