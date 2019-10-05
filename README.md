@@ -8,9 +8,6 @@
         <a href="https://badge.fury.io/js/react-native-colibri">
             <img src="https://badge.fury.io/js/react-native-colibri.svg" alt="npm version">
         </a>
-        <a href="https://travis-ci.org/nidorx/react-native-colibri">
-            <img src="https://travis-ci.org/nidorx/react-native-colibri.svg?branch=master" alt="Build Status">
-        </a>
     </p>
 </div>
 
