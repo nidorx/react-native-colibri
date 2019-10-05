@@ -52,6 +52,12 @@ export {
 
 
 export {
+    default as Notification,
+    Message
+} from './src/lib/Notification';
+
+
+export {
     default as OkCancelView,
     OkCancelViewProps
 } from './src/lib/OkCancelView';
