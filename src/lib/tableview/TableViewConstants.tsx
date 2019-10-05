@@ -62,6 +62,10 @@ export type TableViewRow = {
      */
     iconBig?: boolean;
     /**
+     * Permite tornar as bordas do ícone arredondadas
+     */
+    iconRounded?: boolean;
+    /**
      * Exibe conteúdo adicional à esquerda, como numero de linha
      */
     left?: string | JSX.Element;

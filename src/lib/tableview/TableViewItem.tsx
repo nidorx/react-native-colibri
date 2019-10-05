@@ -249,7 +249,9 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                 width: row.iconBig ? spacingXLarge : spacingLarge,
                                 height: row.iconBig ? spacingXLarge : spacingLarge,
                                 resizeMode: 'center',
-                                borderRadius: spacing(theme, 'micro'),
+                                borderRadius: row.iconRounded
+                                    ? (row.iconBig ? spacingXLarge : spacingLarge) as number / 2
+                                    : spacing(theme, 'micro'),
                                 marginRight: spacingSmall
                             },
                             icon.style
