@@ -50,6 +50,11 @@ export type Message = {
      * An immortal message can only be closed programmatically from the callback function obtained with the Notification.show method.
      */
     immortal?: boolean;
+
+    /**
+     * Executed when message was closed
+     */
+    onClose?: () => void;
     [key: string]: any;
 }
 
@@ -130,7 +135,7 @@ export default class Notification extends React.PureComponent<NotificationProps,
                         return {
                             messages: messages
                         }
-                    });
+                    }, message.onClose);
                 })
             }
         };
