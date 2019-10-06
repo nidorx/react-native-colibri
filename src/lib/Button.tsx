@@ -357,17 +357,11 @@ export default class Button extends React.PureComponent<ButtonProps, ButtonState
 
                                 <View
                                     style={{
-                                        // justifyContent: 'center',
                                         alignContent: 'center',
                                         alignItems: 'center',
                                         flex: (this.props.fullWidth || styleFlatten.width !== undefined)
                                             ? 1
-                                            : undefined,
-                                        transform: [
-                                            // {
-                                            //     translateX: disclosureTranslate
-                                            // }
-                                        ]
+                                            : undefined
                                     }}
                                 >
                                     <AnimatedSimpleText

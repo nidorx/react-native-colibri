@@ -73,9 +73,12 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
                 options: options,
             }, () => {
                 if (this.modal) {
-                    this.modal.show(() => {
+                    this.modal.show();
+                    requestAnimationFrame(() => {
                         setTimeout(() => {
-                            animateGenericNative(this.animatedContentValue, 0);
+                            requestAnimationFrame(() => {
+                                animateGenericNative(this.animatedContentValue, (options || {}).animateContent === false ? 1 : 0);
+                            });
                         }, 50);
                     });
                 }

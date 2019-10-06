@@ -78,7 +78,10 @@ export type ModalOptions = {
     /**
      * Includes a close button element. Default true
      */
-    close?: boolean;
+    close?: boolean; /**
+     * Faz animação no conteúdo? Default: true
+     */
+    animateContent?: boolean;
 }
 
 export type ModalProps = {
@@ -387,7 +390,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         : screenWidth * 0.9
                 );
 
-        const padding = spacing(theme, 'small') as number;
+        const padding = spacing(theme, 'tiny') as number;
         let left =
             horizontalPosition === 'center'
                 ? (screenWidth * 0.5 - width * 0.5)

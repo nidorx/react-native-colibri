@@ -1,10 +1,11 @@
 import React from 'react';
-import {ActivityIndicator, Animated, LayoutChangeEvent, StyleSheet, View, ViewStyle} from 'react-native';
-import Theme, {getTheme, ThemeProps} from "./Theme";
+import {Animated, LayoutChangeEvent, StyleSheet, View, ViewStyle} from 'react-native';
+import Theme, {ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 import SimpleText from "./SimpleText";
+import Spinner from "./Spinner";
 
-const AnimatedActivityIndicator = Animated.createAnimatedComponent(ActivityIndicator);
+const AnimatedSpinner = Animated.createAnimatedComponent(Spinner);
 
 export type LoadingProps = {
     /**
@@ -96,9 +97,13 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
             animateGenericNative(this.animatedOpacityValue, 1);
 
             // Se o processo demorar, exibe o indicador de atividade
-            this.timeout = setTimeout(() => {
-                animateGenericNative(this.animatedIndicatorValue, 1);
-            }, 400);
+            requestAnimationFrame(time => {
+                this.timeout = setTimeout(() => {
+                    requestAnimationFrame(time1 => {
+                        animateGenericNative(this.animatedIndicatorValue, 1);
+                    })
+                }, 400);
+            })
 
         } else {
             if (this.state.visible) {
@@ -122,7 +127,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                 {(theme) => {
                     const {visible} = this.state;
 
-                    const trasnlateIndicator = this.animatedIndicatorValue.interpolate({
+                    const translateIndicator = this.animatedIndicatorValue.interpolate({
                         inputRange: [0, 1],
                         outputRange: [-200, this.state.height / 4]
                     });
@@ -153,14 +158,13 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                                                 this.props.overlayStyle
                                             ]}
                                         >
-                                            <AnimatedActivityIndicator
-                                                animating={this.state.visible}
-                                                size={'small'}
+                                            <AnimatedSpinner
                                                 color={theme.colorPrimary.background}
                                                 style={{
+                                                    alignSelf: 'center',
                                                     transform: [
                                                         {
-                                                            translateY: trasnlateIndicator
+                                                            translateY: translateIndicator
                                                         }
                                                     ]
                                                 }}
