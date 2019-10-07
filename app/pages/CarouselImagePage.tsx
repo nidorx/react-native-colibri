@@ -1,6 +1,15 @@
 import React from 'react';
-import {Card, CarouselImage, getTheme, SimpleText, spacing, TableView, TableViewSection, Toast} from "../../index";
-import {CarouselImageItem} from "../../dist/lib";
+import {
+    Card,
+    CarouselImage,
+    CarouselImageItem,
+    SimpleText,
+    spacing,
+    TableView,
+    TableViewSection,
+    Theme,
+    Toast
+} from "../../index";
 import {View} from "react-native";
 
 
@@ -146,178 +155,186 @@ export default class CarouselImagePage extends React.PureComponent<any, Carousel
     state: CarouselImagePageState = {};
 
     render() {
-        const theme = getTheme();
         let SEQ = 1;
 
         return (
-            <TableView
-                sections={[
-                    {
-                        key: `${SEQ++}`,
-                        data: [
-                            {
-                                key: `${SEQ++}`,
-                                title: (
-                                    <CarouselImage
-                                        numColumns={3}
-                                        data={APKS}
-                                        onPress={item => {
-                                            Toast.show(`Download app ${item.name}`);
-                                        }}
-                                    />
-                                ),
-                                style: {
-                                    paddingHorizontal: 0
-                                }
-                            },
-                            {
-                                key: `${SEQ++}`,
-                                title: (
-                                    <CarouselImage
-                                        numColumns={5}
-                                        data={APKS}
-                                        onPress={item => {
-                                            Toast.show(`Download app ${item.name}`);
-                                        }}
-                                    />
-                                ),
-                                style: {
-                                    paddingHorizontal: 0
-                                }
-                            },
-                            {
-                                key: `${SEQ++}`,
-                                title: (
-                                    <CarouselImage
-                                        data={APKS}
-                                        numColumns={3}
-                                        renderContent={item => {
-                                            return (
-                                                <View>
-                                                    <SimpleText
-                                                        text={item.name}
-                                                        align={'left'}
-                                                        small={true}
-                                                        inline={true}
+            <Theme>
+                {(theme) => {
+
+                    return (
+                        <TableView
+                            sections={[
+                                {
+                                    key: `${SEQ++}`,
+                                    data: [
+                                        {
+                                            key: `${SEQ++}`,
+                                            title: (
+                                                <CarouselImage
+                                                    numColumns={3}
+                                                    data={APKS}
+                                                    onPress={item => {
+                                                        Toast.show(`Download app ${item.name}`);
+                                                    }}
+                                                />
+                                            ),
+                                            style: {
+                                                paddingHorizontal: 0
+                                            }
+                                        },
+                                        {
+                                            key: `${SEQ++}`,
+                                            title: (
+                                                <CarouselImage
+                                                    numColumns={5}
+                                                    data={APKS}
+                                                    onPress={item => {
+                                                        Toast.show(`Download app ${item.name}`);
+                                                    }}
+                                                />
+                                            ),
+                                            style: {
+                                                paddingHorizontal: 0
+                                            }
+                                        },
+                                        {
+                                            key: `${SEQ++}`,
+                                            title: (
+                                                <CarouselImage
+                                                    data={APKS}
+                                                    numColumns={3}
+                                                    renderContent={item => {
+                                                        return (
+                                                            <View>
+                                                                <SimpleText
+                                                                    text={item.name}
+                                                                    align={'left'}
+                                                                    small={true}
+                                                                    inline={true}
+                                                                />
+                                                            </View>
+                                                        )
+                                                    }}
+                                                    onPress={item => {
+                                                        Toast.show(`Download app ${item.name}`);
+                                                    }}
+                                                />
+                                            ),
+                                            style: {
+                                                paddingHorizontal: 0
+                                            }
+                                        },
+                                        {
+                                            key: `${SEQ++}`,
+                                            title: (
+                                                <CarouselImage
+                                                    data={BOOKS}
+                                                    numColumns={2}
+                                                    renderContent={item => {
+                                                        return (
+                                                            <View>
+                                                                <SimpleText
+                                                                    text={item.name}
+                                                                    align={'left'}
+                                                                    small={true}
+                                                                    numberOfLines={2}
+                                                                    inline={true}
+                                                                />
+                                                                <SimpleText
+                                                                    text={item.edition}
+                                                                    align={'left'}
+                                                                    small={true}
+                                                                    numberOfLines={1}
+                                                                    inline={true}
+                                                                />
+                                                            </View>
+                                                        )
+                                                    }}
+                                                    onPress={item => {
+                                                        Toast.show(item.name);
+                                                    }}
+                                                />
+                                            ),
+                                            style: {
+                                                paddingHorizontal: 0
+                                            }
+                                        },
+                                        {
+                                            key: `${SEQ++}`,
+                                            title: (
+                                                <Card
+                                                    title={'Recently updated'}
+                                                    subtitle={(
+                                                        <SimpleText
+                                                            text={'Fresh features & content'}
+                                                            small={true}
+                                                        />
+                                                    )}
+                                                    moreText={'See more'}
+                                                    image={{
+                                                        source: require('../assets/book-background.png')
+                                                    }}
+                                                    onPressMore={() => {
+                                                    }}
+                                                    imageTranslateXValue={
+                                                        this.state.carouselImage
+                                                            ? this.state.carouselImage.animatedValueScroll
+                                                            : undefined
+                                                    }
+                                                    style={{
+                                                        paddingBottom: spacing(theme, 'base'),
+                                                    }}
+                                                    boxed={true}
+                                                    shadowPattern={'C'}
+                                                >
+                                                    <CarouselImage
+                                                        skip={2}
+                                                        numColumns={3}
+                                                        ref={(carouselImage) => {
+                                                            this.setState({
+                                                                carouselImage: carouselImage || undefined
+                                                            });
+                                                        }}
+                                                        data={BOOKS}
+                                                        renderContent={item => {
+                                                            return (
+                                                                <View>
+                                                                    <SimpleText
+                                                                        text={item.name}
+                                                                        align={'left'}
+                                                                        small={true}
+                                                                        numberOfLines={2}
+                                                                        inline={true}
+                                                                    />
+                                                                    <SimpleText
+                                                                        text={item.edition}
+                                                                        align={'left'}
+                                                                        small={true}
+                                                                        numberOfLines={1}
+                                                                        inline={true}
+                                                                    />
+                                                                </View>
+                                                            )
+                                                        }}
+                                                        onPress={item => {
+                                                            Toast.show(item.name);
+                                                        }}
                                                     />
-                                                </View>
-                                            )
-                                        }}
-                                        onPress={item => {
-                                            Toast.show(`Download app ${item.name}`);
-                                        }}
-                                    />
-                                ),
-                                style: {
-                                    paddingHorizontal: 0
-                                }
-                            },
-                            {
-                                key: `${SEQ++}`,
-                                title: (
-                                    <CarouselImage
-                                        data={BOOKS}
-                                        numColumns={2}
-                                        renderContent={item => {
-                                            return (
-                                                <View>
-                                                    <SimpleText
-                                                        text={item.name}
-                                                        align={'left'}
-                                                        small={true}
-                                                        numberOfLines={2}
-                                                        inline={true}
-                                                    />
-                                                    <SimpleText
-                                                        text={item.edition}
-                                                        align={'left'}
-                                                        small={true}
-                                                        numberOfLines={1}
-                                                        inline={true}
-                                                    />
-                                                </View>
-                                            )
-                                        }}
-                                        onPress={item => {
-                                            Toast.show(item.name);
-                                        }}
-                                    />
-                                ),
-                                style: {
-                                    paddingHorizontal: 0
-                                }
-                            },
-                            {
-                                key: `${SEQ++}`,
-                                title: (
-                                    <Card
-                                        title={'Recently updated'}
-                                        subtitle={(
-                                            <SimpleText
-                                                text={'Fresh features & content'}
-                                                small={true}
-                                            />
-                                        )}
-                                        moreText={'See more'}
-                                        image={{
-                                            source: require('../assets/book-background.png')
-                                        }}
-                                        onPressMore={() => {
-                                        }}
-                                        imageTranslateXValue={
-                                            this.state.carouselImage
-                                                ? this.state.carouselImage.animatedValueScroll
-                                                : undefined
+                                                </Card>
+                                            ),
+                                            style: {
+                                                paddingHorizontal: 0
+                                            }
                                         }
-                                        style={{
-                                            paddingBottom: spacing(theme, 'base'),
-                                        }}
-                                        boxed={true}
-                                        shadowPattern={'C'}
-                                    >
-                                        <CarouselImage
-                                            skip={2}
-                                            numColumns={3}
-                                            ref={(carouselImage) => {
-                                                this.setState({
-                                                    carouselImage: carouselImage || undefined
-                                                });
-                                            }}
-                                            data={BOOKS}
-                                            renderContent={item => {
-                                                return (
-                                                    <View>
-                                                        <SimpleText
-                                                            text={item.name}
-                                                            align={'left'}
-                                                            small={true}
-                                                            numberOfLines={2}
-                                                            inline={true}
-                                                        />
-                                                        <SimpleText
-                                                            text={item.edition}
-                                                            align={'left'}
-                                                            small={true}
-                                                            numberOfLines={1}
-                                                            inline={true}
-                                                        />
-                                                    </View>
-                                                )
-                                            }}
-                                            onPress={item => {
-                                                Toast.show(item.name);
-                                            }}
-                                        />
-                                    </Card>
-                                ),
-                                style: {
-                                    paddingHorizontal: 0
-                                }
-                            }
-                        ]
-                    },
-                ] as Array<TableViewSection>}
-            />
+                                    ]
+                                },
+                            ] as Array<TableViewSection>}
+                        />
+                    );
+                }}
+            </Theme>
         );
+
+
     }
 }

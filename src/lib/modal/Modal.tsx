@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {animateGeneric, animateGenericNative} from "../Utils";
-import {getTheme, spacing} from "../Theme";
+import Theme, {spacing, ThemeProps} from "../Theme";
 
 
 const styles = StyleSheet.create({
@@ -123,6 +123,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
     private keyboardHeight = 0;
     private keyboardTimeout: any;
 
+    private themeRef?: ThemeProps;
+
     constructor(props: ModalProps) {
         super(props);
 
@@ -177,68 +179,77 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             return null;
         }
 
-        const theme = getTheme();
-        const iconCloseSize = spacing(theme, 'base');
-        const borderRadius = spacing(theme, 'micro');
-        const options = this.props.options || {};
         return (
-            <View
-                style={styles.container}
-                onLayout={this.animatePosition}
-            >
+            <Theme>
+                {(theme) => {
 
-                <TouchableWithoutFeedback onPress={this.hide} disabled={options.backdrop === false}>
-                    <Animated.View style={[styles.overlay, {opacity: this.animatedOpacity}]}/>
-                </TouchableWithoutFeedback>
+                    this.themeRef = theme;
+                    const iconCloseSize = spacing(theme, 'base');
+                    const borderRadius = spacing(theme, 'micro');
+                    const options = this.props.options || {};
+                    return (
+                        <View
+                            style={styles.container}
+                            onLayout={this.animatePosition}
+                        >
 
-                <Animated.View style={[styles.animatedContainer, this.containerStyle]}>
-                    <Animated.View
-                        style={[
-                            styles.animatedContainerInner,
-                            {
-                                overflow: 'hidden',
-                                borderRadius: borderRadius
-                            },
-                            this.containerInnerStyle
-                        ]}>
+                            <TouchableWithoutFeedback onPress={this.hide} disabled={options.backdrop === false}>
+                                <Animated.View style={[styles.overlay, {opacity: this.animatedOpacity}]}/>
+                            </TouchableWithoutFeedback>
 
-                        {
-                            (options.close !== false)
-                                ? (
-                                    <TouchableOpacity onPress={this.hide} style={styles.closeIconContainer}>
-                                        <Image
-                                            style={{
-                                                width: iconCloseSize,
-                                                height: iconCloseSize,
-                                                resizeMode: 'contain',
-                                                tintColor: theme.colorTextSecondary
-                                            }}
-                                            source={require('./../../assets/close.png')}
-                                        />
-                                    </TouchableOpacity>
-                                )
-                                : null
-                        }
+                            <Animated.View style={[styles.animatedContainer, this.containerStyle]}>
+                                <Animated.View
+                                    style={[
+                                        styles.animatedContainerInner,
+                                        {
+                                            overflow: 'hidden',
+                                            borderRadius: borderRadius
+                                        },
+                                        this.containerInnerStyle
+                                    ]}>
 
-                        {
-                            this.state.contentVisible
-                                ? (
-                                    <ScrollView
-                                        automaticallyAdjustContentInsets={false}
-                                        scrollEventThrottle={16}
-                                        style={{borderRadius: 3}}
-                                        onContentSizeChange={this.onContentSizeChange}
-                                    >
-                                        {this.state.content || this.props.content || null}
-                                    </ScrollView>
-                                )
-                                : undefined
-                        }
+                                    {
+                                        (options.close !== false)
+                                            ? (
+                                                <TouchableOpacity onPress={this.hide} style={styles.closeIconContainer}>
+                                                    <Image
+                                                        style={{
+                                                            width: iconCloseSize,
+                                                            height: iconCloseSize,
+                                                            resizeMode: 'contain',
+                                                            tintColor: theme.colorTextSecondary
+                                                        }}
+                                                        source={require('./../../assets/close.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                            )
+                                            : null
+                                    }
 
-                    </Animated.View>
-                </Animated.View>
-            </View>
+                                    {
+                                        this.state.contentVisible
+                                            ? (
+                                                <ScrollView
+                                                    automaticallyAdjustContentInsets={false}
+                                                    scrollEventThrottle={16}
+                                                    style={{borderRadius: 3}}
+                                                    onContentSizeChange={this.onContentSizeChange}
+                                                >
+                                                    {this.state.content || this.props.content || null}
+                                                </ScrollView>
+                                            )
+                                            : undefined
+                                    }
+
+                                </Animated.View>
+                            </Animated.View>
+                        </View>
+                    );
+                }}
+            </Theme>
         );
+
+
     }
 
     error(message: string) {
@@ -371,7 +382,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
     };
 
     private getPositions = () => {
-        const theme = getTheme();
         const options = this.props.options || {};
         const statusBarHeight = getStatusBarHeight();
 
@@ -390,7 +400,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         : screenWidth * 0.9
                 );
 
-        const padding = spacing(theme, 'tiny') as number;
+        const padding = this.themeRef ? spacing(this.themeRef, 'tiny') as number : 8;
         let left =
             horizontalPosition === 'center'
                 ? (screenWidth * 0.5 - width * 0.5)

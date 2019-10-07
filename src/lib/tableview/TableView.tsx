@@ -12,7 +12,7 @@ import {
 import TableViewItem from './TableViewItem';
 import SimpleText, {Large, Small} from './../SimpleText';
 import EmptyState, {EmptyStateProps} from "../EmptyState";
-import Theme, {getTheme, spacing, ThemeProps} from "../Theme";
+import Theme, {spacing, ThemeProps} from "../Theme";
 
 const EMPTY_STATE_KEY = '__EMPTY_STATE_SPECIAL_KEY__';
 
@@ -143,49 +143,56 @@ export default class TableView extends React.PureComponent<TableViewProps> {
 
     render() {
 
-        const theme = getTheme();
         const sections = this.parsedSections(this.props.sections);
 
         return (
-            <SectionList
-                {...this.props}
-                ref={this.props.refSectionList as any}
-                contentContainerStyle={[
-                    {
-                        // flexGrow: 1,
-                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground,
-                    },
-                    // ListEmptyComponent
-                    sections.length
-                        ? null
-                        : {
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignContent: 'center'
-                        }
-                ]}
-                // https://github.com/facebook/react-native/issues/16411#issuecomment-367106427
-                removeClippedSubviews={false}
-                sections={sections}
-                renderItem={this.renderItem}
-                refreshing={this.props.refreshing}
-                ListHeaderComponent={this.props.header}
-                ListFooterComponent={this.props.footer}
-                ListEmptyComponent={this.props.refreshing ? null : this.renderEmptyState}
-                renderSectionHeader={this.renderSectionHeader}
-                renderSectionFooter={this.renderSectionFooter}
-                ItemSeparatorComponent={this.renderItemSeparator}
-                stickySectionHeadersEnabled={this.props.stickySectionHeadersEnabled === false ? false : true}
-                style={[
-                    {
-                        flex: 1,
-                        backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground
-                    },
-                    this.props.style
-                ]}
+            <Theme>
+                {(theme) => {
+                    return (
+                        <SectionList
+                            {...this.props}
+                            ref={this.props.refSectionList as any}
+                            contentContainerStyle={[
+                                {
+                                    // flexGrow: 1,
+                                    backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground,
+                                },
+                                // ListEmptyComponent
+                                sections.length
+                                    ? null
+                                    : {
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignContent: 'center'
+                                    }
+                            ]}
+                            // https://github.com/facebook/react-native/issues/16411#issuecomment-367106427
+                            removeClippedSubviews={false}
+                            sections={sections}
+                            renderItem={this.renderItem}
+                            refreshing={this.props.refreshing}
+                            ListHeaderComponent={this.props.header}
+                            ListFooterComponent={this.props.footer}
+                            ListEmptyComponent={this.props.refreshing ? null : this.renderEmptyState}
+                            renderSectionHeader={this.renderSectionHeader}
+                            renderSectionFooter={this.renderSectionFooter.bind(this, theme)}
+                            ItemSeparatorComponent={this.renderItemSeparator.bind(this, theme)}
+                            stickySectionHeadersEnabled={this.props.stickySectionHeadersEnabled === false ? false : true}
+                            style={[
+                                {
+                                    flex: 1,
+                                    backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground
+                                },
+                                this.props.style
+                            ]}
 
-            />
+                        />
+                    );
+                }}
+            </Theme>
         );
+
+
     }
 
     /**
@@ -380,8 +387,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         );
     };
 
-    private renderItemSeparator = (info: any) => {
-        const theme = getTheme();
+    private renderItemSeparator = (theme: ThemeProps, info: any) => {
         const leadingItem = info.leadingItem as TableViewRow;
         const trailingItem = info.trailingItem as TableViewRow;
         const selected = leadingItem.selected || trailingItem.selected;
@@ -409,8 +415,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         )
     };
 
-    private renderSectionFooter = (info: any) => {
-        const theme = getTheme();
+    private renderSectionFooter = (theme: ThemeProps, info: any) => {
         const section = info.section as TableViewSection;
 
         // Quando false, não renderiza ultimo separador

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleProp, View, ViewStyle,} from 'react-native';
 import SimpleText, {TextAlign} from './SimpleText';
-import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "./Theme";
+import Theme, {fontStyle, spacing, ThemeProps} from "./Theme";
 
 /**
  * Permite a um elemento receber texto e dados extras
@@ -98,82 +98,88 @@ const TitleExtraComponent = (props: TitleExtraProps) => {
 
 export default class Title extends React.PureComponent<TitleProps> {
     render() {
-        const theme = getTheme(this.props.theme);
-        const withoutSubtitle = (!this.props.subtitle || this.props.subtitle === '');
         return (
-            <View
-                style={[
-                    {
-                        flexDirection: 'column',
-                        flex: 1,
-                    },
-                    this.props.style
-                ]}
-            >
-                {
-                    (typeof this.props.title === 'string')
-                        ? (
-                            <SimpleText
-                                theme={this.props.theme}
-                                text={this.props.title}
-                                align={this.props.textAlign}
-                                color={this.props.reverse ? theme.colorTextSecondary : theme.colorText}
-                                style={[
-                                    {
-                                        flex: withoutSubtitle ? 1 : undefined
-                                    },
-                                    fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
-                                ]}
-                            />
-                        )
-                        : this.props.title
-                }
-                {
-                    withoutSubtitle
-                        ? undefined
-                        : (
-                            typeof this.props.subtitle === 'string'
-                                ? (
-                                    <SimpleText
-                                        theme={this.props.theme}
-                                        text={this.props.subtitle}
-                                        align={this.props.textAlign}
-                                        color={this.props.reverse ? theme.colorText : theme.colorTextSecondary}
-                                        style={[
-                                            fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
-                                        ]}
-                                    />
-                                )
-                                // Texto com extra, lado a lado
-                                : (
-                                    (this.props.subtitle as TitleExtra).text
-                                        ? (
-                                            <TitleExtraComponent
-                                                config={this.props}
-                                                theme={this.props.theme}
-                                                item={(this.props.subtitle as TitleExtra)}
-                                            />
-                                        )
-                                        // Array de texto com extra, lado a lado
-                                        : (
-                                            Array.isArray(this.props.subtitle)
-                                                ? (this.props.subtitle as Array<TitleExtra>).map((item, index) => {
-                                                    return (
+            <Theme>
+                {(theme) => {
+                    const withoutSubtitle = (!this.props.subtitle || this.props.subtitle === '');
+                    return (
+                        <View
+                            style={[
+                                {
+                                    flexDirection: 'column',
+                                    flex: 1,
+                                },
+                                this.props.style
+                            ]}
+                        >
+                            {
+                                (typeof this.props.title === 'string')
+                                    ? (
+                                        <SimpleText
+                                            theme={this.props.theme}
+                                            text={this.props.title}
+                                            align={this.props.textAlign}
+                                            color={this.props.reverse ? theme.colorTextSecondary : theme.colorText}
+                                            style={[
+                                                {
+                                                    flex: withoutSubtitle ? 1 : undefined
+                                                },
+                                                fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
+                                            ]}
+                                        />
+                                    )
+                                    : this.props.title
+                            }
+                            {
+                                withoutSubtitle
+                                    ? undefined
+                                    : (
+                                        typeof this.props.subtitle === 'string'
+                                            ? (
+                                                <SimpleText
+                                                    theme={this.props.theme}
+                                                    text={this.props.subtitle}
+                                                    align={this.props.textAlign}
+                                                    color={this.props.reverse ? theme.colorText : theme.colorTextSecondary}
+                                                    style={[
+                                                        fontStyle(theme, this.props.reverse ? theme.fontSmall : theme.fontRegular)
+                                                    ]}
+                                                />
+                                            )
+                                            // Texto com extra, lado a lado
+                                            : (
+                                                (this.props.subtitle as TitleExtra).text
+                                                    ? (
                                                         <TitleExtraComponent
-                                                            key={`${index}`}
-                                                            item={item}
                                                             config={this.props}
                                                             theme={this.props.theme}
+                                                            item={(this.props.subtitle as TitleExtra)}
                                                         />
                                                     )
-                                                })
-                                                // Qualquer componente
-                                                : this.props.subtitle
-                                        )
-                                )
-                        )
-                }
-            </View>
-        )
+                                                    // Array de texto com extra, lado a lado
+                                                    : (
+                                                        Array.isArray(this.props.subtitle)
+                                                            ? (this.props.subtitle as Array<TitleExtra>).map((item, index) => {
+                                                                return (
+                                                                    <TitleExtraComponent
+                                                                        key={`${index}`}
+                                                                        item={item}
+                                                                        config={this.props}
+                                                                        theme={this.props.theme}
+                                                                    />
+                                                                )
+                                                            })
+                                                            // Qualquer componente
+                                                            : this.props.subtitle
+                                                    )
+                                            )
+                                    )
+                            }
+                        </View>
+                    )
+                }}
+            </Theme>
+        );
+
     }
 }

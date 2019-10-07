@@ -18,7 +18,7 @@ import {
 import Title from '../Title';
 import SimpleText from './../SimpleText';
 import {animateGeneric} from "../Utils";
-import Theme, {fontStyle, getTheme, spacing, ThemeProps} from "../Theme";
+import Theme, {fontStyle, spacing, ThemeProps} from "../Theme";
 import DiscloruseIcon from "../DisclosureIcon";
 
 
@@ -91,86 +91,87 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
         const onLongPress = row.onLongPress || section.onLongPress || this.props.onLongPress;
         const swipeActions = row.swipeActions || section.swipeActions || this.props.swipeActions;
 
-        let content = this.renderContent(row);
-
-        if (onSelect && !row.ignoreOnSelect) {
-            content = this.renderContentOnSelect(section, row, content, onSelect);
-        } else if (onPress || onLongPress) {
-            content = this.renderContentOnPress(section, row, content, onPress, onLongPress);
-        }
-
-        // Adiciona a funcionalidade de swipe
-        if (swipeActions && swipeActions.length > 0) {
-            // Swipe
-            content = this.renderContentSwipe(section, row, content, swipeActions);
-        }
-
-        return content;
-    }
-
-    private renderContent = (row: TableViewRow) => {
         return (
-            <Theme theme={this.props.theme}>
+            <Theme>
                 {(theme) => {
-                    const spacingTiny = spacing(theme, 'tiny') as number;
-                    const spacingSmall = spacing(theme, 'small');
 
-                    const hasSubtitle = (row.subtitle && row.subtitle !== '');
+                    let content = this.renderContent(row, theme);
 
-                    const backgroundColor = this.animateColorValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [theme.colorBackground, theme.colorFocus]
-                    });
+                    if (onSelect && !row.ignoreOnSelect) {
+                        content = this.renderContentOnSelect(section, row, content, onSelect);
+                    } else if (onPress || onLongPress) {
+                        content = this.renderContentOnPress(section, row, content, onPress, onLongPress);
+                    }
 
-                    /**
-                     * Altura mínima dos itens, permite uma melhor padronização visual
-                     */
-                    const TABLE_VIEW_ITEM_MIN_HEIGHT = spacingTiny * 2 + (theme.fontRegular.size as number);
+                    // Adiciona a funcionalidade de swipe
+                    if (swipeActions && swipeActions.length > 0) {
+                        // Swipe
+                        content = this.renderContentSwipe(section, row, content, swipeActions, theme);
+                    }
 
-                    return (
-                        <Animated.View
-                            style={[
-                                {
-                                    flexDirection: 'row',
-                                    alignContent: 'center',
-                                    justifyContent: 'flex-start',
-                                    backgroundColor: row.selected ? theme.colorSelected : backgroundColor,
-                                    paddingHorizontal: spacing(theme, 'base'),
-                                    paddingVertical: (row.large || !hasSubtitle) ? spacingSmall : spacingTiny,
-                                    minHeight: TABLE_VIEW_ITEM_MIN_HEIGHT
-                                },
-                                row.style
-                            ]}
-                        >
-                            {
-                                // left
-                                this.renderLeft(row, theme)
-                            }
-
-                            {
-                                // icon
-                                this.renderIcon(row, theme)
-                            }
-
-                            {
-                                // title and subtitle
-                                this.renderTitleSubtitle(row)
-                            }
-
-                            {
-                                // right
-                                this.renderRight(row, theme)
-                            }
-
-                            {
-                                // flag
-                                this.renderFlag(row, theme)
-                            }
-                        </Animated.View>
-                    )
+                    return content;
                 }}
             </Theme>
         );
+    }
+
+    private renderContent = (row: TableViewRow, theme: ThemeProps) => {
+        const spacingTiny = spacing(theme, 'tiny') as number;
+        const spacingSmall = spacing(theme, 'small');
+
+        const hasSubtitle = (row.subtitle && row.subtitle !== '');
+
+        const backgroundColor = this.animateColorValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [theme.colorBackground, theme.colorFocus]
+        });
+
+        /**
+         * Altura mínima dos itens, permite uma melhor padronização visual
+         */
+        const TABLE_VIEW_ITEM_MIN_HEIGHT = spacingTiny * 2 + (theme.fontRegular.size as number);
+
+        return (
+            <Animated.View
+                style={[
+                    {
+                        flexDirection: 'row',
+                        alignContent: 'center',
+                        justifyContent: 'flex-start',
+                        backgroundColor: row.selected ? theme.colorSelected : backgroundColor,
+                        paddingHorizontal: spacing(theme, 'base'),
+                        paddingVertical: (row.large || !hasSubtitle) ? spacingSmall : spacingTiny,
+                        minHeight: TABLE_VIEW_ITEM_MIN_HEIGHT
+                    },
+                    row.style
+                ]}
+            >
+                {
+                    // left
+                    this.renderLeft(row, theme)
+                }
+
+                {
+                    // icon
+                    this.renderIcon(row, theme)
+                }
+
+                {
+                    // title and subtitle
+                    this.renderTitleSubtitle(row)
+                }
+
+                {
+                    // right
+                    this.renderRight(row, theme)
+                }
+
+                {
+                    // flag
+                    this.renderFlag(row, theme)
+                }
+            </Animated.View>
+        )
     };
 
     private renderTitleSubtitle = (row: TableViewRow) => {
@@ -537,8 +538,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
         );
     };
 
-    private renderContentSwipe = (section: TableViewSection, row: TableViewRow, content: JSX.Element, swipeActions: TableViewSwipeActions) => {
-        const theme = getTheme();
+    private renderContentSwipe = (section: TableViewSection, row: TableViewRow, content: JSX.Element, swipeActions: TableViewSwipeActions, theme: ThemeProps) => {
         let lastGestureX = 0;
         const panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => {

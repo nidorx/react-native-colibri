@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react'
 import {StyleProp, Text, TextProps as RnTextProps, TextStyle} from 'react-native';
-import Theme, {FontProps, fontStyle, getTheme, spacing, SpacingName, ThemeProps} from "./Theme";
+import Theme, {FontProps, fontStyle, spacing, SpacingName, ThemeProps} from "./Theme";
 
 export type TextAlign = 'left' | 'right' | 'center';
 

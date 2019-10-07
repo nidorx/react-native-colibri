@@ -6,7 +6,7 @@
 import React from 'react';
 import {Animated, Dimensions, StyleProp, StyleSheet, TextStyle, View, ViewStyle,} from 'react-native'
 import {Caption} from "./SimpleText";
-import {getTheme, spacing} from "./Theme";
+import Theme, {spacing} from "./Theme";
 
 const styles = StyleSheet.create({
     container: {
@@ -118,63 +118,66 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
     }
 
     render() {
-        let pos;
-        const theme = getTheme();
-        const styleContent = {
-            backgroundColor: theme.colorText,
-            padding: spacing(theme, 'tiny'),
-            borderRadius: spacing(theme, 'micro'),
-        };
+        return (
+            <Theme>
+                {(theme) => {
 
-        switch (this.props.position || DEFAULTS.position) {
-            case 'top':
-                pos = this.props.positionValue || DEFAULTS.positionValue;
-                break;
-            case 'center':
-                pos = height / 2;
-                break;
-            case 'bottom':
-                pos = height - (this.props.positionValue || DEFAULTS.positionValue);
-                break;
-        }
+                    let pos;
+                    const styleContent = {
+                        backgroundColor: theme.colorText,
+                        padding: spacing(theme, 'tiny'),
+                        borderRadius: spacing(theme, 'micro'),
+                    };
 
-        return this.state.isShow
-            ? (
-                <View
-                    style={[styles.container, {top: pos}]}
-                    pointerEvents="none"
-                >
-                    <Animated.View
-                        style={[
-                            styleContent,
-                            {
-                                opacity: this.state.opacityValue
-                            },
-                            this.props.style
-                        ]}
-                    >
-                        {
-                            React.isValidElement(this.state.text)
-                                ? this.state.text
-                                : (
-                                    <Caption
-                                        text={this.state.text}
-                                        style={[
-                                            {
-                                                color: theme.colorBackground
-                                            },
-                                            this.props.textStyle
-                                        ]}
-                                    />
-                                )
-                        }
-                    </Animated.View>
-                </View>
-            )
-            : null;
-        // {/*<Text style={this.props.textStyle || DEFAULTS.textStyle}>*/}
-        //     {/*{this.state.text}*/}
-        // {/*</Text>*/}
+                    switch (this.props.position || DEFAULTS.position) {
+                        case 'top':
+                            pos = this.props.positionValue || DEFAULTS.positionValue;
+                            break;
+                        case 'center':
+                            pos = height / 2;
+                            break;
+                        case 'bottom':
+                            pos = height - (this.props.positionValue || DEFAULTS.positionValue);
+                            break;
+                    }
+
+                    return this.state.isShow
+                        ? (
+                            <View
+                                style={[styles.container, {top: pos}]}
+                                pointerEvents="none"
+                            >
+                                <Animated.View
+                                    style={[
+                                        styleContent,
+                                        {
+                                            opacity: this.state.opacityValue
+                                        },
+                                        this.props.style
+                                    ]}
+                                >
+                                    {
+                                        React.isValidElement(this.state.text)
+                                            ? this.state.text
+                                            : (
+                                                <Caption
+                                                    text={this.state.text}
+                                                    style={[
+                                                        {
+                                                            color: theme.colorBackground
+                                                        },
+                                                        this.props.textStyle
+                                                    ]}
+                                                />
+                                            )
+                                    }
+                                </Animated.View>
+                            </View>
+                        )
+                        : null;
+                }}
+            </Theme>
+        );
     }
 
     public show(text: string, duration?: number, callback?: () => void) {

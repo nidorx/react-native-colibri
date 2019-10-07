@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated, StyleProp, View, ViewStyle,} from 'react-native';
-import Theme, {FontProps, getTheme, spacing, ThemeProps} from "./Theme";
+import Theme, {FontProps, spacing, ThemeProps} from "./Theme";
 import {animateGenericNative} from "./Utils";
 
 

@@ -11,7 +11,7 @@ import {
     ViewProps
 } from 'react-native';
 import Carousel from './Carousel';
-import {getTheme, spacing} from "./Theme";
+import Theme, {spacing} from "./Theme";
 
 const GAP_DEFAULT = 6;
 
@@ -94,96 +94,103 @@ export default class CarouselImage extends React.PureComponent<CarouselImageProp
     };
 
     render() {
-        const theme = getTheme();
         return (
-            <View style={styles.containner} onLayout={this.onLayout}>
-                {
-                    // Só renderiza o carousel após calcular a largura correta
-                    this.state.itemWidth
-                        ? (
-                            <Carousel
-                                gap={this.props.gap || GAP_DEFAULT}
-                                onScroll={(evt) => {
-                                    if (evt && evt.nativeEvent.contentOffset.x <= this.state.itemWidth * 2) {
-                                        this.animatedValueScroll.setValue(evt.nativeEvent.contentOffset.x);
-                                    }
-                                }}
-                            >
-                                {
-                                    // Permite adicionar itens vazios no inicio
-                                    (this.props.skip && this.props.skip > 0)
-                                        ? (
-                                            <View
-                                                key={'__EMPTY_SKIP__'}
-                                                style={{width: this.state.itemWidth * this.props.skip}}
-                                            />
-                                        )
-                                        : null
-                                }
+            <Theme>
+                {(theme) => {
 
-                                {
-                                    this.props.data.map((item, index) => {
-                                        return (
-                                            <TouchableOpacity
-                                                key={item.key}
-                                                style={{flex: 1}}
-                                                onPress={() => {
-                                                    if (this.props.onPress) {
-                                                        this.props.onPress(item);
-                                                    }
-                                                }}
-                                                activeOpacity={0.7}
-                                            >
-                                                <View
-                                                    style={{
-                                                        width: this.state.itemWidth,
-                                                        flexDirection: 'column',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    <Image
-                                                        {...item.image}
-                                                        style={[
-                                                            item.image.style,
-                                                            {
-                                                                width: this.state.itemWidth,
-                                                                height: this.state.itemWidth,
-                                                                marginBottom: spacing(theme, 'tiny')
-                                                            },
-                                                            this.props.rounded
-                                                                ? {
-                                                                    borderRadius: this.state.itemWidth / 2,
-                                                                    borderColor: theme.colorLine,
-                                                                    borderWidth: theme.lineWidth
+                    return (
+                        <View style={styles.containner} onLayout={this.onLayout}>
+                            {
+                                // Só renderiza o carousel após calcular a largura correta
+                                this.state.itemWidth
+                                    ? (
+                                        <Carousel
+                                            gap={this.props.gap || GAP_DEFAULT}
+                                            onScroll={(evt) => {
+                                                if (evt && evt.nativeEvent.contentOffset.x <= this.state.itemWidth * 2) {
+                                                    this.animatedValueScroll.setValue(evt.nativeEvent.contentOffset.x);
+                                                }
+                                            }}
+                                        >
+                                            {
+                                                // Permite adicionar itens vazios no inicio
+                                                (this.props.skip && this.props.skip > 0)
+                                                    ? (
+                                                        <View
+                                                            key={'__EMPTY_SKIP__'}
+                                                            style={{width: this.state.itemWidth * this.props.skip}}
+                                                        />
+                                                    )
+                                                    : null
+                                            }
+
+                                            {
+                                                this.props.data.map((item, index) => {
+                                                    return (
+                                                        <TouchableOpacity
+                                                            key={item.key}
+                                                            style={{flex: 1}}
+                                                            onPress={() => {
+                                                                if (this.props.onPress) {
+                                                                    this.props.onPress(item);
                                                                 }
-                                                                : undefined
-                                                        ]}
-                                                    />
+                                                            }}
+                                                            activeOpacity={0.7}
+                                                        >
+                                                            <View
+                                                                style={{
+                                                                    width: this.state.itemWidth,
+                                                                    flexDirection: 'column',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'center',
+                                                                }}
+                                                            >
+                                                                <Image
+                                                                    {...item.image}
+                                                                    style={[
+                                                                        item.image.style,
+                                                                        {
+                                                                            width: this.state.itemWidth,
+                                                                            height: this.state.itemWidth,
+                                                                            marginBottom: spacing(theme, 'tiny')
+                                                                        },
+                                                                        this.props.rounded
+                                                                            ? {
+                                                                                borderRadius: this.state.itemWidth / 2,
+                                                                                borderColor: theme.colorLine,
+                                                                                borderWidth: theme.lineWidth
+                                                                            }
+                                                                            : undefined
+                                                                    ]}
+                                                                />
 
-                                                    {
-                                                        this.props.renderContent
-                                                            ? this.props.renderContent(item)
-                                                            : null
-                                                    }
-                                                </View>
-                                            </TouchableOpacity>
-                                        );
-                                    })
-                                }
+                                                                {
+                                                                    this.props.renderContent
+                                                                        ? this.props.renderContent(item)
+                                                                        : null
+                                                                }
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    );
+                                                })
+                                            }
 
-                                {
-                                    // Adiciona um item vazio no fim da lista, para melhorar a navegação
-                                    this.state.itemWidth
-                                        ? <View key={'__EMPTY_LAST__'} style={{width: this.state.itemWidth}}/>
-                                        : null
-                                }
-                            </Carousel>
-                        )
-                        : null
-                }
-            </View>
+                                            {
+                                                // Adiciona um item vazio no fim da lista, para melhorar a navegação
+                                                this.state.itemWidth
+                                                    ? <View key={'__EMPTY_LAST__'} style={{width: this.state.itemWidth}}/>
+                                                    : null
+                                            }
+                                        </Carousel>
+                                    )
+                                    : null
+                            }
+                        </View>
+                    );
+                }}
+            </Theme>
         );
+
     }
 
     private onLayout = (event: LayoutChangeEvent) => {

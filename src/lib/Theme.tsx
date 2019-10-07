@@ -235,56 +235,56 @@ const THEME_REF_CACHE_VALUE: Array<any> = [];
 /**
  * Get the default theme of components
  *
- * @param extra
+ * @param merge
  */
-export function getTheme(extra?: Partial<ThemeProps>): ThemeProps {
-    if (extra && extra !== theme) {
+export function getTheme(merge?: Partial<ThemeProps>): ThemeProps {
+    if (merge && merge !== theme) {
         // avoid processing
-        let idx = THEME_REF_CACHE.indexOf(extra);
+        let idx = THEME_REF_CACHE.indexOf(merge);
         if (idx < 0) {
             let newValue = {
                 ...theme,
-                ...extra,
+                ...merge,
                 fontTitle1: {
                     ...theme.fontTitle1,
-                    ...(extra.fontTitle1 || {}),
+                    ...(merge.fontTitle1 || {}),
                 },
                 fontTitle2: {
                     ...theme.fontTitle2,
-                    ...(extra.fontTitle2 || {}),
+                    ...(merge.fontTitle2 || {}),
                 },
                 fontTitle3: {
                     ...theme.fontTitle3,
-                    ...(extra.fontTitle3 || {}),
+                    ...(merge.fontTitle3 || {}),
                 },
                 fontLarge: {
                     ...theme.fontLarge,
-                    ...(extra.fontLarge || {}),
+                    ...(merge.fontLarge || {}),
                 },
                 fontRegular: {
                     ...theme.fontRegular,
-                    ...(extra.fontRegular || {}),
+                    ...(merge.fontRegular || {}),
                 },
                 fontSmall: {
                     ...theme.fontSmall,
-                    ...(extra.fontSmall || {}),
+                    ...(merge.fontSmall || {}),
                 },
                 fontCaption: {
                     ...theme.fontCaption,
-                    ...(extra.fontCaption || {}),
+                    ...(merge.fontCaption || {}),
                 },
                 spacing: {
                     ...theme.spacing,
-                    ...(extra.spacing || {}),
+                    ...(merge.spacing || {}),
                 }
             };
 
-            THEME_REF_CACHE.push(extra);
+            THEME_REF_CACHE.push(merge);
             THEME_REF_CACHE_VALUE.push(newValue);
             idx = THEME_REF_CACHE.length - 1;
 
             setTimeout(() => {
-                let idx = THEME_REF_CACHE.indexOf(extra);
+                let idx = THEME_REF_CACHE.indexOf(merge);
                 if (idx >= 0) {
                     THEME_REF_CACHE.splice(idx, 1);
                     THEME_REF_CACHE_VALUE.splice(idx, 1);
@@ -534,23 +534,36 @@ setTheme(THEME_DEFAULT);
 
 const ThemeContext = React.createContext<ThemeProps>(theme as ThemeProps);
 
+export type ThemeProviderProps = {
+    /**
+     * O tema a ser usado neste contexto
+     */
+    theme?: ThemeProps;
+    /**
+     * Quando estático, o tema deste contexto nunca é alterado
+     */
+    static?: boolean;
+}
+
 /**
  * Encapsulate your application with ThemeProvider
  */
-export class ThemeProvider extends React.PureComponent<any, { theme: ThemeProps }> {
+export class ThemeProvider extends React.PureComponent<ThemeProviderProps, { theme: ThemeProps }> {
 
     state = {
-        theme: getTheme()
+        theme: this.props.theme || getTheme()
     };
 
     private subscription?: EmitterSubscription;
 
     componentDidMount(): void {
-        this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
-            this.setState({
-                theme: theme
+        if (!this.props.static) {
+            this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
+                this.setState({
+                    theme: theme
+                })
             })
-        })
+        }
     }
 
     componentWillUnmount(): void {
@@ -573,7 +586,7 @@ export default function Theme(props: { theme?: Partial<ThemeProps>, children: (t
 
     return (
         <ThemeContext.Consumer>
-            {() => children(getTheme(theme))}
+            {(theme) => children(theme)}
         </ThemeContext.Consumer>
     )
 }

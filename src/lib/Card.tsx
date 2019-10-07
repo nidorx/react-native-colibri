@@ -1,6 +1,6 @@
 import React from 'react'
 import {Animated, Easing, Image, ImageProps, LayoutChangeEvent, TouchableOpacity, View, ViewProps} from 'react-native';
-import {getTheme, spacing} from "./Theme";
+import Theme, {spacing} from "./Theme";
 import SimpleText from "./SimpleText";
 
 export type CardProps = ViewProps & {
@@ -79,180 +79,187 @@ export default class Card extends React.PureComponent<CardProps, CardState> {
     state: CardState = {};
 
     render() {
-        const theme = getTheme();
-        const spacingMicro = spacing(theme, 'micro') as number;
-        const spacingSmall = spacing(theme, 'small') as number;
-        const spacingBase = spacing(theme, 'base') as number;
-
-        const header = (
-            <View
-                style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    padding: spacingSmall
-                }}
-            >
-
-                <View style={{flexDirection: 'column', flex: 1}}>
-                    {
-                        (typeof this.props.title === 'string')
-                            ? (
-                                <SimpleText
-                                    align={'left'}
-                                    text={this.props.title}
-                                />
-                            )
-                            : this.props.title
-                    }
-                    {
-                        (typeof this.props.subtitle === 'string')
-                            ? (
-
-                                <SimpleText
-                                    small={true}
-                                    align={'left'}
-                                    color={theme.colorTextSecondary}
-                                    text={this.props.subtitle}
-                                />
-                            )
-                            : this.props.subtitle
-                    }
-                </View>
-                {
-                    this.props.onPressMore
-                        ? (
-                            <View style={{justifyContent: 'center'}}>
-                                <SimpleText
-                                    text={this.props.moreText || 'More'}
-                                    align={'right'}
-                                    color={theme.colorPrimary.background}
-                                />
-                            </View>
-                        )
-                        : null
-                }
-
-            </View>
-        );
-
-        const shadow = this.props.shadow || (this.props.boxed && this.props.shadow !== false)
-            ? SHADOWS[this.props.shadowPattern || 'A']
-            : null;
-
-
         return (
-            <View
-                {...this.props}
-                onLayout={this.onLayout}
-                style={[
-                    {
-                        width: '100%',
-                        flexDirection: 'column',
-                        padding: 0,
-                        marginBottom: spacingBase,
-                        zIndex: shadow ? 1 : 0
-                    }
-                ]}
-            >
-                <View
-                    onLayout={this.onLayoutInner}
-                    style={[
-                        this.props.boxed
-                            ? {
-                                overflow: 'hidden',
-                                marginHorizontal: spacing(theme, 'tiny'),
-                                borderRadius: spacingMicro,
-                                borderWidth: theme.lineWidth,
-                                borderColor: theme.colorLine,
+            <Theme>
+                {(theme) => {
+
+                    const spacingMicro = spacing(theme, 'micro') as number;
+                    const spacingSmall = spacing(theme, 'small') as number;
+                    const spacingBase = spacing(theme, 'base') as number;
+
+                    const header = (
+                        <View
+                            style={{
+                                width: '100%',
+                                flexDirection: 'row',
+                                alignContent: 'center',
+                                justifyContent: 'center',
+                                padding: spacingSmall
+                            }}
+                        >
+
+                            <View style={{flexDirection: 'column', flex: 1}}>
+                                {
+                                    (typeof this.props.title === 'string')
+                                        ? (
+                                            <SimpleText
+                                                align={'left'}
+                                                text={this.props.title}
+                                            />
+                                        )
+                                        : this.props.title
+                                }
+                                {
+                                    (typeof this.props.subtitle === 'string')
+                                        ? (
+
+                                            <SimpleText
+                                                small={true}
+                                                align={'left'}
+                                                color={theme.colorTextSecondary}
+                                                text={this.props.subtitle}
+                                            />
+                                        )
+                                        : this.props.subtitle
+                                }
+                            </View>
+                            {
+                                this.props.onPressMore
+                                    ? (
+                                        <View style={{justifyContent: 'center'}}>
+                                            <SimpleText
+                                                text={this.props.moreText || 'More'}
+                                                align={'right'}
+                                                color={theme.colorPrimary.background}
+                                            />
+                                        </View>
+                                    )
+                                    : null
                             }
-                            : undefined,
-                        this.props.style,
-                        {
-                            marginBottom: 0
-                        }
-                    ]}
-                >
-                    {
-                        this.props.image && this.state.contentHeight
-                            ? (
-                                <Animated.Image
-                                    {...this.props.image}
-                                    style={[
-                                        this.props.image.style,
-                                        {
-                                            width: this.state.contentHeight,
-                                            height: this.state.contentHeight,
-                                            position: 'absolute',
-                                            left: 0,
-                                            top: 0,
-                                            resizeMode: 'cover',
-                                            // Oculta imagem a medida que o scroll é executado
-                                            opacity: this.props.imageTranslateXValue
-                                                ? this.props.imageTranslateXValue.interpolate({
-                                                    inputRange: [0, this.state.contentHeight * 0.15, this.state.contentHeight * 0.75],
-                                                    outputRange: [1, 1, 0.25],
-                                                    easing: Easing.bezier(0, 0, 0.58, 1),
-                                                    extrapolate: 'clamp'
-                                                })
-                                                : 1,
-                                            // Anima exibição da imagem a medida que o scroll é executado
-                                            transform: [
-                                                {
-                                                    translateX: this.props.imageTranslateXValue
-                                                        ? this.props.imageTranslateXValue.interpolate({
-                                                            inputRange: [0, this.state.contentHeight * 0.75],
-                                                            outputRange: [0, -(this.state.contentHeight * 0.1)],
-                                                            extrapolate: 'clamp'
-                                                        })
-                                                        : 0
-                                                }
-                                            ]
+
+                        </View>
+                    );
+
+                    const shadow = this.props.shadow || (this.props.boxed && this.props.shadow !== false)
+                        ? SHADOWS[this.props.shadowPattern || 'A']
+                        : null;
+
+
+                    return (
+                        <View
+                            {...this.props}
+                            onLayout={this.onLayout}
+                            style={[
+                                {
+                                    width: '100%',
+                                    flexDirection: 'column',
+                                    padding: 0,
+                                    marginBottom: spacingBase,
+                                    zIndex: shadow ? 1 : 0
+                                }
+                            ]}
+                        >
+                            <View
+                                onLayout={this.onLayoutInner}
+                                style={[
+                                    this.props.boxed
+                                        ? {
+                                            overflow: 'hidden',
+                                            marginHorizontal: spacing(theme, 'tiny'),
+                                            borderRadius: spacingMicro,
+                                            borderWidth: theme.lineWidth,
+                                            borderColor: theme.colorLine,
                                         }
-                                    ]}
-                                />
-                            )
-                            : undefined
-                    }
-                    {
-                        this.props.onPressMore
-                            ? (
-                                <TouchableOpacity
-                                    onPress={this.onPressMore}
-                                    activeOpacity={0.3}
-                                >
-                                    {header}
-                                </TouchableOpacity>
-                            )
-                            : header
-                    }
+                                        : undefined,
+                                    this.props.style,
+                                    {
+                                        marginBottom: 0
+                                    }
+                                ]}
+                            >
+                                {
+                                    this.props.image && this.state.contentHeight
+                                        ? (
+                                            <Animated.Image
+                                                {...this.props.image}
+                                                style={[
+                                                    this.props.image.style,
+                                                    {
+                                                        width: this.state.contentHeight,
+                                                        height: this.state.contentHeight,
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: 0,
+                                                        resizeMode: 'cover',
+                                                        // Oculta imagem a medida que o scroll é executado
+                                                        opacity: this.props.imageTranslateXValue
+                                                            ? this.props.imageTranslateXValue.interpolate({
+                                                                inputRange: [0, this.state.contentHeight * 0.15, this.state.contentHeight * 0.75],
+                                                                outputRange: [1, 1, 0.25],
+                                                                easing: Easing.bezier(0, 0, 0.58, 1),
+                                                                extrapolate: 'clamp'
+                                                            })
+                                                            : 1,
+                                                        // Anima exibição da imagem a medida que o scroll é executado
+                                                        transform: [
+                                                            {
+                                                                translateX: this.props.imageTranslateXValue
+                                                                    ? this.props.imageTranslateXValue.interpolate({
+                                                                        inputRange: [0, this.state.contentHeight * 0.75],
+                                                                        outputRange: [0, -(this.state.contentHeight * 0.1)],
+                                                                        extrapolate: 'clamp'
+                                                                    })
+                                                                    : 0
+                                                            }
+                                                        ]
+                                                    }
+                                                ]}
+                                            />
+                                        )
+                                        : undefined
+                                }
+                                {
+                                    this.props.onPressMore
+                                        ? (
+                                            <TouchableOpacity
+                                                onPress={this.onPressMore}
+                                                activeOpacity={0.3}
+                                            >
+                                                {header}
+                                            </TouchableOpacity>
+                                        )
+                                        : header
+                                }
 
-                    {this.props.children}
+                                {this.props.children}
 
-                </View>
-                {
-                    shadow
-                        ? (
-                            <Image
-                                source={shadow.image}
-                                style={{
-                                    position: 'absolute',
-                                    top: this.state.contentHeight,
-                                    width: this.state.contentInnerWidth
-                                        ? this.state.contentInnerWidth - (this.props.boxed ? spacingMicro : 0)
-                                        : '100%',
-                                    alignSelf: 'center',
-                                    resizeMode: 'stretch',
-                                    opacity: this.props.shadowOpacity || 0.3,
-                                    tintColor: this.props.shadowColor
-                                }}
-                            />
-                        )
-                        : null
-                }
-            </View>
+                            </View>
+                            {
+                                shadow
+                                    ? (
+                                        <Image
+                                            source={shadow.image}
+                                            style={{
+                                                position: 'absolute',
+                                                top: this.state.contentHeight,
+                                                width: this.state.contentInnerWidth
+                                                    ? this.state.contentInnerWidth - (this.props.boxed ? spacingMicro : 0)
+                                                    : '100%',
+                                                alignSelf: 'center',
+                                                resizeMode: 'stretch',
+                                                opacity: this.props.shadowOpacity || 0.3,
+                                                tintColor: this.props.shadowColor
+                                            }}
+                                        />
+                                    )
+                                    : null
+                            }
+                        </View>
+                    );
+                }}
+            </Theme>
         );
+
     }
 
     private onLayout = (event: LayoutChangeEvent) => {
