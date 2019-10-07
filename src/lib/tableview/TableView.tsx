@@ -60,6 +60,10 @@ export type TableViewProps = SectionListProps<any> & {
      * Lets you create reference to internal section list
      */
     refSectionList?: LegacyRef<SectionList<any>>;
+    /**
+     * Lets you create reference to external tableView, fix for Animated.Views ref
+     */
+    refTableView?: (ref: TableView) => void;
 }
 
 /**
@@ -128,6 +132,12 @@ export default class TableView extends React.PureComponent<TableViewProps> {
         const key = `${sectionKey}__${rowKey}`;
         if (this.itemRefs[key]) {
             this.itemRefs[key].forceRender(newRow);
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.refTableView) {
+            this.props.refTableView(this);
         }
     }
 

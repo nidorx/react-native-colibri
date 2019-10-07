@@ -472,13 +472,13 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                     this.setState({
                         extraData: this.state.extraData++
                     }, () => {
-                        onSelect(row, section);
+                        onSelect(row, section, this);
                     });
                 }}
                 onLongPress={
                     onLongPress
                         ? () => {
-                            onLongPress(row, section);
+                            onLongPress(row, section, this);
                         }
                         : undefined
                 }
@@ -516,7 +516,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                 // Swipe ativo, ignora press
                                 return;
                             }
-                            onPress(row, section);
+                            onPress(row, section, this);
                         }
                         : undefined
                 }
@@ -527,7 +527,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                 // Swipe ativo, ignora press
                                 return;
                             }
-                            onLongPress(row, section);
+                            onLongPress(row, section, this);
                         }
                         : undefined
                 }
@@ -608,7 +608,7 @@ export default class TableViewItem extends React.PureComponent<TableViewItemProp
                                         alignSelf: 'flex-end'
                                     }}
                                     onPress={() => {
-                                        action.onPress(row, section);
+                                        action.onPress(row, section, this);
                                     }}
                                     underlayColor={theme.colorFocus}
                                 >

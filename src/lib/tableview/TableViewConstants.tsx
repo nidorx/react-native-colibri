@@ -3,6 +3,7 @@ import {ImageProps, ListRenderItemInfo, SectionListData, ViewStyle} from 'react-
 import {TitleExtra} from '../Title';
 import {EmptyStateProps} from "../EmptyState";
 import {DiscloruseIconProps} from "../DisclosureIcon";
+import TableViewItem from "./TableViewItem";
 
 export type TableViewSectionListRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT> & {
     section: SectionListData<ItemT>;
@@ -11,7 +12,7 @@ export type TableViewSectionListRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT
 /**
  * Funções de callback em
  */
-export type TableViewRowSectionCallbackFn = (row: TableViewRow, section: TableViewSection) => void;
+export type TableViewRowSectionCallbackFn = (row: TableViewRow, section: TableViewSection, item: TableViewItem) => void;
 
 /**
  * Propriedaddes para determinar o comportamento dos itens com Swipe
