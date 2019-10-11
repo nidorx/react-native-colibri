@@ -70,16 +70,10 @@ export type ModalTransform = {
     skewY?: Animated.InterpolationConfigType;
 };
 
-
 const TRANSFORM_SLIDE_IN_BOTTOM_IN: ModalTransform = {
     duration: 250,
-    // QuinticEaseOut
-    easing: Easing.bezier(0.23, 1, 0.32, 1),
+    easing: QuinticEaseOut,
     perspective: 1000,
-    scale: {
-        inputRange: [0, 1],
-        outputRange: [0.8, 1]
-    },
     translateY: {
         inputRange: [0, 1],
         outputRange: [50, 0]
@@ -87,16 +81,12 @@ const TRANSFORM_SLIDE_IN_BOTTOM_IN: ModalTransform = {
 };
 
 const TRANSFORM_SLIDE_IN_BOTTOM_OUT: ModalTransform = {
-    duration: 250,
-    easing: Easing.bezier(0.550, 0.055, 0.675, 0.190),
+    duration: 200,
+    easing: QuinticEaseOut,
     perspective: 1000,
-    scale: {
-        inputRange: [0, 1],
-        outputRange: [0.8, 1]
-    },
     translateY: {
         inputRange: [0, 1],
-        outputRange: [50, 1]
+        outputRange: [100, 1]
     }
 };
 
