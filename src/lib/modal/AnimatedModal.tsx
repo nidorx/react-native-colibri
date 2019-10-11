@@ -14,10 +14,6 @@ export type AnimatedModalAPI = {
      */
     show: (content: JSX.Element, options?: ModalOptions, onClose?: () => void) => void;
     /**
-     * Permite exibir uma mensagem de erro na modal
-     */
-    error: (message: string) => void;
-    /**
      * Oculta a modal
      */
     hide: () => void;
@@ -25,8 +21,6 @@ export type AnimatedModalAPI = {
 
 const DEFAULT_API: AnimatedModalAPI = {
     show: () => {
-    },
-    error: () => {
     },
     hide: () => {
     }
@@ -61,11 +55,6 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
     private animatedContentValue = new Animated.Value(1);
 
     private api: AnimatedModalAPI = {
-        error: (message: string) => {
-            if (this.modal) {
-                this.modal.error(message);
-            }
-        },
         show: (content, options, onClose) => {
             this.setState({
                 content: React.cloneElement(content, {modal: this.api}),
@@ -74,13 +63,15 @@ export default class AnimatedModal extends React.PureComponent<AnimatedModalProp
             }, () => {
                 if (this.modal) {
                     this.modal.show();
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                animateGenericNative(this.animatedContentValue, (options || {}).animateContent === false ? 1 : 0);
-                            });
-                        }, 50);
-                    });
+                    if ((options || {}).animateContent !== false) {
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                requestAnimationFrame(() => {
+                                    animateGenericNative(this.animatedContentValue, 0);
+                                });
+                            }, 50);
+                        });
+                    }
                 }
             });
         },
