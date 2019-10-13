@@ -320,108 +320,108 @@ export const THEME_DEFAULT: ThemeProps = {
     colorLine: '#E5E5E5',
     colorLineSelected: '#CECED2',
     colorFocus: '#CECED2',
-    colorText: '#404040',
-    colorTextSecondary: '#8E8E93',
     colorSelected: '#F5F5F5',
+    colorText: '#404040',
+    colorTextSecondary: '#555555',
     colorBase: {
         background: '#FFFFFF',
-        text: '#404040',
         border: '#DDDDDD',
+        text: '#404040',
         states: {
             active: {
                 background: '#F2F2F2',
-                text: '#000000',
                 border: '#8E8E93',
+                text: '#000000'
             },
             disabled: {
                 background: '#F2F2F2',
-                text: '#8E8E93',
                 border: '#DDDDDD',
+                text: '#555555'
             }
         }
     },
     colorPrimary: {
         background: '#007AFF',
-        text: '#FFF',
-        border: '#0071eb',
+        border: '#0071EB',
+        text: '#FFFFFF',
         states: {
             active: {
-                background: '#008fff',
-                text: '#e0f0f6',
+                background: '#008FFF',
                 border: '#007AFF',
+                text: '#000036'
             },
             disabled: {
-                background: '#e6ebf2',
-                text: '#c4d0e1',
-                border: '#c4d0e1',
+                background: '#E6EBF2',
+                border: '#C4D0E1',
+                text: '#555555'
             }
         }
     },
     colorInfo: {
         background: '#007AFF',
-        text: '#FFF',
         border: '#0071eb',
+        text: '#FFF',
         states: {
             active: {
                 background: '#008fff',
-                text: '#e0f0f6',
                 border: '#007AFF',
+                text: '#e0f0f6'
             },
             disabled: {
                 background: '#e6ebf2',
-                text: '#76b7ff',
                 border: '#76b7ff',
+                text: '#76b7ff'
             }
         }
     },
     colorSuccess: {
         background: '#90C053',
-        text: '#FFF',
         border: '#689035',
+        text: '#FFF',
         states: {
             active: {
                 background: '#a3cb70',
-                text: '#404040',
                 border: '#90C053',
+                text: '#404040'
             },
             disabled: {
                 background: '#f6faf1',
-                text: '#b5d58c',
                 border: '#b5d58c',
+                text: '#b5d58c'
             }
         }
     },
     colorWarning: {
         background: '#FF9500',
-        text: '#FFF',
         border: '#eb8a00',
+        text: '#FFF',
         states: {
             active: {
                 background: '#ffa527',
-                text: '#FFEFD8',
                 border: '#FF9500',
+                text: '#FFEFD8'
             },
             disabled: {
                 background: '#FFEFD8',
-                text: '#ffc676',
                 border: '#ffc676',
+                text: '#ffc676'
             }
         }
     },
     colorDanger: {
         background: '#D83434',
-        text: '#FFFFFF',
         border: '#af2222',
+        text: '#FFFFFF',
         states: {
             active: {
                 background: '#db4444',
-                text: '#FBE9E9',
                 border: '#D83434',
+                text: '#FBE9E9'
             },
             disabled: {
                 background: '#FBE9E9',
-                text: '#e88686',
                 border: '#e88686',
+                text: '#e88686'
             }
         }
     },
