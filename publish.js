@@ -64,7 +64,7 @@ rimraf('./dist', {}, function (err) {
         throw err;
     }
 
-    var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
+    var packageJson = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
     exec('npm run build-ts')
         .then(cp.bind(undefined, './package.json', './dist/package.json'))
@@ -74,15 +74,14 @@ rimraf('./dist', {}, function (err) {
         .then(cp.bind(undefined, './src/assets/', './dist/src/assets/'))
         .then(exec.bind(undefined, 'npm publish', './dist'))
         .then(exec.bind(undefined, 'git add --all', null))
-        .then(exec.bind(undefined, 'git commit -m "Release of version v' + package.version + '"', null))
+        .then(exec.bind(undefined, 'git commit -m "Release of version v' + packageJson.version + '"', null))
         .then(exec.bind(undefined, 'git push', null))
-        .then(exec.bind(undefined, 'git tag v' + package.version, null))
+        .then(exec.bind(undefined, 'git tag v' + packageJson.version, null))
         .then(exec.bind(undefined, 'git push --tags', null))
         .catch(err => {
             console.error(err);
         });
     ;
-
 
 });
 

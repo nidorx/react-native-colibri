@@ -11,8 +11,8 @@ var options = {
     path: '/react-native-colibri',
     method: 'GET',
     headers: {
-        'Accept': 'application/json'
-    }
+        'Accept': 'application/json',
+    },
 };
 
 var req = http.request(options, function (res) {
@@ -51,7 +51,7 @@ var req = http.request(options, function (res) {
         // Numero da nova versão SNAPHSOT (pre)
         // Se já possui um prerelease, apenas incrementa a versão do snapshot
         // Ex. Se existir '0.1.0-pre.0', a proxima será '0.1.0-pre.1'
-        if (snapshot != '0.0.0') {
+        if (snapshot !== '0.0.0') {
             version = semver.inc(snapshot, 'prerelease', 'pre');
         } else {
             version = semver.inc(release, 'preminor', 'pre');

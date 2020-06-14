@@ -1,11 +1,9 @@
 import React from 'react';
 import {Animated, LayoutChangeEvent, StyleSheet, View, ViewStyle} from 'react-native';
-import Theme, {ThemeProps} from "./Theme";
-import {animateGenericNative} from "./Utils";
-import SimpleText from "./SimpleText";
-import Spinner from "./Spinner";
-
-const AnimatedSpinner = Animated.createAnimatedComponent(Spinner);
+import Theme, {ThemeProps} from './Theme';
+import {animateGenericNative} from './Utils';
+import SimpleText from './SimpleText';
+import Spinner from './Spinner';
 
 export type LoadingProps = {
     /**
@@ -41,8 +39,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 100
-    }
+        zIndex: 100,
+    },
 });
 
 /**
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
 export default class Loading extends React.PureComponent<LoadingProps, LoadingState> {
 
     static defaultProps = {
-        isLoading: false
+        isLoading: false,
     };
 
     animatedOpacityValue = new Animated.Value(1);
@@ -65,7 +63,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
         this.state = {
             height: 10,
             visible: this.props.isLoading,
-            isLoading: this.props.isLoading
+            isLoading: this.props.isLoading,
         };
     }
 
@@ -75,11 +73,11 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
 
     componentDidUpdate(prevProps: LoadingProps) {
         const isLoading = this.props.isLoading;
-        if (isLoading != prevProps.isLoading) {
+        if (isLoading !== prevProps.isLoading) {
             this.setState({
                 isLoading: isLoading,
                 // Se estiver carregando, o loading é visível
-                visible: this.state.visible || isLoading
+                visible: this.state.visible || isLoading,
             }, () => {
                 // Mudou o estado ?
                 if (prevProps.isLoading !== this.state.isLoading) {
@@ -97,22 +95,22 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
             animateGenericNative(this.animatedOpacityValue, 1);
 
             // Se o processo demorar, exibe o indicador de atividade
-            requestAnimationFrame(time => {
+            requestAnimationFrame(() => {
                 this.timeout = setTimeout(() => {
-                    requestAnimationFrame(time1 => {
+                    requestAnimationFrame(() => {
                         animateGenericNative(this.animatedIndicatorValue, 1);
-                    })
+                    });
                 }, 400);
-            })
+            });
 
         } else {
             if (this.state.visible) {
 
-                animateGenericNative(this.animatedOpacityValue, 0, result => {
+                animateGenericNative(this.animatedOpacityValue, 0, () => {
                     // Após finalizar a animação de ocultar o loading, remove o elemento da tela
                     this.setState({
-                        visible: false
-                    })
+                        visible: false,
+                    });
                 });
             } else {
                 this.animatedOpacityValue.setValue(0);
@@ -129,17 +127,17 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
 
                     const translateIndicator = this.animatedIndicatorValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [-200, this.state.height / 4]
+                        outputRange: [-200, this.state.height / 4],
                     });
 
                     const opacityOverlay = this.animatedOpacityValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0, 0.9]
+                        outputRange: [0, 0.9],
                     });
 
                     const opacityContent = this.animatedOpacityValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [1, 0.9]
+                        outputRange: [1, 0.9],
                     });
 
                     return (
@@ -153,22 +151,26 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                                                 styles.container,
                                                 {
                                                     backgroundColor: theme.colorBackground,
-                                                    opacity: opacityOverlay
+                                                    opacity: opacityOverlay,
                                                 },
-                                                this.props.overlayStyle
+                                                this.props.overlayStyle,
                                             ]}
                                         >
-                                            <AnimatedSpinner
-                                                color={theme.colorPrimary.background}
-                                                style={{
-                                                    alignSelf: 'center',
-                                                    transform: [
-                                                        {
-                                                            translateY: translateIndicator
-                                                        }
-                                                    ]
-                                                }}
-                                            />
+                                            <Animated.View
+                                                style={[
+                                                    {
+                                                        transform: [
+                                                            {
+                                                                translateY: translateIndicator,
+                                                            },
+                                                        ],
+                                                        alignSelf: 'center',
+                                                    },
+                                                ]}
+                                            >
+                                                <Spinner color={theme.colorPrimary.background}/>
+                                            </Animated.View>
+
                                             {
                                                 this.props.message
                                                     ? (
@@ -191,7 +193,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
                             <Animated.View
                                 style={{
                                     opacity: opacityContent,
-                                    flex: 1
+                                    flex: 1,
                                 }}
                             >
                                 {this.props.children ? this.props.children : <View/>}
@@ -206,7 +208,7 @@ export default class Loading extends React.PureComponent<LoadingProps, LoadingSt
 
     private onLayout = (event: LayoutChangeEvent) => {
         this.setState({
-            height: event.nativeEvent.layout.height
+            height: event.nativeEvent.layout.height,
         });
     };
 }
