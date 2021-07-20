@@ -28,7 +28,7 @@
         "metro-react-native-babel-preset": "0.54.1",
         "ncp": "^2.0.0",
         "react": "16.8.6",
-        "react-native": "0.60.5",
+        "react-native": "0.62.3",
         "react-native-date-picker": "2.6.1",
         "react-test-renderer": "16.8.6",
         "rimraf": "^3.0.0",
