@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CarouselImage, CarouselImageItem, SimpleText, spacing, TableView, Theme, Toast} from "../../index";
+import {Card, CarouselImage, CarouselImageItem, SimpleText, spacing, TableView, Theme, Toast} from "../../lib";
 import {View} from "react-native";
 
 

@@ -1,6 +1,7 @@
-import {Picker, Switch, TextInput, View} from "react-native";
-import {Caption, Small} from "../src/lib/SimpleText";
-import React from "react";
+import {Switch, TextInput, View} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import {Caption, Small} from '../src/lib/SimpleText';
+import React from 'react';
 
 /**
  * Facilita a documentação de um componente
@@ -25,12 +26,12 @@ export function componentPropertiesPlayground(
                     type: '',
                     optional: false,
                     description: '',
-                    component: null
+                    component: null,
                 };
             } else if (line.startsWith('*/')) {
                 return;
             } else if (line.startsWith('*')) {
-                current.description += line.replace(/^[*]+\s+/, '')
+                current.description += line.replace(/^[*]+\s+/, '');
             } else {
                 // isLoading?: boolean;
                 let parts = line.match(/([a-z0-9]+)([?])?\s*:\s*([^;]+)/i);
@@ -40,7 +41,7 @@ export function componentPropertiesPlayground(
                             name: 'Unknown',
                             type: '',
                             optional: false,
-                            description: ''
+                            description: '',
                         };
                     }
                     current.name = parts[1];
@@ -59,7 +60,7 @@ export function componentPropertiesPlayground(
         key: `${SEQ++}`,
         header: {
             title: 'Props',
-            subtitle: content
+            subtitle: content,
         },
         data: Object.keys(props)
             .map(key => {
@@ -76,12 +77,12 @@ export function componentPropertiesPlayground(
                                 instance.setState({
                                     props: {
                                         ...instance.state.props,
-                                        [key]: value
-                                    }
+                                        [key]: value,
+                                    },
                                 });
                             }}
                         />
-                    )
+                    );
                 } else if (prop.type === 'string') {
                     controlContent = (
                         <TextInput
@@ -90,24 +91,24 @@ export function componentPropertiesPlayground(
                                 instance.setState({
                                     props: {
                                         ...instance.state.props,
-                                        ['__text' + key]: text
-                                    }
+                                        ['__text' + key]: text,
+                                    },
                                 });
                             }}
                             onBlur={e => {
                                 instance.setState({
                                     props: {
                                         ...instance.state.props,
-                                        [key]: instance.state.props['__text' + key]
-                                    }
+                                        [key]: instance.state.props['__text' + key],
+                                    },
                                 });
                             }}
                             style={{
                                 backgroundColor: '#eee',
-                                marginTop: 5
+                                marginTop: 5,
                             }}
                         />
-                    )
+                    );
                 } else if (prop.type === 'number') {
                     controlRight = (
                         <TextInput
@@ -117,8 +118,8 @@ export function componentPropertiesPlayground(
                                 instance.setState({
                                     props: {
                                         ...instance.state.props,
-                                        ['__text' + key]: text
-                                    }
+                                        ['__text' + key]: text,
+                                    },
                                 });
                             }}
                             onBlur={e => {
@@ -129,28 +130,28 @@ export function componentPropertiesPlayground(
                                 instance.setState({
                                     props: {
                                         ...instance.state.props,
-                                        [key]: value
-                                    }
+                                        [key]: value,
+                                    },
                                 });
                             }}
                             style={{
                                 backgroundColor: '#eee',
                                 width: 50,
-                                flex: 1
+                                flex: 1,
                             }}
                         />
-                    )
+                    );
                 } else if (prop.type.indexOf('|') > 0) {
                     const options = (prop.type as string)
                         .split('|')
                         .map((option) => {
-                            return option.replace(/(^\s+)|(\s+$)/g, '')
+                            return option.replace(/(^\s+)|(\s+$)/g, '');
                         })
                         .filter((item) => {
-                            return item.startsWith("'") || item.startsWith('"')
+                            return item.startsWith("'") || item.startsWith('"');
                         })
                         .map((option) => {
-                            return option.replace(/(^['"])|(['"]$)/g, '')
+                            return option.replace(/(^['"])|(['"]$)/g, '');
                         });
                     if (options.length > 0) {
                         controlContent = (
@@ -161,8 +162,8 @@ export function componentPropertiesPlayground(
                                     instance.setState({
                                         props: {
                                             ...instance.state.props,
-                                            [key]: value
-                                        }
+                                            [key]: value,
+                                        },
                                     });
                                 }}
                             >
@@ -175,11 +176,11 @@ export function componentPropertiesPlayground(
                                                 label={value}
                                                 value={value}
                                             />
-                                        )
+                                        );
                                     })
                                 }
                             </Picker>
-                        )
+                        );
 
                         //     <Switch
                         // value={instance.state.props[key]}
@@ -212,8 +213,8 @@ export function componentPropertiesPlayground(
                             {controlContent}
                         </View>
                     ),
-                    right: controlRight
-                }
-            })
+                    right: controlRight,
+                };
+            }),
     };
 }

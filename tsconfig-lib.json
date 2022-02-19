@@ -30,7 +30,7 @@
     }
   },
   "files": [
-    "index.ts"
+      "lib.ts"
   ],
   "exclude": [
     "*.js",

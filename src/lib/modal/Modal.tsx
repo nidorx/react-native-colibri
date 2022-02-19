@@ -2,7 +2,7 @@ import React, {ReactNode} from "react";
 import {
     Animated,
     BackHandler,
-    Dimensions, Easing, EasingFunction,
+    Dimensions, Easing, EasingFunction, EmitterSubscription,
     Image,
     Keyboard, LayoutChangeEvent,
     ScrollView,
@@ -172,6 +172,10 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
 
     private themeRef?: ThemeProps;
 
+    private keyboardDidShowSub?: EmitterSubscription;
+
+    private keyboardDidHideSub?: EmitterSubscription;
+
     private step1OnContentLayout = (event: LayoutChangeEvent) => {
         if (this.state.containerActive && !this.state.contentActive) {
             this.updatePositions(() => {
@@ -312,14 +316,15 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         return transform;
     };
 
+
     componentDidMount() {
-        Keyboard.addListener('keyboardDidShow', this.keyboardDidShowHide);
-        Keyboard.addListener('keyboardDidHide', this.keyboardDidShowHide);
+        this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShowHide);
+        this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidShowHide);
     }
 
     componentWillUnmount() {
-        Keyboard.removeListener('keyboardDidShow', this.keyboardDidShowHide);
-        Keyboard.removeListener('keyboardDidHide', this.keyboardDidShowHide);
+        this.keyboardDidShowSub?.remove();
+        this.keyboardDidHideSub?.remove();
     }
 
     render() {

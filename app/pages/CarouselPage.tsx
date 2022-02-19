@@ -1,5 +1,5 @@
 import React from 'react';
-import {Carousel, SimpleText, TableView, TableViewSection} from "../../index";
+import {Carousel, SimpleText, TableView, TableViewSection} from "../../lib";
 
 export default class CarouselPage extends React.PureComponent {
 

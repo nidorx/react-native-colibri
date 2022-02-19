@@ -4,9 +4,9 @@
  * Blog:http://jiapenghui.com
  */
 import React from 'react';
-import {Animated, Dimensions, StyleProp, StyleSheet, TextStyle, View, ViewStyle,} from 'react-native'
-import {Caption} from "./SimpleText";
-import Theme, {spacing} from "./Theme";
+import {Animated, Dimensions, StyleProp, StyleSheet, TextStyle, View, ViewStyle} from 'react-native';
+import {Caption} from './SimpleText';
+import Theme, {spacing} from './Theme';
 
 const styles = StyleSheet.create({
     container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         elevation: 999,
         alignItems: 'center',
         zIndex: 10000,
-    }
+    },
 });
 
 export type ToastProps = {
@@ -68,10 +68,10 @@ const DEFAULTS = {
     fadeInDuration: 500,
     fadeOutDuration: 500,
     defaultCloseDelay: 250,
-    opacity: 0.9
+    opacity: 0.9,
 };
 
-const {height, width} = Dimensions.get('window');
+const scaledSize = Dimensions.get('window');
 
 export default class Toast extends React.PureComponent<ToastProps, ToastState> {
 
@@ -134,10 +134,10 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                             pos = this.props.positionValue || DEFAULTS.positionValue;
                             break;
                         case 'center':
-                            pos = height / 2;
+                            pos = scaledSize.height / 2;
                             break;
                         case 'bottom':
-                            pos = height - (this.props.positionValue || DEFAULTS.positionValue);
+                            pos = scaledSize.height - (this.props.positionValue || DEFAULTS.positionValue);
                             break;
                     }
 
@@ -151,9 +151,9 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                                     style={[
                                         styleContent,
                                         {
-                                            opacity: this.state.opacityValue
+                                            opacity: this.state.opacityValue,
                                         },
-                                        this.props.style
+                                        this.props.style,
                                     ]}
                                 >
                                     {
@@ -164,9 +164,9 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                                                     text={this.state.text}
                                                     style={[
                                                         {
-                                                            color: theme.colorBackground
+                                                            color: theme.colorBackground,
                                                         },
-                                                        this.props.textStyle
+                                                        this.props.textStyle,
                                                     ]}
                                                 />
                                             )
@@ -193,12 +193,13 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
             {
                 toValue: this.props.opacity || DEFAULTS.opacity,
                 duration: this.props.fadeInDuration || DEFAULTS.fadeInDuration,
+                useNativeDriver: true
             }
         );
 
         this.animation.start(() => {
             this.isShow = true;
-            if (duration !== TOAST_DURATION.FOREVER) this.close();
+            if (duration !== TOAST_DURATION.FOREVER) {this.close();}
         });
     }
 
@@ -206,11 +207,11 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
         let delay = typeof duration === 'undefined' ? this.duration : duration;
 
         if (delay === TOAST_DURATION.FOREVER) {
-            delay = this.props.defaultCloseDelay || DEFAULTS.defaultCloseDelay
+            delay = this.props.defaultCloseDelay || DEFAULTS.defaultCloseDelay;
         }
 
         if (!this.isShow && !this.state.isShow) {
-            return
+            return;
         }
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {

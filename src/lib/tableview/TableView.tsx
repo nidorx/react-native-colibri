@@ -7,12 +7,12 @@ import {
     TableViewSection,
     TableViewSectionAction,
     TableViewSectionHeaderMixed,
-    TableViewSwipeAction
+    TableViewSwipeAction,
 } from './TableViewConstants';
 import TableViewItem from './TableViewItem';
 import SimpleText, {Large, Small} from './../SimpleText';
-import EmptyState, {EmptyStateProps} from "../EmptyState";
-import Theme, {spacing, ThemeProps} from "../Theme";
+import EmptyState, {EmptyStateProps} from '../EmptyState';
+import Theme, {spacing, ThemeProps} from '../Theme';
 
 const EMPTY_STATE_KEY = '__EMPTY_STATE_SPECIAL_KEY__';
 
@@ -92,7 +92,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
 
                     // Faz deep copy e remove referencias
                     let newSection = {
-                        ...section
+                        ...section,
                     };
 
                     // Adiciona empty state para item
@@ -103,8 +103,8 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                 <EmptyState
                                     {...newSection.emptyState}
                                 />
-                            )
-                        }
+                            ),
+                        },
                     ];
 
                     return newSection;
@@ -163,8 +163,8 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                     : {
                                         flex: 1,
                                         justifyContent: 'center',
-                                        alignContent: 'center'
-                                    }
+                                        alignContent: 'center',
+                                    },
                             ]}
                             // https://github.com/facebook/react-native/issues/16411#issuecomment-367106427
                             removeClippedSubviews={false}
@@ -181,9 +181,9 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                             style={[
                                 {
                                     flex: 1,
-                                    backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground
+                                    backgroundColor: this.props.transparent ? 'transparent' : theme.colorBackground,
                                 },
-                                this.props.style
+                                this.props.style,
                             ]}
 
                         />
@@ -218,20 +218,20 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                         backgroundColor: theme.colorPanel,
                         borderBottomColor: theme.colorLine,
                         borderBottomWidth: theme.lineWidth,
-                        paddingHorizontal: spacingSmall
+                        paddingHorizontal: spacingSmall,
                     };
 
                     const styleLeft: ViewStyle = {
                         flex: 1,
                         paddingTop: spacingSmall,
-                        paddingBottom: padding
+                        paddingBottom: padding,
                     };
 
                     const styleRight: ViewStyle = {
                         flexDirection: 'row',
                         alignSelf: 'flex-end',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                     };
 
                     const fontLargeSize = theme.fontLarge.size as number;
@@ -279,7 +279,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                             ? (
                                                                                 <View
                                                                                     style={{
-                                                                                        paddingTop: spacing(theme, 'micro')
+                                                                                        paddingTop: spacing(theme, 'micro'),
                                                                                     }}
                                                                                 >
                                                                                     {
@@ -302,7 +302,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                             )
                                                             // JSX.Element
                                                             : section.header
-                                                    )
+                                                    );
                                                 })()
                                         )
                                 }
@@ -325,7 +325,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                 style={{
                                                                     alignItems: 'center',
                                                                     flexDirection: 'row',
-                                                                    height: HEIGHT
+                                                                    height: HEIGHT,
                                                                 }}
                                                             >
                                                                 {
@@ -338,15 +338,15 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                                                                     height: ICON_HEIGHT,
                                                                                     resizeMode: 'contain',
                                                                                     margin: spacing(theme, 'micro'),
-                                                                                    marginLeft: padding
+                                                                                    marginLeft: padding,
                                                                                 },
-                                                                                img.style
+                                                                                img.style,
                                                                             ]}
                                                                         />
                                                                         : action
                                                                 }
                                                             </TouchableOpacity>
-                                                        )
+                                                        );
                                                     })
                                                     : section.actions
                                             }
@@ -355,7 +355,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                     : null
                             }
                         </View>
-                    )
+                    );
                 }}
             </Theme>
         );
@@ -408,11 +408,11 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                                 )
                                 : 0,
                         borderBottomColor: selected ? theme.colorLineSelected : theme.colorLine,
-                        borderBottomWidth: theme.lineWidth
+                        borderBottomWidth: theme.lineWidth,
                     }}
                 />
             </View>
-        )
+        );
     };
 
     private renderSectionFooter = (theme: ThemeProps, info: any) => {
@@ -427,7 +427,7 @@ export default class TableView extends React.PureComponent<TableViewProps> {
             width: '100%',
             backgroundColor: theme.colorPanel,
             borderTopColor: theme.colorLine,
-            borderTopWidth: theme.lineWidth
+            borderTopWidth: theme.lineWidth,
         };
 
         // Sempre exibe o footer (ultimo item tem marcação, conforme modelo no zeplin)
@@ -442,19 +442,19 @@ export default class TableView extends React.PureComponent<TableViewProps> {
                     (!section.footer || section.footer === '')
                         ? null
                         : (typeof section.footer === 'string')
-                        ? (
-                            <SimpleText
-                                color={theme.colorTextSecondary}
-                                small={true}
-                            >
-                                {section.footer}
-                            </SimpleText>
-                        )
+                            ? (
+                                <SimpleText
+                                    color={theme.colorTextSecondary}
+                                    small={true}
+                                >
+                                    {section.footer}
+                                </SimpleText>
+                            )
                         // JSX.Element
-                        : section.footer
+                            : section.footer
                 }
             </View>
-        )
+        );
     };
 
     private renderEmptyState = () => {
@@ -462,6 +462,6 @@ export default class TableView extends React.PureComponent<TableViewProps> {
             <EmptyState
                 {...(this.props.emptyState || {})}
             />
-        )
+        );
     }
 }

@@ -9,7 +9,7 @@ import {
     TableViewSection,
     Theme,
     Toast
-} from "../../index";
+} from "../../lib";
 import {View} from "react-native";
 
 

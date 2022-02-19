@@ -5,9 +5,9 @@ import {
     Platform,
     StyleProp,
     StyleSheet,
-    TextStyle
-} from "react-native";
-import React from "react";
+    TextStyle,
+} from 'react-native';
+import React from 'react';
 
 // from https://github.com/nirsky/react-native-size-matters
 const {width, height} = Dimensions.get('window');
@@ -25,7 +25,7 @@ export function scaleModerate(theme: ThemeProps, size: number, factor = 0.5) {
     return size + (scale(theme, size) - size) * factor;
 }
 
-export type FontWeightName = 'thin' | 'light' | 'regular' | 'medium' | 'bold' ;
+export type FontWeightName = 'thin' | 'light' | 'regular' | 'medium' | 'bold';
 
 /**
  * Font specification
@@ -109,7 +109,7 @@ export function fontStyle(theme: ThemeProps, font: Partial<FontProps>) {
         fontFamily: family,
         fontSize: scale(theme, font.size as number),
         lineHeight: scaleVertical(theme, font.lineHeight as number),
-        letterSpacing: scale(theme, font.letterSpacing as number)
+        letterSpacing: scale(theme, font.letterSpacing as number),
     };
 }
 
@@ -276,7 +276,7 @@ export function getTheme(merge?: Partial<ThemeProps>): ThemeProps {
                 spacing: {
                     ...theme.spacing,
                     ...(merge.spacing || {}),
-                }
+                },
             };
 
             THEME_REF_CACHE.push(merge);
@@ -331,14 +331,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#F2F2F2',
                 border: '#8E8E93',
-                text: '#000000'
+                text: '#000000',
             },
             disabled: {
                 background: '#F2F2F2',
                 border: '#DDDDDD',
-                text: '#555555'
-            }
-        }
+                text: '#555555',
+            },
+        },
     },
     colorPrimary: {
         background: '#007AFF',
@@ -348,14 +348,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#008FFF',
                 border: '#007AFF',
-                text: '#000036'
+                text: '#000036',
             },
             disabled: {
                 background: '#E6EBF2',
                 border: '#C4D0E1',
-                text: '#555555'
-            }
-        }
+                text: '#555555',
+            },
+        },
     },
     colorInfo: {
         background: '#007AFF',
@@ -365,14 +365,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#008fff',
                 border: '#007AFF',
-                text: '#e0f0f6'
+                text: '#e0f0f6',
             },
             disabled: {
                 background: '#e6ebf2',
                 border: '#76b7ff',
-                text: '#76b7ff'
-            }
-        }
+                text: '#76b7ff',
+            },
+        },
     },
     colorSuccess: {
         background: '#90C053',
@@ -382,14 +382,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#a3cb70',
                 border: '#90C053',
-                text: '#404040'
+                text: '#404040',
             },
             disabled: {
                 background: '#f6faf1',
                 border: '#b5d58c',
-                text: '#b5d58c'
-            }
-        }
+                text: '#b5d58c',
+            },
+        },
     },
     colorWarning: {
         background: '#FF9500',
@@ -399,14 +399,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#ffa527',
                 border: '#FF9500',
-                text: '#FFEFD8'
+                text: '#FFEFD8',
             },
             disabled: {
                 background: '#FFEFD8',
                 border: '#ffc676',
-                text: '#ffc676'
-            }
-        }
+                text: '#ffc676',
+            },
+        },
     },
     colorDanger: {
         background: '#D83434',
@@ -416,14 +416,14 @@ export const THEME_DEFAULT: ThemeProps = {
             active: {
                 background: '#db4444',
                 border: '#D83434',
-                text: '#FBE9E9'
+                text: '#FBE9E9',
             },
             disabled: {
                 background: '#FBE9E9',
                 border: '#e88686',
-                text: '#e88686'
-            }
-        }
+                text: '#e88686',
+            },
+        },
     },
     guidelineBaseWidth: 375,
     guidelineBaseHeight: 667,
@@ -451,7 +451,7 @@ export const THEME_DEFAULT: ThemeProps = {
             mediumItalic: 'Roboto-MediumItalic',
             bold: 'Roboto-Bold',
             boldItalic: 'Roboto-BoldItalic',
-        }
+        },
     }),
     // Font Specs
     fontTitle1: {
@@ -461,7 +461,7 @@ export const THEME_DEFAULT: ThemeProps = {
         weight: 'regular',
         style: {
             // includeFontPadding: false
-        }
+        },
     },
     fontTitle2: {
         size: 19,
@@ -469,8 +469,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: -0.49,
         weight: 'regular',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     fontTitle3: {
         size: 17,
@@ -478,8 +478,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: -0.408,
         weight: 'light',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     fontLarge: {
         size: 14,
@@ -487,8 +487,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: -0.154,
         weight: 'medium',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     fontRegular: {
         size: 14,
@@ -496,8 +496,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: -0.154,
         weight: 'regular',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     fontSmall: {
         size: 12,
@@ -505,8 +505,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: 0,
         weight: 'light',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     fontCaption: {
         size: 11,
@@ -514,8 +514,8 @@ export const THEME_DEFAULT: ThemeProps = {
         letterSpacing: 0.06,
         weight: 'light',
         style: {
-            includeFontPadding: false
-        }
+            includeFontPadding: false,
+        },
     },
     spacing: {
         micro: 4,
@@ -523,9 +523,9 @@ export const THEME_DEFAULT: ThemeProps = {
         small: 16,
         base: 24,
         large: 48,
-        xLarge: 64
+        xLarge: 64,
     },
-    lineWidth: StyleSheet.hairlineWidth
+    lineWidth: StyleSheet.hairlineWidth,
 };
 
 // Set default theme
@@ -551,7 +551,7 @@ export type ThemeProviderProps = {
 export class ThemeProvider extends React.PureComponent<ThemeProviderProps, { theme: ThemeProps }> {
 
     state = {
-        theme: this.props.theme || getTheme()
+        theme: this.props.theme || getTheme(),
     };
 
     private subscription?: EmitterSubscription;
@@ -560,9 +560,9 @@ export class ThemeProvider extends React.PureComponent<ThemeProviderProps, { the
         if (!this.props.static) {
             this.subscription = DeviceEventEmitter.addListener('colibri:changeTheme', (theme) => {
                 this.setState({
-                    theme: theme
-                })
-            })
+                    theme: theme,
+                });
+            });
         }
     }
 
@@ -588,5 +588,5 @@ export default function Theme(props: { theme?: Partial<ThemeProps>, children: (t
         <ThemeContext.Consumer>
             {(theme) => children(theme)}
         </ThemeContext.Consumer>
-    )
+    );
 }

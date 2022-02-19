@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ButtonProps, TableView, TableViewSection, Toast} from "../../index";
+import {Button, ButtonProps, TableView, TableViewSection, Toast} from "../../lib";
 import {View} from "react-native";
 import {componentPropertiesPlayground} from "../Utils";
 

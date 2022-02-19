@@ -105,3 +105,7 @@ Allows you to display multiple items in a horizontal slide with images, like Goo
 ### TableView
 
 ### Utils
+
+
+## Migration
+https://react-native-community.github.io/upgrade-helper/?from=0.60.5&to=0.67.2
