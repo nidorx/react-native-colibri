@@ -140,15 +140,17 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
 
             let children = React.Children.map(this.props.children, item => item);
 
-            for (let index = 0, l = children.length; index < l; index++) {
-                const pageWidth: number = this.childrenWidth[index];
+            if (children) {
+                for (let index = 0, l = children.length; index < l; index++) {
+                    const pageWidth: number = this.childrenWidth[index];
 
-                if (totalOffset + (pageWidth / 2) > currentPosition) {
-                    // Este é o ultimo elemento
-                    break;
+                    if (totalOffset + (pageWidth / 2) > currentPosition) {
+                        // Este é o ultimo elemento
+                        break;
+                    }
+
+                    totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
                 }
-
-                totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
             }
 
             this.scrollView.scrollTo({y: 0, x: totalOffset});
@@ -206,37 +208,40 @@ export default class Carousel extends React.PureComponent<CarouselProps> {
 
         let children = React.Children.map(this.props.children, item => item);
 
-        for (let index = 0, l = children.length; index < l; index++) {
-            const pageWidth: number = this.childrenWidth[index];
+        if (children) {
+            for (let index = 0, l = children.length; index < l; index++) {
+                const pageWidth: number = this.childrenWidth[index];
 
-            offsets[index] = totalOffset;
+                offsets[index] = totalOffset;
 
-            if (totalOffset + (pageWidth / 2) > currentPosition && currentPageIndex === -1) {
-                currentPageIndex = index;
-            }
-
-            if (scrollToRight) {
-                // Para de contar na página atual, já tem as posições das páginas da esquerda
-                if (currentPageIndex !== -1) {
-                    pageIndex = index - numPages;
-                    break;
+                if (totalOffset + (pageWidth / 2) > currentPosition && currentPageIndex === -1) {
+                    currentPageIndex = index;
                 }
-            } else {
-                pageIndex = index;
-                if (currentPageIndex !== -1) {
-                    if (index - currentPageIndex === numPages) {
+
+                if (scrollToRight) {
+                    // Para de contar na página atual, já tem as posições das páginas da esquerda
+                    if (currentPageIndex !== -1) {
+                        pageIndex = index - numPages;
                         break;
                     }
+                } else {
+                    pageIndex = index;
+                    if (currentPageIndex !== -1) {
+                        if (index - currentPageIndex === numPages) {
+                            break;
+                        }
+                    }
                 }
-            }
 
-            totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
+                totalOffset += pageWidth + (this.props.gap || GAP_DEFAULT);
+            }
+            if (pageIndex >= children.length) {
+                pageIndex = children.length - 1;
+            }
         }
 
         if (pageIndex < 0) {
             pageIndex = 0;
-        } else if (pageIndex >= children.length) {
-            pageIndex = children.length - 1;
         }
 
         let finalOffset = offsets[pageIndex];

@@ -220,6 +220,7 @@ export default class Toast extends React.PureComponent<ToastProps, ToastState> {
                 {
                     toValue: 0.0,
                     duration: this.props.fadeOutDuration || DEFAULTS.fadeOutDuration,
+                    useNativeDriver: true
                 }
             );
 

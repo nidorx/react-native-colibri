@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 import {ViewProps} from 'react-native';
 import RNDatePicker from 'react-native-date-picker';
 // @ts-ignore
-import DateFormatted from "./DateFormatted";
-import AnimatedModal, {AnimatedModalAPI} from "./modal/AnimatedModal";
-import OkCancelView from "./OkCancelView";
+import DateFormatted from './DateFormatted';
+import AnimatedModal, {AnimatedModalAPI} from './modal/AnimatedModal';
+import OkCancelView from './OkCancelView';
 
 export type DatePickerProps = ViewProps & {
     /**
      * The currently selected date.
      */
-    date?: Date
+    date: Date
 
     /**
      * The date picker locale.
@@ -94,7 +94,7 @@ type DatePickerState = {
 export default class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
 
     state = {
-        date: undefined
+        date: undefined,
     };
 
     modalApi?: AnimatedModalAPI;
@@ -103,7 +103,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
         let modalApi = this.modalApi;
         if (modalApi) {
             this.setState({
-                date: this.props.date
+                date: this.props.date,
             });
             let content = (
                 <OkCancelView
@@ -119,7 +119,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
                 </OkCancelView>
             );
             modalApi.show(content, {
-                width: 'large'
+                width: 'large',
             });
         }
     }
@@ -135,7 +135,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps, Dat
                             locale={this.props.locale}
                             format={this.props.format}
                         />
-                    )
+                    );
                 }}
             </AnimatedModal.Consumer>
         );
